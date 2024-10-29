@@ -13,7 +13,6 @@ const nav = [
 ];
 export default function Navbar() {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <>
       <div

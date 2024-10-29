@@ -16,10 +16,10 @@ function App() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const res = await axios.get("/", {
+        await axios.get("/", {
           withCredentials: true,
         });
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(error);
       }
