@@ -1,4 +1,5 @@
 package com.app.server.controller;
+
 import com.app.server.model.Profile;
 import com.app.server.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/api/v1/profiles")
 public class ProfileController {
+    @Autowired
     private final ProfileService profileService;
 
-    @Autowired
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }

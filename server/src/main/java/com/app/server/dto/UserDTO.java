@@ -1,10 +1,6 @@
 package com.app.server.dto;
 
 import com.app.server.model.Profile;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.Period;

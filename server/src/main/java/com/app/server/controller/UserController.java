@@ -1,4 +1,5 @@
 package com.app.server.controller;
+
 import com.app.server.model.User;
 import com.app.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("api/v1/user")
 public class UserController {
+    @Autowired
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -39,8 +40,7 @@ public class UserController {
                         "total", item.getProfile().getTotal(),
                         "bankAccountType", item.getProfile().getBankAccountType(),
                         "createdAt", item.getProfile().getCreatedAt(),
-                        "updatedAt", item.getProfile().getUpdatedAt()
-                ));
+                        "updatedAt", item.getProfile().getUpdatedAt()));
             } else {
                 profile.put("profile", null);
             }
@@ -76,13 +76,14 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> updateUser(@PathVariable("userId") String userId,
-                                                          @RequestBody User user) {
+            @RequestBody User user) {
         Optional<User> userOptional = userService.getUserById(userId);
         if (userOptional.isEmpty()) {
             return ResponseEntity.status(404).body(Map.of("success", false, "message", "User not found"));
         }
         userService.editUser(userOptional.get(), user);
-        return ResponseEntity.status(200).body(Map.of("success", true, "message", "Edit user with ID: " + userId + " successfully!"));
+        return ResponseEntity.status(200)
+                .body(Map.of("success", true, "message", "Edit user with ID: " + userId + " successfully!"));
     }
 
     @DeleteMapping("/{userId}")
@@ -92,6 +93,7 @@ public class UserController {
             return ResponseEntity.status(404).body(Map.of("success", false, "message", "User not found"));
         }
         userService.deleteUser(userId);
-        return ResponseEntity.status(200).body(Map.of("success", true, "message", "User deleted with id " + userId + " successfully"));
+        return ResponseEntity.status(200)
+                .body(Map.of("success", true, "message", "User deleted with id " + userId + " successfully"));
     }
 }

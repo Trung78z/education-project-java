@@ -12,14 +12,13 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    @Autowired
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -29,7 +28,7 @@ public class UserService {
 
         String hashPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(hashPassword);
-        return   userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -69,6 +68,5 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findUserByPhone(phone);
         return optionalUser;
     }
-
 
 }
