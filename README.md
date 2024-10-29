@@ -62,16 +62,22 @@
 
 2. **Cấu hình Backend**:
 
+   ```bash
    Cấu hình cơ sở dữ liệu MySQL.
    Cập nhật thông tin kết nối cơ sở dữ liệu trong application.properties.
+   ```
 
 3. **Chạy Backend**:
 
+   ```bash
    cd server
    ./mvn spring-boot:run
+   ```
 
 4. **Cài đặt và khởi chạy Frontend**:
 
+   ```bash
    cd client
    npm install
    npm run dev
+   ```
