@@ -95,5 +95,5 @@
 
    ```bash
    jdk: https://download.oracle.com/java/23/latest/jdk-23_windows-x64_bin.msi
-    scene-builder: https://download2.gluonhq.com/scenebuilder/23.0.1/install/win/SceneBuilder-23.0.1.msi
+   scene-builder: https://download2.gluonhq.com/scenebuilder/23.0.1/install/win/SceneBuilder-23.0.1.msi
    ```
