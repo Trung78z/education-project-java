@@ -47,7 +47,7 @@
 
 ### Yêu cầu hệ thống
 
-- **Backend**: JDK 11 trở lên, MySQL.
+- **Backend**: JDK 23 trở lên, MySQL.
 - **Frontend**: Node.js, npm hoặc yarn.
 - **Admin Panel**: Java Runtime Environment, JavaFX SDK.
 
