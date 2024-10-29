@@ -1,11 +1,11 @@
 import Navbar from "../components/Navbar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { ReactElement, ReactHTML } from "react";
+// import { ReactElement, ReactHTML } from "react";
 const formSchema = z.object({
   email: z.string().email({ message: "Vui lòng nhập email" }),
   password: z.string().min(6, "Mật khẩu phải có ít nhất 8 ký tự"),
@@ -20,7 +20,7 @@ export default function Register() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: FormValues) => {
     console.log(data);
     // try {
     //   const res = await authChange(data);
