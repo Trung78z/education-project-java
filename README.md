@@ -81,3 +81,19 @@
    npm install
    npm run dev
    ```
+
+5. **Cài đặt phần mềm dành cho backend**:
+
+   ```bash
+   jdk: https://download.oracle.com/java/23/latest/jdk-23_windows-x64_bin.msi
+   mysql-server: https://dev.mysql.com/get/Downloads/MySQL-9.1/mysql-9.1.0-winx64.msi
+   mysql-workbench: https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.38-winx64.msi
+   maven: https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip
+   ```
+
+6. **Cài đặt phần mềm dành cho javafx**:
+
+   ```bash
+   jdk: https://download.oracle.com/java/23/latest/jdk-23_windows-x64_bin.msi
+    scene-builder: https://download2.gluonhq.com/scenebuilder/23.0.1/install/win/SceneBuilder-23.0.1.msi
+   ```
