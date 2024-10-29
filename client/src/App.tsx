@@ -20,7 +20,7 @@ function App() {
           withCredentials: true,
         });
         console.log(res);
-      } catch (error: any) {
+      } catch (error) {
         console.log(error);
       }
     };
