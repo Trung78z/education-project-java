@@ -2,7 +2,7 @@
 
 ## Giới thiệu
 
-**Application Car Store** là một ứng dụng web bán xe hơi với hệ thống backend mạnh mẽ sử dụng Java Spring Boot và giao diện frontend hiện đại sử dụng ReactJS. Ứng dụng cho phép người dùng tìm kiếm, lọc và lựa chọn sản phẩm xe hơi dựa trên các tiêu chí khác nhau, đồng thời cung cấp các tính năng quản lý sản phẩm và người dùng cho admin.
+**Application Car Store** là một ứng dụng web bán xe hơi với hệ thống backend mạnh mẽ sử dụng Java Spring Boot và giao diện frontend hiện đại sử dụng ReactJS. Ứng dụng cho phép người dùng tìm kiếm, lọc và lựa chọn sản phẩm xe hơi dựa trên các tiêu chí khác nhau, đồng thời cung cấp các tính năng quản lý sản phẩm và người dùng cho admin qua giao diện JavaFX.
 
 ## Mục tiêu
 
@@ -14,7 +14,7 @@
 
 - **Backend**: Java Spring Boot, Servlet, Spring Security, JWT (JSON Web Token), JPA, MySQL Driver.
 - **Frontend**: ReactJS.
-- **Admin Panel**: Java Swing.
+- **Admin Panel**: JavaFX.
 
 ## Các tính năng
 
@@ -33,7 +33,7 @@
 - **Phân quyền người dùng**: Xử lý các chức năng đăng nhập, đăng ký, đăng xuất, quên mật khẩu, v.v.
 - **Mua hàng**: Lựa chọn sản phẩm, thêm vào giỏ hàng và hoàn tất mua hàng.
 
-### Admin Panel (Java Swing)
+### Admin Panel (JavaFX)
 
 - **Quản lý sản phẩm**: Tạo, chỉnh sửa, và xóa sản phẩm.
 - **Quản lý đơn hàng**: Xử lý và cập nhật trạng thái đơn hàng.
@@ -49,7 +49,7 @@
 
 - **Backend**: JDK 11 trở lên, MySQL.
 - **Frontend**: Node.js, npm hoặc yarn.
-- **Admin Panel**: Java Runtime Environment.
+- **Admin Panel**: Java Runtime Environment, JavaFX SDK.
 
 ### Hướng dẫn cài đặt
 
