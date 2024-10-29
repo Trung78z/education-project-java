@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div className="space-y-6">
-        <div className="bg-[url(assets/images/session/session.jpg)] object-cover">
+        <div className="bg-[url(/assets/images/session/session.jpg)] object-cover">
           <div className="flex flex-col justify-between sm:min-h-screen">
             <Navbar />
             <div className="px-2 py-20 text-white md:px-20 lg:px-40">
