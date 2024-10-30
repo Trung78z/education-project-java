@@ -1,7 +1,12 @@
 import { Button } from "antd";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Card({ color = "white" }: { color: string }) {
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/list/car/1");
+  };
   return (
     <div
       className={clsx(
@@ -63,7 +68,7 @@ export default function Card({ color = "white" }: { color: string }) {
           </ul>
           <div className="flex items-center justify-between px-4">
             <span className="font-medium">$40,000</span>
-            <Button type="link">
+            <Button type="link" onClick={handleNavigate}>
               View details{" "}
               <span>
                 <img src="/assets/icons/dedot.svg" alt="" />
