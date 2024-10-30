@@ -37,7 +37,7 @@ export default function Card({ color = "white" }: { color: string }) {
       </div>
       <div className="space-y-4">
         <img
-          src="./assets/images/product/car1.jpg"
+          src="/assets/images/product/car1.jpg"
           alt=""
           width={327.5}
           height={218.33}
@@ -49,15 +49,15 @@ export default function Card({ color = "white" }: { color: string }) {
 
           <ul className="flex items-center justify-center gap-x-8 rounded-sm border px-2 py-4">
             <li className="flex flex-col items-center gap-x-1">
-              <img src={`assets/images/product/S-${color}.svg`} alt="" />
+              <img src={`/assets/images/product/S-${color}.svg`} alt="" />
               <span className="text-xs">20 Miles</span>
             </li>
             <li className="flex flex-col items-center gap-x-1">
-              <img src={`assets/images/product/fuel-${color}.svg`} alt="" />{" "}
+              <img src={`/assets/images/product/fuel-${color}.svg`} alt="" />{" "}
               <span className="text-xs">20 Miles</span>
             </li>
             <li className="flex flex-col items-center gap-x-1">
-              <img src={`assets/images/product/hopso-${color}.svg`} alt="" />{" "}
+              <img src={`/assets/images/product/hopso-${color}.svg`} alt="" />{" "}
               <span className="text-xs">20 Miles</span>
             </li>
           </ul>

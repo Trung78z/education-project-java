@@ -6,11 +6,13 @@ import Layout from "./components/Layout";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Product from "./pages/Product";
 import About from "./pages/About";
 import Footer from "./components/Footer";
 import News from "./pages/News";
 import LayoutNoNavbar from "./components/LayoutNoNavbar";
+import List from "./pages/List";
+import NewsDetail from "./pages/News-detail";
+import ProductDetail from "./pages/Product-detail";
 
 function App() {
   useEffect(() => {
@@ -39,7 +41,10 @@ function App() {
           </Route>
 
           <Route path="" element={<Layout />}>
-            <Route path="/list" element={<Product />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/list/:category/:slug" element={<ProductDetail />} />
+            <Route path="/news/:category/:slug" element={<NewsDetail />} />
+
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/news" element={<News />} />
