@@ -34,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LayoutNoNavbar />}>
             <Route path="" element={<Home />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
           <Route path="/auth" element={<LayoutNoNavbar />}>
             <Route path="login" element={<Login />} />
@@ -45,7 +46,6 @@ function App() {
             <Route path="/list/:category/:slug" element={<ProductDetail />} />
             <Route path="/news/:category/:slug" element={<NewsDetail />} />
 
-            <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/news" element={<News />} />
           </Route>

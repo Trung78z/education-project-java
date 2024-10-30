@@ -3,7 +3,12 @@ import Logo from "./Logo";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 
-const excludedPath: string[] = ["/", "/auth/login", "/auth/register"];
+const excludedPath: string[] = [
+  "/",
+  "/auth/login",
+  "/auth/register",
+  "/contact",
+];
 const nav = [
   { title: "Trang chủ", url: "/" },
   { title: "Danh mục", url: "/list" },
