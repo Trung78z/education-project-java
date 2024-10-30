@@ -44,7 +44,7 @@
 **Clone repository**:
 
 ```bash
- figma  https://www.figma.com/design/5Si13rwlWknq3Zjp4QyeLc/UI_Project_Store_Car?node-id=0-1&m=dev&t=dy4YM3EfE6qT36Zq-1
+https://www.figma.com/design/5Si13rwlWknq3Zjp4QyeLc/UI_Project_Store_Car?node-id=0-1&m=dev&t=dy4YM3EfE6qT36Zq-1
 ```
 
 ### Tính năng phát triển thêm
