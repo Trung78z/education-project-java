@@ -39,6 +39,14 @@
 - **Quản lý đơn hàng**: Xử lý và cập nhật trạng thái đơn hàng.
 - **Quản lý người dùng**: Kiểm tra và xử lý thông tin người dùng.
 
+### UI (Figma)
+
+**Clone repository**:
+
+```bash
+ figma  https://www.figma.com/design/5Si13rwlWknq3Zjp4QyeLc/UI_Project_Store_Car?node-id=0-1&m=dev&t=dy4YM3EfE6qT36Zq-1
+```
+
 ### Tính năng phát triển thêm
 
 - **Thanh toán**: Hỗ trợ thanh toán trực tuyến (có thể bổ sung theo yêu cầu doanh nghiệp).
