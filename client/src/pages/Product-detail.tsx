@@ -7,8 +7,10 @@ import {
   information,
 } from "../utils/data/product";
 import { Button } from "antd";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 export default function ProductDetail() {
+  useScrollToTop();
   return (
     <>
       <div className="container mx-auto space-y-10 p-2 sm:py-10">

@@ -4,7 +4,9 @@ import Card from "../components/product/Card";
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import TabChildren from "../components/product/TabChildren";
 import CardNews from "../components/news/CardNews";
+import useScrollToTop from "../hooks/useScrollToTop";
 export default function Home() {
+  useScrollToTop();
   return (
     <>
       <div className="space-y-6">

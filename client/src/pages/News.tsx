@@ -1,6 +1,8 @@
 import CardNews from "../components/news/CardNews";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 export default function News() {
+  useScrollToTop();
   return (
     <>
       <div className="rounded-3xl bg-slate-100">

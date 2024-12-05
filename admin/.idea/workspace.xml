@@ -4,30 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1835cc1-9d9c-42b5-8448-c290b72f30e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/app/admin/Scene2Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/app/admin/scene2-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/HelloApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/HelloController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/app/admin/hello-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/controller/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/dto/UserDTO.java" afterDir="false" />
+    <list default="true" id="95298d57-0852-4028-91aa-19bac35b8eeb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Scene1Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Scene2Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/app/admin/scene1-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/app/admin/scene2-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/About.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/Contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Contact.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/List.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/News-detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/News-detail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/News.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/News.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/Product-detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Product-detail.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/pages/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/ServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/service/UserService.java" afterDir="false" />
     </list>
@@ -39,8 +37,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Python Script" />
         <option value="FxmlFile" />
         <option value="Class" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -55,11 +55,11 @@
     </option>
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 6
+  &quot;associatedIndex&quot;: 7
 }</component>
-  <component name="ProjectId" id="2o4cVJAVNFmP3qJXfqyAOY9A5WF" />
+  <component name="ProjectId" id="2pGFDLxk9d1nVe70kmGH3TOfPVc" />
   <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -67,26 +67,36 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;product&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Trung/AppData/Local/SceneBuilder/SceneBuilder.exe&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;spring&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\final_year\java\project-team\admin\src\main\resources\main\admin\fxml" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="main.admin" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.admin.Main" />
+      <module name="admin" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -98,23 +108,18 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c1835cc1-9d9c-42b5-8448-c290b72f30e9" name="Changes" comment="" />
-      <created>1730132311432</created>
+      <changelist id="95298d57-0852-4028-91aa-19bac35b8eeb" name="Changes" comment="" />
+      <created>1732384385634</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1730132311432</updated>
-      <workItem from="1730132312499" duration="2511000" />
-      <workItem from="1730135320101" duration="46000" />
-      <workItem from="1730162421087" duration="2802000" />
-      <workItem from="1730171943509" duration="1049000" />
+      <updated>1732384385634</updated>
+      <workItem from="1732384386698" duration="2098000" />
+      <workItem from="1732468704254" duration="2065000" />
+      <workItem from="1732498962172" duration="4000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

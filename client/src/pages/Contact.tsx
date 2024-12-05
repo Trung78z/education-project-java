@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import useScrollToTop from "../hooks/useScrollToTop";
 // import { ReactElement, ReactHTML } from "react";
 const formSchema = z.object({
   email: z.string().email({ message: "Vui lòng nhập email" }),
@@ -19,6 +20,7 @@ const formSchema = z.object({
 });
 type FormValues = z.infer<typeof formSchema>;
 export default function Contact() {
+  useScrollToTop();
   const navigate = useNavigate();
   const {
     handleSubmit,

@@ -1,6 +1,8 @@
 import CardNews from "../components/news/CardNews";
 import { FaCheckCircle } from "react-icons/fa";
+import useScrollToTop from "../hooks/useScrollToTop";
 export default function NewsDetail() {
+  useScrollToTop();
   return (
     <>
       <div className="container mx-auto space-y-10 p-2 sm:py-10">
