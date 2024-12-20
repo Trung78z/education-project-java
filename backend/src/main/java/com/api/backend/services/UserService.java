@@ -1,5 +1,6 @@
 package com.api.backend.services;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -20,4 +25,5 @@ public class UserService {
     public User getUserById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 }

@@ -1,8 +1,10 @@
 package com.api.backend.models.user;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.ArrayList;
+
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -11,20 +13,20 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> users = new ArrayList<>();
 
     // Getter và Setter
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,11 +38,12 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
+
 }

@@ -1,0 +1,20 @@
+.button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+}
+
+.stage {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-size: 40px;
+    -fx-font-weight: 500;
+    -fx-padding: 10px;
+}

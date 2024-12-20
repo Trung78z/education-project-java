@@ -3,21 +3,36 @@ package com.api.backend.utils;
 public class ResponseWrapper<T> {
     private boolean success;
     private Integer status;
-    private T data;
+    private T message;
+    private String error;
 
     public ResponseWrapper() {
     }
 
-    public ResponseWrapper(boolean success, Integer status, T data) {
+    public ResponseWrapper(boolean success, Integer status, T message) {
         this.success = success;
         this.status = status;
-        this.data = data;
+        this.message = message;
     }
 
-    public ResponseWrapper(Integer status, T data) {
+    public ResponseWrapper(boolean success, Integer status, String error) {
+        this.success = success;
+        this.status = status;
+        this.message = null;
+        this.error = error;
+    }
+
+    public ResponseWrapper(Integer status) {
         this.success = false;
         this.status = status;
-        this.data = data;
+        this.message = null;
+    }
+
+    public ResponseWrapper(Integer status, String error) {
+        this.success = false;
+        this.status = status;
+        this.message = null;
+        this.error = error;
     }
 
     public Integer getStatus() {
@@ -28,12 +43,12 @@ public class ResponseWrapper<T> {
         this.status = status;
     }
 
-    public T getData() {
-        return data;
+    public T getMessage() {
+        return message;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setMessage(T message) {
+        this.message = message;
     }
 
     public boolean isSuccess() {
@@ -42,5 +57,13 @@ public class ResponseWrapper<T> {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

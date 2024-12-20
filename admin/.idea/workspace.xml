@@ -4,43 +4,49 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95298d57-0852-4028-91aa-19bac35b8eeb" name="Changes" comment="">
+    <list default="true" id="97cf0f5d-9aef-4f08-a7ba-1bec384dc13c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/hcmus/admin/SecondaryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/hcmus/admin/secondary.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Scene1Controller.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/app/admin/Scene2Controller.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/admin/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/admin/controllers/DashboardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/main/admin/controllers/MainController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/app/admin/scene1-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/app/admin/scene2-view.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../client/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/About.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/About.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/Contact.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Contact.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/List.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/List.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/News-detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/News-detail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/News.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/News.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/Product-detail.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Product-detail.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/pages/Register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/pages/Register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/ServerApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/com/app/server/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/com/app/server/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main/admin/css/layout.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main/admin/fxml/Dashboard-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/main/admin/fxml/hello-view.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/NewCategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/NewCategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/ProductBrandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/ProductBrandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/controllers/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/news/New.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/news/New.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/news/NewCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/news/NewCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductBrand.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductBrand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductComfortConvenience.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductComfortConvenience.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductDimensionsCapacity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductDimensionsCapacity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductEngineAndTransmission.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductEngineAndTransmission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductExterior.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductExterior.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductInterior.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductInterior.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductOverview.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductOverview.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductSafety.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main/java/com/api/backend/models/product/ProductSafety.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="FxmlFile" />
         <option value="Class" />
-        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -55,11 +61,11 @@
     </option>
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 1
 }</component>
-  <component name="ProjectId" id="2pGFDLxk9d1nVe70kmGH3TOfPVc" />
+  <component name="ProjectId" id="2ppkVAq0dNWgtp9QY1tg0z9Wpsk" />
   <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -67,59 +73,58 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;product&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;release-v2&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/scenebuilder/bin/SceneBuilder&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3873563&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\final_year\java\project-team\admin\src\main\resources\main\admin\fxml" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="main.admin" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="main.admin.Main" />
-      <module name="admin" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="95298d57-0852-4028-91aa-19bac35b8eeb" name="Changes" comment="" />
-      <created>1732384385634</created>
+      <changelist id="97cf0f5d-9aef-4f08-a7ba-1bec384dc13c" name="Changes" comment="" />
+      <created>1733470425327</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1732384385634</updated>
-      <workItem from="1732384386698" duration="2098000" />
-      <workItem from="1732468704254" duration="2065000" />
-      <workItem from="1732498962172" duration="4000" />
+      <updated>1733470425327</updated>
+      <workItem from="1733470426442" duration="2467000" />
+      <workItem from="1733472962357" duration="163000" />
+      <workItem from="1733473137652" duration="1062000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.openjfx:javafx-base" />
+    <option featureType="com.intellij.facetType" implementationName="JRebel" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
