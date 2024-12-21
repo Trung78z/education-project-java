@@ -2,12 +2,14 @@ package com.api.backend.models.user;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "roles")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Role {
 
     @Id
@@ -18,8 +20,23 @@ public class Role {
     @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> users = new ArrayList<>();
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<User> users;
+
+    public Role() {
+    }
+
+    public Role(Integer id, String roleName, List<User> users) {
+        this.id = id;
+        this.roleName = roleName;
+        this.users = users;
+    }
+
+    public Role(Integer id, String roleName) {
+        this.id = id;
+        this.roleName = roleName;
+    }
 
     // Getter và Setter
     public Integer getId() {
@@ -44,6 +61,11 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Role [id=" + id + ", roleName=" + roleName + ", users=" + users + "]";
     }
 
 }

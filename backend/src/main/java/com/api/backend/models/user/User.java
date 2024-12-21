@@ -11,10 +11,13 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User {
 
     @Id
@@ -53,8 +56,9 @@ public class User {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id", nullable = false)
+    @JsonBackReference
     private Role role;
 
     public UUID getId() {
@@ -128,4 +132,12 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", phone=" + phone + ", password=" + password + ", email="
+                + email + ", fullName=" + fullName + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", role="
+                + role + "]";
+    }
+
 }
