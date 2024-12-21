@@ -23,7 +23,6 @@ public class ProductBrand {
     private String name;
 
     @JsonBackReference
-    // @JsonManagedReference
     @OneToMany(mappedBy = "productBrand", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Product> products;
 

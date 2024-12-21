@@ -35,7 +35,6 @@ public class ProductController extends HttpServlet {
                         throws ServletException, IOException {
                 String pathInfo = request.getPathInfo();
 
-                System.out.println(pathInfo);
                 if (pathInfo == null || pathInfo.equals("/")) {
 
                         List<Product> products = productService.GetProduct();
@@ -150,6 +149,7 @@ public class ProductController extends HttpServlet {
                                         ProductEngineAndTransmission productEngineAndTransmissionData = gson.fromJson(
                                                         reader,
                                                         ProductEngineAndTransmission.class);
+
                                         Product updatedProduct = productService.updateProductEngineAndTransmission(
                                                         productId,
                                                         productEngineAndTransmissionData);
@@ -170,7 +170,6 @@ public class ProductController extends HttpServlet {
                                 }
                         } catch (NumberFormatException e) {
 
-                                System.out.println("Error parsing product ID: " + e.getMessage());
                                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                                 response.getWriter().write(objectMapper.writeValueAsString(
                                                 new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -181,7 +180,7 @@ public class ProductController extends HttpServlet {
                                                 .write(objectMapper.writeValueAsString(
                                                                 new ResponseWrapper<>(400, e.getMessage())));
                         } catch (Exception e) {
-                                System.out.println("Unexpected error: " + e.getMessage());
+
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.getWriter().write(objectMapper.writeValueAsString(
                                                 new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -207,13 +206,13 @@ public class ProductController extends HttpServlet {
                                 productService.deleteProduct(productId);
                                 response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                         } catch (NumberFormatException e) {
-                                System.out.println("Error parsing product ID: " + e.getMessage());
+
                                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                                 response.getWriter().write(objectMapper.writeValueAsString(
                                                 new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                                                                 "Invalid product ID")));
                         } catch (Exception e) {
-                                System.out.println("Unexpected error: " + e.getMessage());
+
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                                 response.getWriter().write(objectMapper.writeValueAsString(
                                                 new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,

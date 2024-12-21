@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 public class ProductEngineAndTransmission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer fuelTankCapacity;
     private Integer maxTowingWeightBraked;
     private Integer maxTowingWeightUnbraked;

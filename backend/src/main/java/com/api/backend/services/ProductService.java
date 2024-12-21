@@ -19,6 +19,8 @@ import com.api.backend.models.product.ProductEngineAndTransmission;
 import com.api.backend.repositories.ProductBrandRepository;
 import com.api.backend.repositories.ProductRepository;
 
+import jakarta.persistence.OptimisticLockException;
+
 @Service
 public class ProductService {
     public final ProductRepository productRepository;
@@ -58,8 +60,6 @@ public class ProductService {
                 product.getEngineAndTransmission().setProduct(product);
             }
             product.setProductBrand(esxOptional.get());
-            // System.out.println("\n\n" + product.getDimensionsCapacity());
-            // return null;
             return productRepository.save(product);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Foreign key constraint violated: " + e.getMessage());
@@ -117,7 +117,6 @@ public class ProductService {
             product.setDimensionsCapacity(existDimensionsCapacity);
 
         } else {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             productDimensionsCapacity.setProduct(product);
             product.setDimensionsCapacity(productDimensionsCapacity);
         }
@@ -140,11 +139,14 @@ public class ProductService {
                     .setTurningCircleKerbToKerb(productEngineAndTransmission.getTurningCircleKerbToKerb());
             product.setEngineAndTransmission(existEngineAndTransmission);
         } else {
-            System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             productEngineAndTransmission.setProduct(product);
             product.setEngineAndTransmission(productEngineAndTransmission);
         }
-        return productRepository.save(product);
+        try {
+            return productRepository.save(product);
+        } catch (OptimisticLockException e) {
+            throw new RuntimeException("Conflict: The product was updated or deleted by another transaction.", e);
+        }
     }
 
     public Product updateProductInterior(Integer productId, List<ProductInterior> productInteriorList) {

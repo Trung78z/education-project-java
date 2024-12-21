@@ -22,7 +22,7 @@ public class UserRoleService {
 
     public Role save(Role role) {
         Role exists = userRoleRepository.findByRoleName(role.getRoleName());
-        System.out.println(exists);
+
         if (exists != null) {
             throw new RuntimeException("Role is existed!");
         }
