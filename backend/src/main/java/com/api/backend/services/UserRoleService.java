@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.api.backend.models.user.Role;
+import com.api.backend.models.user.UserRole;
 import com.api.backend.repositories.UserRoleRepository;
 
 @Service
@@ -16,12 +16,12 @@ public class UserRoleService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    public List<Role> getRoleUsers() {
+    public List<UserRole> getRoleUsers() {
         return userRoleRepository.findAll();
     }
 
-    public Role save(Role role) {
-        Role exists = userRoleRepository.findByRoleName(role.getRoleName());
+    public UserRole save(UserRole role) {
+        UserRole exists = userRoleRepository.findByRoleName(role.getRoleName());
 
         if (exists != null) {
             throw new RuntimeException("Role is existed!");
@@ -29,10 +29,10 @@ public class UserRoleService {
         return userRoleRepository.save(role);
     }
 
-    public Role updateRole(Integer id, Role role) {
-        Optional<Role> exists = userRoleRepository.findById(id);
+    public UserRole updateRole(Integer id, UserRole role) {
+        Optional<UserRole> exists = userRoleRepository.findById(id);
         if (exists.isPresent()) {
-            Role existingRole = exists.get();
+            UserRole existingRole = exists.get();
             if (role.getRoleName() != null) {
                 existingRole.setRoleName(role.getRoleName());
             }
@@ -43,7 +43,7 @@ public class UserRoleService {
     }
 
     public void delete(Integer id) {
-        Optional<Role> exists = userRoleRepository.findById(id);
+        Optional<UserRole> exists = userRoleRepository.findById(id);
         if (exists.isPresent()) {
 
             userRoleRepository.deleteById(id);

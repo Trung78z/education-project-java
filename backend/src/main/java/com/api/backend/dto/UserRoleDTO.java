@@ -1,6 +1,6 @@
 package com.api.backend.dto;
 
-import com.api.backend.models.user.Role;
+import com.api.backend.models.user.UserRole;
 
 public class UserRoleDTO {
 
@@ -15,7 +15,7 @@ public class UserRoleDTO {
         this.roleName = roleName;
     }
 
-    public UserRoleDTO(Role role) {
+    public UserRoleDTO(UserRole role) {
         this.id = role.getId();
         this.roleName = role.getRoleName();
     }

@@ -6,12 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.api.backend.models.user.Role;
+import com.api.backend.models.user.UserRole;
 import com.api.backend.services.UserRoleService;
 import com.api.backend.utils.ResponseWrapper;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/api/v1/role-user")
@@ -23,8 +20,8 @@ public class UserRoleController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<List<Role>>> getRole() {
-        List<Role> listRoles = userRoleService.getRoleUsers();
+    public ResponseEntity<ResponseWrapper<List<UserRole>>> getRole() {
+        List<UserRole> listRoles = userRoleService.getRoleUsers();
         return ResponseEntity.ok(new ResponseWrapper<>(true, 200, listRoles));
     }
 
@@ -33,9 +30,9 @@ public class UserRoleController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<ResponseWrapper<Role>> addRole(@RequestBody Role role) {
+    public ResponseEntity<ResponseWrapper<UserRole>> addRole(@RequestBody UserRole role) {
         try {
-            Role res = userRoleService.save(role);
+            UserRole res = userRoleService.save(role);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, res));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
@@ -49,10 +46,11 @@ public class UserRoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<Role>> updateRole(@PathVariable Integer id, @RequestBody Role entity) {
+    public ResponseEntity<ResponseWrapper<UserRole>> updateRole(@PathVariable Integer id,
+            @RequestBody UserRole entity) {
         // TODO: process PUT request
         try {
-            Role res = userRoleService.updateRole(id, entity);
+            UserRole res = userRoleService.updateRole(id, entity);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, res));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()

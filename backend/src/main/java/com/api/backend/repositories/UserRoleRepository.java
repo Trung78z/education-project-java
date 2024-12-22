@@ -4,12 +4,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.api.backend.models.user.Role;
+import com.api.backend.models.user.UserRole;
 
-public interface UserRoleRepository extends JpaRepository<Role, Integer> {
+public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
     @SuppressWarnings("null")
-    Optional<Role> findById(Integer id);
+    Optional<UserRole> findById(Integer id);
 
-    Role findByRoleName(String roleName);
+    UserRole findByRoleName(String roleName);
 
 }

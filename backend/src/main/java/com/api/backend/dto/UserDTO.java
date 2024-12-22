@@ -29,7 +29,7 @@ public class UserDTO {
         this.fullName = user.getFullName();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
-        this.role = new UserRoleDTO(user.getRole());
+        this.role = new UserRoleDTO(user.getUserRole());
     }
 
     public UUID getId() {

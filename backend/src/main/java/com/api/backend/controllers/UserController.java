@@ -35,10 +35,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<User>> saveUser(@RequestBody User user) {
+    public ResponseEntity<ResponseWrapper<UserDTO>> saveUser(@RequestBody User user) {
         try {
             User savedUser = userService.saveUser(user);
-            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, savedUser));
+            UserDTO userDTO = new UserDTO(savedUser);
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, userDTO));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
                     .body(new ResponseWrapper<>(false, 400, e.getMessage()));

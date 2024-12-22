@@ -57,9 +57,9 @@ public class User {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "user_role_id", nullable = false)
     @JsonBackReference
-    private Role role;
+    private UserRole userRole;
 
     public UUID getId() {
         return id;
@@ -125,19 +125,12 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    public Role getRole() {
-        return role;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", phone=" + phone + ", password=" + password + ", email="
-                + email + ", fullName=" + fullName + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", role="
-                + role + "]";
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
 }
