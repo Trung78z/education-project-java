@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
+import { NewPayload } from "../../types/newsPayload";
 
-export default function CardNews() {
+export default function CardNews({ item }: { item: NewPayload }) {
   return (
     <div className="card-hover relative w-full max-w-[415.98px] space-y-4 rounded-sm pb-4 shadow-md hover:shadow-xl sm:w-max">
       <Link to={`/news/car/1`}>
@@ -17,12 +18,10 @@ export default function CardNews() {
         {" "}
         <div className="flex items-center gap-x-3">
           <h6>Admin</h6>
-          <span>{new Date().toLocaleDateString("vi-VN")}</span>
+          <span>{new Date(item.createdAt).toLocaleDateString("vi-VN")}</span>
         </div>
-        <Link to={`/news/car/1`}>
-          <h2 className="max-w-[80%] font-semibold">
-            2024 BMW ALPINA XB7 with exclusive details, extraordinary
-          </h2>
+        <Link to={`/news/${item.newCategory.name}/${item.id}`}>
+          <h2 className="max-w-[80%] font-semibold">{item.title}</h2>
         </Link>
       </div>
     </div>

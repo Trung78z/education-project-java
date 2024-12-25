@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class User {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +35,6 @@ public class User {
     private String phone;
 
     @NotNull
-    @Size(min = 6, max = 100)
     @Column(name = "password", nullable = false)
     private String password;
 

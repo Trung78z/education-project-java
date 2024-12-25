@@ -1,15 +1,30 @@
 import CardNews from "../components/news/CardNews";
 import { FaCheckCircle } from "react-icons/fa";
 import useScrollToTop from "../hooks/useScrollToTop";
+import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
+import { useEffect } from "react";
+import { getNew, getNewID } from "../features/news/newsSlice";
+import { useLocation } from "react-router-dom";
 export default function NewsDetail() {
   useScrollToTop();
+
+  const { data, dataID } = useAppSelector((state) => state.news);
+  const { pathname } = useLocation();
+  const id = pathname.split("/")[3];
+  console.log(id);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getNew());
+    dispatch(getNewID(Number(id)));
+  }, [dispatch, id]);
+
+  if (!dataID) return <>New not found</>;
+
   return (
     <>
       <div className="container mx-auto space-y-10 p-2 sm:py-10">
         <div className="space-y-2">
-          <h1 className="text-3xl font-semibold">
-            BMW X6 M50i is designed to exceed your sportiest.
-          </h1>
+          <h1 className="text-3xl font-semibold">{dataID?.title}</h1>
           <div className="flex items-center gap-x-6">
             <img
               src="/assets/images/user/user1.png"
@@ -19,7 +34,9 @@ export default function NewsDetail() {
             <span>Admin</span>
             <span>Accessories</span>
             <span>Exterior</span>
-            <span>{new Date().toLocaleDateString("vi-VN")}</span>
+            <span>
+              {new Date(dataID.createdAt).toLocaleDateString("vi-VN")}
+            </span>
           </div>
         </div>
         <div className="space-y-6">
@@ -122,8 +139,8 @@ export default function NewsDetail() {
             <h3 className="text-2xl font-semibold">Related Posts</h3>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {[...Array(3)].map((_, index) => (
-              <CardNews key={index} />
+            {data.map((_, index) => (
+              <CardNews key={index} item={_} />
             ))}
           </div>
         </div>

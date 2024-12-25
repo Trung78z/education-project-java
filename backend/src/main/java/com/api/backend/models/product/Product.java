@@ -9,17 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -33,10 +23,12 @@ public class Product {
     private double price;
     private Integer quantity;
     private String image;
+    @Lob
     private String description;
-    private String model;
-    private String size;
+    private String odometer;
+    private String gearshift;
     private String type;
+
     private float discount;
 
     // @JsonBackReference
@@ -85,7 +77,7 @@ public class Product {
     }
 
     public Product(Integer id, String name, double price, Integer quantity, String image, String description,
-            String model, String size, String type, float discount, ProductBrand productBrand,
+            String odometer, String gearshift, String type, float discount, ProductBrand productBrand,
             List<ProductInterior> interior, List<ProductExterior> exterior, List<ProductSafety> safety,
             List<ProductComfortConvenience> comfortConvenience, ProductOverview overview,
             ProductDimensionsCapacity dimensionsCapacity, ProductEngineAndTransmission engineAndTransmission) {
@@ -95,8 +87,8 @@ public class Product {
         this.quantity = quantity;
         this.image = image;
         this.description = description;
-        this.model = model;
-        this.size = size;
+        this.odometer = odometer;
+        this.gearshift = gearshift;
         this.type = type;
         this.discount = discount;
         this.productBrand = productBrand;
@@ -157,20 +149,20 @@ public class Product {
         this.description = description;
     }
 
-    public String getModel() {
-        return model;
+    public String getOdometer() {
+        return odometer;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setOdometer(String odometer) {
+        this.odometer = odometer;
     }
 
-    public String getSize() {
-        return size;
+    public String getGearshift() {
+        return gearshift;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setGearshift(String gearshift) {
+        this.gearshift = gearshift;
     }
 
     public String getType() {
@@ -251,16 +243,6 @@ public class Product {
 
     public void setEngineAndTransmission(ProductEngineAndTransmission engineAndTransmission) {
         this.engineAndTransmission = engineAndTransmission;
-    }
-
-    @Override
-    public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + ", image="
-                + image + ", description=" + description + ", model=" + model + ", size=" + size + ", type=" + type
-                + ", discount=" + discount + ", productBrand=" + productBrand + ", interior=" + interior + ", exterior="
-                + exterior + ", safety=" + safety + ", comfortConvenience=" + comfortConvenience + ", overview="
-                + overview + ", dimensionsCapacity=" + dimensionsCapacity + ", engineAndTransmission="
-                + engineAndTransmission + "]";
     }
 
 }

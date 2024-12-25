@@ -22,12 +22,12 @@ public class UserRole {
 
     @OneToMany(mappedBy = "userRole", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<User> users;
+    private List<Users> users;
 
     public UserRole() {
     }
 
-    public UserRole(Integer id, String roleName, List<User> users) {
+    public UserRole(Integer id, String roleName, List<Users> users) {
         this.id = id;
         this.roleName = roleName;
         this.users = users;
@@ -55,11 +55,11 @@ public class UserRole {
         this.roleName = roleName;
     }
 
-    public List<User> getUsers() {
+    public List<Users> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<Users> users) {
         this.users = users;
     }
 

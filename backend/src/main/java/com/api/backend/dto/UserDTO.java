@@ -3,7 +3,7 @@ package com.api.backend.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.api.backend.models.user.User;
+import com.api.backend.models.user.Users;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class UserDTO {
@@ -17,11 +17,12 @@ public class UserDTO {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
     private UserRoleDTO role;
+    private String token;
 
     public UserDTO() {
     }
 
-    public UserDTO(User user) {
+    public UserDTO(Users user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.phone = user.getPhone();
@@ -94,6 +95,14 @@ public class UserDTO {
 
     public void setRole(UserRoleDTO role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

@@ -5,8 +5,22 @@ import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import TabChildren from "../components/product/TabChildren";
 import CardNews from "../components/news/CardNews";
 import useScrollToTop from "../hooks/useScrollToTop";
+import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
+import { getProduct } from "../features/product/productSlice";
+import { useEffect } from "react";
+import { getNew } from "../features/news/newsSlice";
 export default function Home() {
   useScrollToTop();
+
+  const { data } = useAppSelector((state) => state.product);
+
+  const { data: dataNew } = useAppSelector((state) => state.news);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProduct());
+    dispatch(getNew());
+  }, [dispatch]);
+
   return (
     <>
       <div className="space-y-6">
@@ -52,8 +66,8 @@ export default function Home() {
         <div>
           <h2 className="text-2xl font-medium">The Most Searched SUV Cars</h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <Card color="white" key={index} />
+            {data.map((_, index) => (
+              <Card color="white" key={index} item={_} />
             ))}
           </div>
         </div>
@@ -270,22 +284,22 @@ export default function Home() {
                 {
                   title: "In Stock",
                   icon: <AppleOutlined />,
-                  children: <TabChildren />,
+                  children: <TabChildren model="instock" data={data} />,
                 },
                 {
                   title: "Audi",
                   icon: <AndroidOutlined />,
-                  children: <TabChildren />,
+                  children: <TabChildren model="audi" data={data} />,
                 },
                 {
                   title: "Ford",
                   icon: <AndroidOutlined />,
-                  children: <TabChildren />,
+                  children: <TabChildren model="ford" data={data} />,
                 },
                 {
                   title: "Mercedes Benz",
                   icon: <AndroidOutlined />,
-                  children: <TabChildren />,
+                  children: <TabChildren model="mec" data={data} />,
                 },
               ].map((item) => {
                 return {
@@ -432,8 +446,8 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {[...Array(3)].map((_, index) => (
-              <CardNews key={index} />
+            {dataNew.map((_, index) => (
+              <CardNews key={index} item={_} />
             ))}
           </div>
         </div>

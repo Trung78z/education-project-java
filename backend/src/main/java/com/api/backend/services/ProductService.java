@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.api.backend.models.product.Product;
@@ -19,20 +21,34 @@ import com.api.backend.models.product.ProductEngineAndTransmission;
 import com.api.backend.repositories.ProductBrandRepository;
 import com.api.backend.repositories.ProductRepository;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ProductService {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     public final ProductRepository productRepository;
     public final ProductBrandRepository productBrandRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ProductService(ProductRepository productRepository, ProductBrandRepository productBrandRepository) {
         this.productRepository = productRepository;
         this.productBrandRepository = productBrandRepository;
+
     }
 
     public List<Product> GetProduct() {
         return productRepository.findAll();
+    }
+
+    // Get product by id
+    public Product GetProductById(Integer id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
     public Product PostProduct(Product product) {
@@ -41,17 +57,28 @@ public class ProductService {
             if (esxOptional.isEmpty()) {
                 throw new RuntimeException("Product Brand not found");
             }
+
+            Product existingProduct = productRepository.findByName(product.getName());
+            if (existingProduct != null
+                    && existingProduct.getProductBrand().getId() == product.getProductBrand().getId()) {
+                throw new RuntimeException("Product already exists");
+            }
+
             if (product.getOverview() != null) {
                 product.getOverview().setProduct(product);
             }
             if (product.getExterior() != null) {
                 product.getExterior().forEach(exterior -> exterior.setProduct(product));
             }
+            if (product.getInterior() != null) {
+                product.getInterior().forEach(interior -> interior.setProduct(product));
+            }
+
             if (product.getSafety() != null) {
-                product.getSafety().forEach(exterior -> exterior.setProduct(product));
+                product.getSafety().forEach(safe -> safe.setProduct(product));
             }
             if (product.getComfortConvenience() != null) {
-                product.getComfortConvenience().forEach(exterior -> exterior.setProduct(product));
+                product.getComfortConvenience().forEach(comfort -> comfort.setProduct(product));
             }
             if (product.getDimensionsCapacity() != null) {
                 product.getDimensionsCapacity().setProduct(product);
@@ -291,8 +318,27 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    @Transactional
     public void deleteProduct(Integer id) {
-        productRepository.deleteById(id);
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            throw new RuntimeException("Product not found");
+        }
+        try {
+            jdbcTemplate.update("DELETE FROM product_comfort_convenience WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_interior WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_exterior WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_safety WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_overview WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_dimensions_capacity WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM product_engine_and_transmission WHERE product_id = ?", id);
+            jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
+            productRepository.deleteById(id);
+
+        } catch (Exception e) {
+            System.out.println("Error deleting product: " + e.getMessage());
+            throw new RuntimeException("Error deleting product", e);
+        }
     }
 
 }

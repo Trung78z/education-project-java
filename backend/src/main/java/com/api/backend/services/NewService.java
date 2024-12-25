@@ -27,8 +27,27 @@ public class NewService {
         return newRepository.findAll();
     }
 
+    public New getNewById(Integer newId) {
+        Optional<New> optionalNew = newRepository.findById(newId);
+        if (optionalNew.isPresent()) {
+            return optionalNew.get();
+        } else {
+            throw new RuntimeException("New with ID " + newId + " not found");
+        }
+    }
+
     public New saveNew(New news) {
         Optional<NewCategory> category = newCategoryRepository.findById(news.getNewCategory().getId());
+        if (!category.isPresent()) {
+            throw new RuntimeException("Category not found");
+        }
+
+        Optional<New> newExist = newRepository.findByTitleAndNewCategoryId(news.getTitle(),
+                news.getNewCategory().getId());
+        if (newExist.isPresent()) {
+            throw new RuntimeException("New already exist");
+        }
+
         news.setNewCategory(category.get());
         return newRepository.save(news);
     }

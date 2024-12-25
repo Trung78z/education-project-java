@@ -12,6 +12,7 @@ import com.api.backend.dto.NewsDTO;
 import com.api.backend.models.news.New;
 import com.api.backend.models.news.NewCategory;
 import com.api.backend.services.NewService;
+import com.api.backend.utils.ResponseWrapper;
 
 @Controller
 @RequestMapping("api/v1/new")
@@ -23,17 +24,43 @@ public class NewController {
         this.newService = newService;
     }
 
-    @GetMapping
-    public ResponseEntity<Map<String, Object>> getNews() {
-        List<New> newsList = newService.getNews();
-        List<NewsDTO> newsDTOs = newsList.stream()
-                .map(news -> new NewsDTO(news))
-                .collect(Collectors.toList());
-        return ResponseEntity.ok().body(Map.of("success", true, "message", newsDTOs));
+    @GetMapping()
+    public ResponseEntity<ResponseWrapper<List<NewsDTO>>> getNews() {
+        try {
+            List<New> news = newService.getNews();
+            List<NewsDTO> newsDTO = news.stream().map(NewsDTO::new).collect(Collectors.toList());
+
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, newsDTO));
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseWrapper<New>> getNewById(@PathVariable Integer id) {
+        try {
+            New news = newService.getNewById(id);
+
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, news));
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+        }
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, Object>> postNews(@RequestBody NewsDTO newsDTO) {
+    public ResponseEntity<ResponseWrapper<New>> postNews(@RequestBody NewsDTO newsDTO) {
         try {
             New createdNews = new New();
             createdNews.setContent(newsDTO.getContent());
@@ -51,15 +78,16 @@ public class NewController {
 
             New response = newService.saveNew(createdNews);
 
-            return ResponseEntity.ok(Map.of("message", response, "success", true));
+            return ResponseEntity.ok().body(new ResponseWrapper<>(true, 200, response));
 
         } catch (RuntimeException e) {
 
-            return ResponseEntity.badRequest().body(Map.of("message", e.getMessage(), "success", false));
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
         }
     }
 
@@ -78,18 +106,22 @@ public class NewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable String id) {
+    public ResponseEntity<ResponseWrapper<New>> deleteNews(@PathVariable String id) {
 
         try {
             newService.deleteById(Integer.parseInt(id));
-            return ResponseEntity.ok(Map.of("success", id));
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, "News deleted"));
         } catch (NumberFormatException e) {
-            return ResponseEntity.status(400)
-                    .body(Map.of("success", false, "message", "Id not number"));
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(false, 400, "Invalid ID"));
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
 
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
 
         }
 

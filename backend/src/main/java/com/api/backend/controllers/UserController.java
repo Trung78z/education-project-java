@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.api.backend.dto.UserDTO;
-import com.api.backend.models.user.User;
+import com.api.backend.models.user.Users;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
 
@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ResponseWrapper<List<UserDTO>>> getUser() {
 
-        List<User> listUser = userService.getUsers();
+        List<Users> listUser = userService.getUsers();
         List<UserDTO> userDTOs = listUser.stream()
                 .map(user -> new UserDTO(user))
                 .collect(Collectors.toList());
@@ -35,9 +35,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<UserDTO>> saveUser(@RequestBody User user) {
+    public ResponseEntity<ResponseWrapper<UserDTO>> saveUser(@RequestBody Users user) {
         try {
-            User savedUser = userService.saveUser(user);
+            Users savedUser = userService.saveUser(user);
             UserDTO userDTO = new UserDTO(savedUser);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, userDTO));
         } catch (RuntimeException e) {
@@ -52,10 +52,10 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<User>> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<ResponseWrapper<Users>> getUserById(@PathVariable UUID id) {
 
         try {
-            User user = userService.getUserById(id);
+            Users user = userService.getUserById(id);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, user));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()

@@ -1,12 +1,21 @@
 import { Button } from "antd";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { ProductPayload } from "../../types/ProductPayload";
+import { formatContent } from "../../utils/helpers";
 
-export default function Card({ color = "white" }: { color: string }) {
+export default function Card({
+  color = "white",
+  item,
+}: {
+  color: string;
+  item: ProductPayload;
+}) {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("/list/car/1");
+    navigate(`/list/car/${item.id}`);
   };
+
   return (
     <div
       className={clsx(
@@ -49,25 +58,27 @@ export default function Card({ color = "white" }: { color: string }) {
           className="h-[218.33px] w-full flex-shrink rounded-sm"
         />
         <div className="space-y-1 px-6">
-          <h3 className="font-medium">Toyota Camry New</h3>
-          <p>3.5 D5 PowerPulse Momentum 5dr AW…</p>
+          <h3 className="font-medium">{item?.name}</h3>
+          <p>{formatContent(item?.description, 30)}</p>
 
           <ul className="flex items-center justify-center gap-x-8 rounded-sm border px-2 py-4">
             <li className="flex flex-col items-center gap-x-1">
               <img src={`/assets/images/product/S-${color}.svg`} alt="" />
-              <span className="text-xs">20 Miles</span>
+              <span className="text-xs">{item.odometer}</span>
             </li>
             <li className="flex flex-col items-center gap-x-1">
               <img src={`/assets/images/product/fuel-${color}.svg`} alt="" />{" "}
-              <span className="text-xs">20 Miles</span>
+              <span className="text-xs">{item.type}</span>
             </li>
             <li className="flex flex-col items-center gap-x-1">
               <img src={`/assets/images/product/hopso-${color}.svg`} alt="" />{" "}
-              <span className="text-xs">20 Miles</span>
+              <span className="text-xs">{item.gearshift}</span>
             </li>
           </ul>
           <div className="flex items-center justify-between px-4">
-            <span className="font-medium">$40,000</span>
+            <span className="font-medium">
+              ${item.price.toLocaleString("vi-VN")}
+            </span>
             <Button type="link" onClick={handleNavigate}>
               View details{" "}
               <span>

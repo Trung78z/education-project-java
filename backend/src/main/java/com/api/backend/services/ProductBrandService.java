@@ -30,8 +30,8 @@ public class ProductBrandService {
                     .map(product -> new ProductDTO(product.getId(), product.getName(), product.getPrice(),
                             product.getQuantity(),
                             product.getImage(),
-                            product.getDescription(), product.getModel(),
-                            product.getSize(),
+                            product.getDescription(), product.getOdometer(),
+                            product.getGearshift(),
                             product.getType(),
                             product.getDiscount(),
                             product.getProductBrand(),
@@ -59,8 +59,8 @@ public class ProductBrandService {
                     .map(product -> new ProductDTO(product.getId(), product.getName(), product.getPrice(),
                             product.getQuantity(),
                             product.getImage(),
-                            product.getDescription(), product.getModel(),
-                            product.getSize(),
+                            product.getDescription(), product.getOdometer(),
+                            product.getGearshift(),
                             product.getType(),
                             product.getDiscount(),
                             product.getProductBrand(),
@@ -83,6 +83,10 @@ public class ProductBrandService {
     }
 
     public ProductBrand saveProductBrand(ProductBrand productBrand) {
+        ProductBrand optionalProductBrand = productBrandRepository.findByName(productBrand.getName());
+        if (optionalProductBrand != null) {
+            throw new RuntimeException("Product Brand already exists");
+        }
         return productBrandRepository.save(productBrand);
     }
 
@@ -100,6 +104,11 @@ public class ProductBrandService {
     }
 
     public void deleteProductBrand(Integer id) {
+        Optional<ProductBrand> optionalProductBrand = productBrandRepository.findById(id);
+        if (!optionalProductBrand.isPresent()) {
+            throw new RuntimeException("Product Brand not found");
+        }
+
         productBrandRepository.deleteById(id);
     }
 }

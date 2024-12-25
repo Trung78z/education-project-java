@@ -34,17 +34,43 @@ public class ProductController extends HttpServlet {
         protected void doGet(HttpServletRequest request, HttpServletResponse response)
                         throws ServletException, IOException {
                 String pathInfo = request.getPathInfo();
+                try {
 
-                if (pathInfo == null || pathInfo.equals("/")) {
+                        if (pathInfo == null || pathInfo.equals("/")) {
+                                List<Product> products = productService.GetProduct();
+                                ResponseWrapper<List<Product>> responseBody = new ResponseWrapper<>(true, 200,
+                                                products);
+                                response.setStatus(HttpServletResponse.SC_OK);
+                                response.setContentType("application/json");
+                                response.getWriter().write(objectMapper.writeValueAsString(responseBody));
+                        }
 
-                        List<Product> products = productService.GetProduct();
-                        ResponseWrapper<List<Product>> responseBody = new ResponseWrapper<>(true, 200,
-                                        products);
-                        response.setStatus(HttpServletResponse.SC_OK);
-                        response.setContentType("application/json");
-                        response.getWriter().write(objectMapper.writeValueAsString(responseBody));
-                } else {
+                        else {
+                                String[] pathParts = pathInfo.split("/");
 
+                                Product product = productService.GetProductById(Integer.parseInt(pathParts[1]));
+
+                                ResponseWrapper<Product> responseBody = new ResponseWrapper<>(true, 200, product);
+
+                                response.setStatus(HttpServletResponse.SC_OK);
+                                response.setContentType("application/json");
+                                response.getWriter().write(objectMapper.writeValueAsString(responseBody));
+                        }
+                } catch (NumberFormatException e) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        response.getWriter().write(objectMapper.writeValueAsString(
+                                        new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                                                        "Invalid product ID")));
+                } catch (RuntimeException e) {
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        response.getWriter().write(objectMapper.writeValueAsString(
+                                        new ResponseWrapper<>(400, e.getMessage())));
+                } catch (Exception e) {
+                        // TODO: handle exception
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write(objectMapper.writeValueAsString(
+                                        new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                                                        "An error occurred while processing the request")));
                 }
         }
 
@@ -204,13 +230,20 @@ public class ProductController extends HttpServlet {
                         try {
                                 Integer productId = Integer.parseInt(pathParts[1]);
                                 productService.deleteProduct(productId);
-                                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+                                response.setStatus(HttpServletResponse.SC_OK);
+                                response.getWriter().write(objectMapper.writeValueAsString(
+                                                new ResponseWrapper<>(true, 200, "Product deleted successfully")));
                         } catch (NumberFormatException e) {
 
                                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                                 response.getWriter().write(objectMapper.writeValueAsString(
                                                 new ResponseWrapper<>(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                                                                 "Invalid product ID")));
+                        } catch (RuntimeException e) {
+                                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                                response.getWriter()
+                                                .write(objectMapper.writeValueAsString(
+                                                                new ResponseWrapper<>(400, e.getMessage())));
                         } catch (Exception e) {
 
                                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

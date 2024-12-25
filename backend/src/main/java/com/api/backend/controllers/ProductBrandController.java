@@ -50,6 +50,11 @@ public class ProductBrandController extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");
                 response.getWriter().write(objectMapper.writeValueAsString(responseBody));
+            } catch (RuntimeException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter()
+                        .write(objectMapper.writeValueAsString(
+                                new ResponseWrapper<>(400, e.getMessage())));
             } catch (Exception e) {
                 // TODO: handle exception
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -64,14 +69,28 @@ public class ProductBrandController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO: implement POST method
-        InputStreamReader reader = new InputStreamReader(request.getInputStream());
-        Gson gson = new Gson();
-        ProductBrand productBrandData = gson.fromJson(reader, ProductBrand.class);
-        ProductBrand productBrand = productBrandService.saveProductBrand(productBrandData);
-        response.setStatus(HttpServletResponse.SC_CREATED);
-        response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(new ResponseWrapper<>(true, 201, productBrand)));
+
+        try {
+            InputStreamReader reader = new InputStreamReader(request.getInputStream());
+            Gson gson = new Gson();
+            ProductBrand productBrandData = gson.fromJson(reader, ProductBrand.class);
+            ProductBrand productBrand = productBrandService.saveProductBrand(productBrandData);
+            response.setStatus(HttpServletResponse.SC_CREATED);
+            response.setContentType("application/json");
+            response.getWriter().write(objectMapper.writeValueAsString(new ResponseWrapper<>(true, 201, productBrand)));
+        } catch (RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter()
+                    .write(objectMapper.writeValueAsString(
+                            new ResponseWrapper<>(400, e.getMessage())));
+        } catch (Exception e) {
+            // TODO: handle exception
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            response.setContentType("application/json");
+            response.getWriter().write(
+                    objectMapper.writeValueAsString(new ResponseWrapper<>(404, "Product brand not found")));
+        }
+
     }
 
     @Override
@@ -95,6 +114,11 @@ public class ProductBrandController extends HttpServlet {
                 response.setContentType("application/json");
                 response.getWriter()
                         .write(objectMapper.writeValueAsString(new ResponseWrapper<>(true, 200, updatedProductBrand)));
+            } catch (RuntimeException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter()
+                        .write(objectMapper.writeValueAsString(
+                                new ResponseWrapper<>(400, e.getMessage())));
             } catch (Exception e) {
                 // TODO: handle exception
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -122,6 +146,11 @@ public class ProductBrandController extends HttpServlet {
                 int id = Integer.parseInt(pathParts[pathParts.length - 1]);
                 productBrandService.deleteProductBrand(id);
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            } catch (RuntimeException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter()
+                        .write(objectMapper.writeValueAsString(
+                                new ResponseWrapper<>(400, e.getMessage())));
             } catch (Exception e) {
                 // TODO: handle exception
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);

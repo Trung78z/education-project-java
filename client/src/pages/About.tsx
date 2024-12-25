@@ -2,5 +2,5 @@ import useScrollToTop from "../hooks/useScrollToTop";
 
 export default function About() {
   useScrollToTop();
-  return <div>About</div>;
+  return <div className="min-h-screen">About</div>;
 }
