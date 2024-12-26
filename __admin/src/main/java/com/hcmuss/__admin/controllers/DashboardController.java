@@ -3,27 +3,42 @@ package com.hcmuss.__admin.controllers;
 import com.hcmuss.__admin.utils.Helpers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DashboardController {
     private Helpers helpers = new Helpers();
+    @FXML
+    private AnchorPane ap;
 
     @FXML
+    private BorderPane bp;
+    @FXML
     private Button logout;
+    @FXML
+    private Pane pane;
+
+    @FXML
+    private Text title;
+
+    @FXML
+    private HBox navbar;
+
+    @FXML
+    private VBox sidebar;
 
     @FXML
     protected void handleLogout() {
         try {
-
             FXMLLoader fxmlLoaderDashboard = new FXMLLoader(getClass().getResource("/com/hcmuss/__admin/fxml/login.fxml"));
 
             Scene loginScene = new Scene(fxmlLoaderDashboard.load(), 800, 600);
@@ -38,52 +53,44 @@ public class DashboardController {
 
     @FXML
     protected void dashboard() {
-        System.out.println("dashboard");
-        loadPage("dashboard");
+        bp.setCenter(ap);
     }
 
     @FXML
     protected void transaction() {
-        System.out.println("transaction");
         loadPage("transaction");
     }
 
     @FXML
     protected void account() {
-        System.out.println("account");
         loadPage("account");
     }
 
     @FXML
     protected void product() {
-        System.out.println("product");
         loadPage("product");
     }
 
     @FXML
     protected void news() {
-        System.out.println("news");
         loadPage("news");
     }
 
     @FXML
     protected void setting() {
-        System.out.println("setting");
         loadPage("setting");
 
     }
 
-
     private void loadPage(String page) {
+        Parent root = null;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/hcmuss/__admin/fxml/" + page + ".fxml"));
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) someNode.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading page", e);
+            root = FXMLLoader.load(getClass().getResource("/com/hcmuss/__admin/fxml/" + page + ".fxml"));
+        } catch (Exception e) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
+
         }
+        bp.setCenter(root);
+
     }
 }
