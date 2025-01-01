@@ -19,8 +19,7 @@ public class UserRole {
 
     @Column(name = "role_name", nullable = false, unique = true)
     private String roleName;
-
-    @OneToMany(mappedBy = "userRole", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userRole", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Users> users;
 

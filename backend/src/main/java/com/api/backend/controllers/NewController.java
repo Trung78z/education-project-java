@@ -34,11 +34,11 @@ public class NewController {
         } catch (RuntimeException e) {
 
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
 
         } catch (Exception e) {
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
@@ -51,11 +51,11 @@ public class NewController {
         } catch (RuntimeException e) {
 
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
 
         } catch (Exception e) {
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
@@ -83,11 +83,11 @@ public class NewController {
         } catch (RuntimeException e) {
 
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
 
         } catch (Exception e) {
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
@@ -106,22 +106,23 @@ public class NewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<New>> deleteNews(@PathVariable String id) {
+    public ResponseEntity<ResponseWrapper<String>> deleteNews(@PathVariable String id) {
 
         try {
             newService.deleteById(Integer.parseInt(id));
+
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, "News deleted"));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, "Invalid ID"));
+                    .body(new ResponseWrapper<>(400, "Invalid ID"));
 
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
 
         } catch (Exception e) {
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
 
         }
 

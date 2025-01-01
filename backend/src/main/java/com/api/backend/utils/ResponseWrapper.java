@@ -13,21 +13,18 @@ public class ResponseWrapper<T> {
         this.success = success;
         this.status = status;
         this.message = message;
+        this.error = null;
     }
 
-    public ResponseWrapper(boolean success, Integer status, String error) {
-        this.success = success;
-        this.status = status;
-        this.message = null;
-        this.error = error;
-    }
-
+    // Constructor cho trường hợp thất bại mà chỉ có status
     public ResponseWrapper(Integer status) {
         this.success = false;
         this.status = status;
         this.message = null;
+        this.error = null;
     }
 
+    // Constructor cho trường hợp lỗi
     public ResponseWrapper(Integer status, String error) {
         this.success = false;
         this.status = status;

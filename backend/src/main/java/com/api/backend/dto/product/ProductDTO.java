@@ -1,4 +1,4 @@
-package com.api.backend.dto;
+package com.api.backend.dto.product;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.api.backend.models.product.ProductExterior;
 import com.api.backend.models.product.ProductInterior;
 import com.api.backend.models.product.ProductOverview;
 import com.api.backend.models.product.ProductSafety;
+import jakarta.persistence.Lob;
 
 public class ProductDTO {
     private Integer id;
@@ -18,12 +19,13 @@ public class ProductDTO {
     private Integer quantity;
     private String image;
     private String description;
-    private String model;
-    private String size;
+    private String odometer;
+    private String gearshift;
     private String type;
+
     private float discount;
 
-    private ProductBrand productBrand;
+    private ProductBrandDTO productBrand;
 
     private List<ProductInterior> interior;
 
@@ -39,19 +41,18 @@ public class ProductDTO {
 
     private ProductEngineAndTransmission engineAndTransmission;
 
-    public ProductDTO(Integer id, String name, double price, Integer quantity, String image, String description,
-            String model, String size, String type, float discount, ProductBrand productBrand,
-            List<ProductInterior> interior, List<ProductExterior> exterior, List<ProductSafety> safety,
-            List<ProductComfortConvenience> comfortConvenience, ProductOverview overview,
-            ProductDimensionsCapacity dimensionsCapacity, ProductEngineAndTransmission engineAndTransmission) {
+    public ProductDTO() {
+    }
+
+    public ProductDTO(Integer id, String name, double price, Integer quantity, String image, String description, String odometer, String gearshift, String type, float discount, ProductBrandDTO productBrand, List<ProductInterior> interior, List<ProductExterior> exterior, List<ProductSafety> safety, List<ProductComfortConvenience> comfortConvenience, ProductOverview overview, ProductDimensionsCapacity dimensionsCapacity, ProductEngineAndTransmission engineAndTransmission) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.image = image;
         this.description = description;
-        this.model = model;
-        this.size = size;
+        this.odometer = odometer;
+        this.gearshift = gearshift;
         this.type = type;
         this.discount = discount;
         this.productBrand = productBrand;
@@ -112,20 +113,20 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public String getModel() {
-        return model;
+    public String getOdometer() {
+        return odometer;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setOdometer(String odometer) {
+        this.odometer = odometer;
     }
 
-    public String getSize() {
-        return size;
+    public String getGearshift() {
+        return gearshift;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setGearshift(String gearshift) {
+        this.gearshift = gearshift;
     }
 
     public String getType() {
@@ -144,11 +145,11 @@ public class ProductDTO {
         this.discount = discount;
     }
 
-    public ProductBrand getProductBrand() {
+    public ProductBrandDTO getProductBrand() {
         return productBrand;
     }
 
-    public void setProductBrand(ProductBrand productBrand) {
+    public void setProductBrand(ProductBrandDTO productBrand) {
         this.productBrand = productBrand;
     }
 
@@ -207,5 +208,4 @@ public class ProductDTO {
     public void setEngineAndTransmission(ProductEngineAndTransmission engineAndTransmission) {
         this.engineAndTransmission = engineAndTransmission;
     }
-
 }

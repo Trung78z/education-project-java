@@ -41,8 +41,16 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http.csrf(customizer -> customizer.disable()).authorizeHttpRequests(request -> request
-                .requestMatchers("/api/v1/auth/*", "/api/v1/role-user", "/api/v1/users").permitAll()
-                .anyRequest().authenticated()).httpBasic(Customizer.withDefaults())
+
+
+
+                // .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()
+                // .requestMatchers("/api/v1/auth/*", "/api/v1/role-user", "/api/v1/users").permitAll()
+                
+                .requestMatchers("/api/v1/protected/*", "/api/v1/admin/*").authenticated()    
+                .requestMatchers("/api/v1/auth/*", "/api/v1/role-user", "/api/v1/users").permitAll()         
+                .anyRequest().permitAll()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

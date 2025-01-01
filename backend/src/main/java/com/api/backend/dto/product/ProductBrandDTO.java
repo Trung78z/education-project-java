@@ -1,4 +1,4 @@
-package com.api.backend.dto;
+package com.api.backend.dto.product;
 
 import java.util.List;
 
@@ -7,11 +7,15 @@ public class ProductBrandDTO {
     private String name;
     private List<ProductDTO> products;
 
-    // Constructor
     public ProductBrandDTO(Integer id, String name, List<ProductDTO> products) {
         this.id = id;
         this.name = name;
         this.products = products;
+    }
+
+    public ProductBrandDTO(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     // Getters and Setters

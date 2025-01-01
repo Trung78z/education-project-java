@@ -31,11 +31,9 @@ public class Product {
 
     private float discount;
 
-    // @JsonBackReference
-    @JsonManagedReference
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_brand_id", nullable = false)
+    @JsonManagedReference
     private ProductBrand productBrand;
 
     @JsonManagedReference
@@ -245,4 +243,27 @@ public class Product {
         this.engineAndTransmission = engineAndTransmission;
     }
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", image='" + image + '\'' +
+                ", description='" + description + '\'' +
+                ", odometer='" + odometer + '\'' +
+                ", gearshift='" + gearshift + '\'' +
+                ", type='" + type + '\'' +
+                ", discount=" + discount +
+                ", productBrand=" + productBrand +
+                ", interior=" + interior +
+                ", exterior=" + exterior +
+                ", safety=" + safety +
+                ", comfortConvenience=" + comfortConvenience +
+                ", overview=" + overview +
+                ", dimensionsCapacity=" + dimensionsCapacity +
+                ", engineAndTransmission=" + engineAndTransmission +
+                '}';
+    }
 }

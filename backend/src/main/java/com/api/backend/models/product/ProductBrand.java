@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
@@ -14,12 +16,14 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "productBrand")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductBrand {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonProperty("name")
     private String name;
 
     @JsonBackReference
@@ -62,5 +66,13 @@ public class ProductBrand {
 
     public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductBrand{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

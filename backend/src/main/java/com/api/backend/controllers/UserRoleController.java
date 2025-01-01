@@ -36,11 +36,11 @@ public class UserRoleController {
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, res));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
 
         }
     }
@@ -54,11 +54,11 @@ public class UserRoleController {
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, res));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
-                    .body(new ResponseWrapper<>(false, 400, e.getMessage()));
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.status(500)
-                    .body(new ResponseWrapper<>(false, 500, "Internal Server Error"));
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
 
         }
     }

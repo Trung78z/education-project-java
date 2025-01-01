@@ -12,9 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.backend.models.user.Users;
+
 import com.api.backend.models.user.UserRole;
 import com.api.backend.repositories.UserRepository;
 import com.api.backend.repositories.UserRoleRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -80,4 +84,11 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException("Users not found"));
     }
 
+    @Transactional
+    public void deleteUser(UUID userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        userRepository.deleteById(userId);
+    }
 }

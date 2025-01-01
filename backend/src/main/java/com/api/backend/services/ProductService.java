@@ -3,7 +3,10 @@ package com.api.backend.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.api.backend.dto.product.ProductBrandDTO;
+import com.api.backend.dto.product.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -42,8 +45,38 @@ public class ProductService {
 
     }
 
-    public List<Product> GetProduct() {
-        return productRepository.findAll();
+    public List<ProductDTO> GetProduct() {
+        List<Product> products = productRepository.findAll();
+
+        return products.stream().map(product -> {
+            System.out.println(product.getProductBrand());
+            ProductDTO productDTO = new ProductDTO();
+
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setQuantity(product.getQuantity());
+            productDTO.setImage(product.getImage());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setDiscount(product.getDiscount());
+            productDTO.setProductBrand(product.getProductBrand() != null
+                    ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
+                    : null);
+            productDTO.setInterior(product.getInterior());
+            productDTO.setExterior(product.getExterior());
+            productDTO.setSafety(product.getSafety());
+            productDTO.setComfortConvenience(product.getComfortConvenience());
+            productDTO.setOverview(product.getOverview());
+            productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
+            productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
+
+            productDTO.setType(product.getType());
+            productDTO.setOdometer(product.getOdometer());
+            productDTO.setGearshift(product.getGearshift());
+
+            return productDTO;
+        }).collect(Collectors.toList());
+
     }
 
     // Get product by id

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import com.api.backend.dto.product.ProductDTO;
 import org.springframework.stereotype.Controller;
 
 import com.api.backend.models.product.*;
@@ -37,8 +38,8 @@ public class ProductController extends HttpServlet {
                 try {
 
                         if (pathInfo == null || pathInfo.equals("/")) {
-                                List<Product> products = productService.GetProduct();
-                                ResponseWrapper<List<Product>> responseBody = new ResponseWrapper<>(true, 200,
+                                List<ProductDTO> products = productService.GetProduct();
+                                ResponseWrapper<List<ProductDTO>> responseBody = new ResponseWrapper<>(true, 200,
                                                 products);
                                 response.setStatus(HttpServletResponse.SC_OK);
                                 response.setContentType("application/json");

@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import com.api.backend.dto.ProductBrandDTO;
+import com.api.backend.dto.product.ProductBrandDTO;
 import com.api.backend.models.product.ProductBrand;
 import com.api.backend.services.ProductBrandService;
 import com.api.backend.utils.ResponseWrapper;
