@@ -1,4 +1,4 @@
-package org.example;
+package com.hcmuss.__admin.models;
 public class Role {
     private int id;
     private String roleName;

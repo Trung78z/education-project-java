@@ -1,0 +1,42 @@
+#user-table-view {
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-background-color: #f4f4f4;
+    -fx-font-size: 14px;
+}
+
+#user-table-view .table-row-cell {
+    -fx-alignment: center-left;
+}
+
+#user-table-view .column-header {
+    -fx-background-color: #70b1ee;
+    -fx-text-fill: white;
+}
+.button {
+    -fx-background-color: #0078D4;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #005f99;
+}
+.notification-popup {
+    -fx-background-color: #4caf50; /* Màu nền xanh lá */
+    -fx-text-fill: white; /* Màu chữ trắng */
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-effect: dropshadow(gaussian, #000000, 10, 0.5, 0, 0); /* Đổ bóng cho thông báo */
+}
+
+.notification-popup .title {
+    -fx-font-weight: bold; /* In đậm tiêu đề */
+    -fx-font-size: 16px;
+    -fx-text-fill: #ffffff;
+}
+
+.notification-popup .text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff;
+}

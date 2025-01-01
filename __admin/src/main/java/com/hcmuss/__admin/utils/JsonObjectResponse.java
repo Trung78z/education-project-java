@@ -1,10 +1,11 @@
 package com.hcmuss.__admin.utils;
+
 import java.util.List;
 
-public class JsonListResponse<T> {
+public class JsonObjectResponse<T> {
     private boolean success;
     private int status;
-    private List<T> message;
+    private T message;
     private Object error;
 
     // Getters và Setters
@@ -24,11 +25,11 @@ public class JsonListResponse<T> {
         this.status = status;
     }
 
-    public List<T> getMessage() {
+    public T getMessage() {
         return message;
     }
 
-    public void setMessage(List<T> message) {
+    public void setMessage(T message) {
         this.message = message;
     }
 

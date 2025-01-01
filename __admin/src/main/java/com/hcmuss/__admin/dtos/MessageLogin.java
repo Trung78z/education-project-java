@@ -1,4 +1,4 @@
-package com.hcmuss.__admin.utils;
+package com.hcmuss.__admin.dtos;
 
 public class MessageLogin {
     private String token;

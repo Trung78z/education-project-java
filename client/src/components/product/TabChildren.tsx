@@ -21,8 +21,12 @@ export default function TabChildren({
   }, [swiper]);
   const [dataFilter, setDataFilter] = useState<ProductPayload[]>([]);
   useEffect(() => {
+    data.map((item) => {
+      console.log(item.productBrand.name);
+    });
+
     const filter: ProductPayload[] = data.filter((item) =>
-      item.productBrand.name.toLowerCase().includes(model.toLowerCase()),
+      item.productBrand?.name?.toLowerCase().includes(model.toLowerCase()),
     );
     setDataFilter(filter);
   }, [model, data]);

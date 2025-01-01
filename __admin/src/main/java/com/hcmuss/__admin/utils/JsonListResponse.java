@@ -1,7 +1,7 @@
 package com.hcmuss.__admin.utils;
 import java.util.List;
 
-public class JsonResponse<T> {
+public class JsonListResponse<T> {
     private boolean success;
     private int status;
     private List<T> message;

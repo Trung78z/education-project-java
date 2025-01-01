@@ -1,10 +1,8 @@
 package com.hcmuss.__admin.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
 
-public class Users {
+public class User {
     private String id;
     private String username;
     private String phone;
@@ -88,6 +86,10 @@ public class Users {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getUserRole() {
+        return role != null ? role.getRoleName() : "";
     }
 
     public Role getRole() {
