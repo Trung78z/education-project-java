@@ -5,22 +5,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.api.backend.dto.product.ProductBrandDTO;
-import com.api.backend.dto.product.ProductDTO;
+import com.api.backend.dto.product.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import com.api.backend.models.product.Product;
-import com.api.backend.models.product.ProductBrand;
-import com.api.backend.models.product.ProductComfortConvenience;
-import com.api.backend.models.product.ProductExterior;
-import com.api.backend.models.product.ProductInterior;
-import com.api.backend.models.product.ProductOverview;
-import com.api.backend.models.product.ProductSafety;
-import com.api.backend.models.product.ProductDimensionsCapacity;
-import com.api.backend.models.product.ProductEngineAndTransmission;
+import com.api.backend.models.product.*;
+
 import com.api.backend.repositories.ProductBrandRepository;
 import com.api.backend.repositories.ProductRepository;
 
