@@ -2,7 +2,6 @@ package com.api.backend.dto.product;
 
 import java.util.List;
 
-import com.api.backend.models.product.ProductBrand;
 import com.api.backend.models.product.ProductComfortConvenience;
 import com.api.backend.models.product.ProductDimensionsCapacity;
 import com.api.backend.models.product.ProductEngineAndTransmission;
@@ -10,7 +9,6 @@ import com.api.backend.models.product.ProductExterior;
 import com.api.backend.models.product.ProductInterior;
 import com.api.backend.models.product.ProductOverview;
 import com.api.backend.models.product.ProductSafety;
-import jakarta.persistence.Lob;
 
 public class ProductDTO {
     private Integer id;
@@ -44,7 +42,11 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(Integer id, String name, double price, Integer quantity, String image, String description, String odometer, String gearshift, String type, float discount, ProductBrandDTO productBrand, List<ProductInterior> interior, List<ProductExterior> exterior, List<ProductSafety> safety, List<ProductComfortConvenience> comfortConvenience, ProductOverview overview, ProductDimensionsCapacity dimensionsCapacity, ProductEngineAndTransmission engineAndTransmission) {
+    public ProductDTO(Integer id, String name, double price, Integer quantity, String image, String description,
+            String odometer, String gearshift, String type, float discount, ProductBrandDTO productBrand,
+            List<ProductInterior> interior, List<ProductExterior> exterior, List<ProductSafety> safety,
+            List<ProductComfortConvenience> comfortConvenience, ProductOverview overview,
+            ProductDimensionsCapacity dimensionsCapacity, ProductEngineAndTransmission engineAndTransmission) {
         this.id = id;
         this.name = name;
         this.price = price;

@@ -12,6 +12,8 @@ import com.api.backend.models.news.NewCategory;
 import com.api.backend.repositories.NewCategoryRepository;
 import com.api.backend.repositories.NewRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class NewService {
     @Autowired
@@ -29,6 +31,8 @@ public class NewService {
 
     public New getNewById(Integer newId) {
         Optional<New> optionalNew = newRepository.findById(newId);
+
+        System.out.println(optionalNew.get());
         if (optionalNew.isPresent()) {
             return optionalNew.get();
         } else {
@@ -83,10 +87,11 @@ public class NewService {
         }
     }
 
+    @Transactional
     public void deleteById(Integer newId) {
         Optional<New> exitsOptional = newRepository.findById(newId);
         if (exitsOptional.isPresent()) {
-            newRepository.deleteById(newId);
+            newRepository.deleteById(exitsOptional.get().getId());
         } else {
             throw new RuntimeException("New with ID not found");
         }

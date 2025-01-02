@@ -43,11 +43,11 @@ public class NewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<New>> getNewById(@PathVariable Integer id) {
+    public ResponseEntity<ResponseWrapper<NewsDTO>> getNewById(@PathVariable Integer id) {
         try {
             New news = newService.getNewById(id);
-
-            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, news));
+            NewsDTO newsDTO = new NewsDTO(news);
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, newsDTO));
         } catch (RuntimeException e) {
 
             return ResponseEntity.badRequest()

@@ -20,9 +20,9 @@ public class NewCategory {
     private Integer id;
     @Column(nullable = false, unique = true)
     private String name;
+
     @OneToMany(mappedBy = "newCategory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-
     private List<New> news;
 
     public NewCategory() {

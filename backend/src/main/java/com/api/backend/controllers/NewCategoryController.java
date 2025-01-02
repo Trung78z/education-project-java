@@ -1,9 +1,7 @@
 package com.api.backend.controllers;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.api.backend.models.news.NewCategory;
 import com.api.backend.services.NewCategoryService;
 import com.api.backend.utils.ResourceNotFoundException;
+import com.api.backend.utils.ResponseWrapper;
 
 @Controller
 @RequestMapping("/api/v1/news-category")
@@ -25,30 +24,30 @@ public class NewCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getCategories() {
+    public ResponseEntity<ResponseWrapper<List<NewCategory>>> getCategories() {
 
         List<NewCategory> category = newCategoryService.getCategories();
-        return ResponseEntity.ok().body(Map.of("success", true, "message", category));
+        return ResponseEntity.ok(new ResponseWrapper<>(true, 200, category));
     }
 
     @GetMapping("/{slug}")
-    public ResponseEntity<Map<String, Object>> getIdCategories(@PathVariable String slug) {
+    public ResponseEntity<ResponseWrapper<NewCategory>> getIdCategories(@PathVariable String slug) {
         try {
             NewCategory response = newCategoryService.getSlugCategory(slug);
 
-            return ResponseEntity.ok().body(Map.of("success", true, "message", response));
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, response));
 
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("success", false, "message", e.getMessage()));
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createCategory(@RequestBody NewCategory newCategory) {
+    public ResponseEntity<ResponseWrapper<NewCategory>> createCategory(@RequestBody NewCategory newCategory) {
         try {
             if (newCategory.getName() == null || newCategory.getName().isEmpty()) {
                 throw new RuntimeException("Category name is required");
@@ -56,41 +55,48 @@ public class NewCategoryController {
 
             NewCategory categoryCreated = newCategoryService.saveNewCategory(newCategory);
 
-            return ResponseEntity.ok().body(Map.of("success", true, "message", categoryCreated));
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, categoryCreated));
+
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Map<String, Object>> updateCategory(
+    public ResponseEntity<ResponseWrapper<NewCategory>> updateCategory(
             @PathVariable Integer categoryId,
             @RequestBody NewCategory newCategory) {
         try {
             NewCategory updatedCategory = newCategoryService.updateNewCategory(categoryId, newCategory);
-            return ResponseEntity.ok().body(Map.of("success", true, "message", updatedCategory));
+
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, updatedCategory));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
     @DeleteMapping("/{categoryId}")
-    public ResponseEntity<Map<String, Object>> deleteCategory(@PathVariable Integer categoryId) {
+    public ResponseEntity<ResponseWrapper<String>> deleteCategory(@PathVariable Integer categoryId) {
         try {
             newCategoryService.deleteNewCategory(categoryId);
-            return ResponseEntity.ok().body(Map.of("success", true, "message", "Category deleted successfully"));
+
+            return ResponseEntity.ok(new ResponseWrapper<>(true, 200, "Category deleted successfully"));
         } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("success", false, "message", e.getMessage()));
+
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(400, e.getMessage()));
+
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("success", false, "message", "An error occurred while processing the request"));
+            return ResponseEntity.status(500)
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
     }
 
