@@ -279,12 +279,12 @@ export default function Home() {
             }}
           >
             <Tabs
-              defaultActiveKey="In Stock"
+              defaultActiveKey="BWM"
               items={[
                 {
-                  title: "In Stock",
+                  title: "BWM",
                   icon: <AppleOutlined />,
-                  children: <TabChildren model="instock" data={data} />,
+                  children: <TabChildren model="BWM" data={data} />,
                 },
                 {
                   title: "Audi",

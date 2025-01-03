@@ -18,6 +18,7 @@ public interface NewRepository extends JpaRepository<New, Integer> {
 
     Optional<New> findByTitleAndNewCategoryId(String title, Integer categoryId);
 
+    @SuppressWarnings("null")
     @Modifying
     @Transactional
     @Query("DELETE FROM New n WHERE n.id = ?1")

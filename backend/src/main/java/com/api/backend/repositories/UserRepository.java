@@ -26,6 +26,7 @@ public interface UserRepository extends JpaRepository<Users, UUID> {
     @SuppressWarnings("null")
     Optional<Users> findById(UUID id);
 
+    @SuppressWarnings("null")
     @Modifying
     @Transactional
     @Query("DELETE FROM Users u WHERE u.id = ?1")
