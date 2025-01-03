@@ -1,22 +1,19 @@
 package com.hcmuss.__admin.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class NewCategory {
+public class ProductBrand {
     private Integer id;
     private String name;
+    private List<Product> products;
 
-    public NewCategory() {
+    public ProductBrand() {
     }
 
-    public NewCategory(Integer id) {
-        this.id = id;
-    }
-
-    public NewCategory(Integer id, String name) {
+    public ProductBrand(Integer id, String name, List<Product> products) {
         this.id = id;
         this.name = name;
+        this.products = products;
     }
 
     public Integer getId() {
@@ -35,11 +32,20 @@ public class NewCategory {
         this.name = name;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public String toString() {
-        return "NewCategory{" +
+        return "ProductBrand{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", products=" + products +
                 '}';
     }
 }

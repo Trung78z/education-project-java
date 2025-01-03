@@ -4,8 +4,9 @@ module com.hcmuss.__admin {
     requires com.fasterxml.jackson.databind;
     requires fontawesomefx;
     requires org.controlsfx.controls;
-    requires java.net.http;
     requires java.logging;
+    requires javafx.web;
+    requires java.net.http;
     requires java.desktop;
     requires java.prefs;
 

@@ -1,21 +1,13 @@
 package com.hcmuss.__admin.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.hcmuss.__admin.dtos.MessageLogin;
-import com.hcmuss.__admin.models.LoginRequest;
-import com.hcmuss.__admin.utils.*;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.application.Platform;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -29,11 +21,12 @@ public class Author {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode jsonRequest = objectMapper.createObjectNode();
         jsonRequest.put("token", tokenPayload);
-        String requestBody = null;
+
+        String requestBody;
         try {
-            // Chuyển đối tượng JSON thành chuỗi
             requestBody = objectMapper.writeValueAsString(jsonRequest);
         } catch (JsonProcessingException e) {
+            System.err.println("Error serializing request body: " + e.getMessage());
             e.printStackTrace();
             return CompletableFuture.completedFuture(false);
         }
@@ -49,33 +42,34 @@ public class Author {
 
         new Thread(() -> {
             try {
+                System.out.println("Sending request to URL: " + url);
                 HttpResponse<String> response = HttpClient.newHttpClient()
                         .send(request, HttpResponse.BodyHandlers.ofString());
 
-
                 Platform.runLater(() -> {
                     if (response.statusCode() == 200) {
-                        try {
-
-                            resultFuture.complete(true);
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            resultFuture.complete(false);
-                        }
+                        resultFuture.complete(true);
                     } else {
+                        System.err.println("Server responded with an error: " + response.body());
                         resultFuture.complete(false);
                     }
                 });
 
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-                resultFuture.complete(false);
+            } catch (ConnectException e) {
+                System.err.println("Failed to connect to server: " + e.getMessage());
+                Platform.runLater(() -> resultFuture.complete(false)); // Đảm bảo giao diện được cập nhật
+
+            } catch (IOException e) {
+                System.err.println("Network error: " + e.getMessage());
+                Platform.runLater(() -> resultFuture.complete(false));
+
+            } catch (InterruptedException e) {
+                System.err.println("Request was interrupted: " + e.getMessage());
+                Thread.currentThread().interrupt(); // Khôi phục trạng thái interrupted
+                Platform.runLater(() -> resultFuture.complete(false));
             }
         }).start();
 
-        // Trả về CompletableFuture để có thể tiếp tục xử lý sau này
         return resultFuture;
     }
 }

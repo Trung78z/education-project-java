@@ -89,7 +89,7 @@ public class LoginController {
                             // Lấy token từ response
                             MessageLogin message = parsedResponse.getMessage();
                             String token = message.getToken();
-                            System.out.println("Token received: " + token);
+
 
                             // Lưu token hoặc xử lý thêm nếu cần
                             TokenStorage.saveToken(token);

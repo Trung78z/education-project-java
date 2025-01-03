@@ -56,8 +56,6 @@ public class AccountController {
     private TableColumn<User, String> userRoleColumn;
 
     @FXML
-    private Label text_label;
-    @FXML
     private TableColumn<User, Void> actionColumn;
 
     HttpClient client = HttpClient.newHttpClient();
@@ -133,7 +131,6 @@ public class AccountController {
     }
 
     private void handleDeleteUser(User user) {
-        System.out.println("Deleting user: " + user);
 
 
         String url = "http://localhost:8080/api/v1/users/" + user.getId();
@@ -163,7 +160,7 @@ public class AccountController {
                                 .darkStyle()
                                 .show();
                     } else {
-                        System.err.println("Failed to delete user. HTTP Status: " + response.statusCode());
+
                         Notifications.create()
                                 .title("Lỗi")
                                 .text("Không thể xóa người dùng. Mã lỗi: " + response.statusCode())
@@ -205,9 +202,7 @@ public class AccountController {
                             );
 
                             List<User> users = parsedResponse.getMessage();
-                            for (User user : users) {
-                                System.out.println(user);
-                            }
+
                             userList.addAll(users);
 
 
@@ -219,51 +214,23 @@ public class AccountController {
                             userTableView.setItems(userList);
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Platform.runLater(() -> text_label.setText("JSON Parsing Error: " + e.getMessage()));
+
                         }
                     } else {
-                        Platform.runLater(() -> text_label.setText("HTTP Error: " + httpResponse.statusCode()));
+
                     }
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     e.printStackTrace();
-                    text_label.setText("Request Exception: " + e.getMessage());
+
                 });
             }
         }).start();
     }
 
 
-    @FXML
-    public void handleFetchData() {
-        
-        System.out.println("Data");
-        String url = "http://localhost:8080/api/v1/users";
 
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .build();
-
-        new Thread(() -> {
-            try {
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                Platform.runLater(() -> {
-                    if (response.statusCode() == 200) {
-                        System.out.println(response.body());
-                        text_label.setText(String.valueOf(response.statusCode()));
-
-                    } else {
-
-                    }
-                });
-            } catch (Exception e) {
-
-            }
-        }).start();
-    }
 
 
 }

@@ -9,27 +9,33 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="1120.0" style="-fx-background-color: #DDDDDD;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.__admin.controllers.ProductController">
+<AnchorPane prefHeight="708.0" prefWidth="1120.0" style="-fx-background-color: #DDDDDD;"
+   xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+   fx:controller="com.hcmuss.__admin.controllers.NewsController">
    <children>
-      <TableView layoutX="38.0" layoutY="178.0" prefHeight="500.0" prefWidth="1042.0">
+      <TableView fx:id="newsTable" layoutX="38.0" layoutY="178.0" prefHeight="500.0"
+         prefWidth="1042.0">
          <columns>
-            <TableColumn prefWidth="78.39997863769531" text="SL No" />
-            <TableColumn prefWidth="145.60000610351562" text="Title" />
-            <TableColumn prefWidth="125.60003662109375" text="Linked" />
-            <TableColumn prefWidth="146.39996337890625" text="Duration" />
-            <TableColumn prefWidth="144.0" text="Interest rate" />
-            <TableColumn prefWidth="147.99993896484375" text="Installment" />
-            <TableColumn prefWidth="136.7999267578125" text="Action" />
+            <TableColumn fx:id="colId" prefWidth="78.4" text="SL No" />
+            <TableColumn fx:id="colTitle" prefWidth="145.6" text="Title" />
+            <TableColumn fx:id="colDescription" prefWidth="200.0" text="Description" />
+            <TableColumn fx:id="colCategory" prefWidth="50" text="Category" />
+            <TableColumn fx:id="colPublicNew" prefWidth="100.0" text="Public" />
+            <TableColumn fx:id="colCreatedAt" prefWidth="150.0" text="Created At" />
+            <TableColumn fx:id="actionColumn" prefWidth="136.8" text="Action" />
          </columns>
+
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
       <HBox layoutX="38.0" layoutY="34.0" prefHeight="83.0" prefWidth="1042.0" spacing="70.0">
          <children>
-            <AnchorPane prefHeight="83.0" prefWidth="206.0" stylesheets="@../css/Dashboard_Design.css">
+            <AnchorPane prefHeight="83.0" prefWidth="206.0"
+               stylesheets="@../css/Dashboard_Design.css">
                <styleClass>
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
@@ -40,19 +46,22 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0"
+                     pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Ellipse23.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="100" textFill="RED">
+                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="100"
+                     textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="83.0" prefWidth="206.0" stylesheets="@../css/Dashboard_Design.css">
+            <AnchorPane prefHeight="83.0" prefWidth="206.0"
+               stylesheets="@../css/Dashboard_Design.css">
                <styleClass>
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
@@ -63,19 +72,22 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0"
+                     pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Group290.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50"
+                     textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="83.0" prefWidth="206.0" stylesheets="@../css/Dashboard_Design.css">
+            <AnchorPane prefHeight="83.0" prefWidth="206.0"
+               stylesheets="@../css/Dashboard_Design.css">
                <styleClass>
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
@@ -86,39 +98,49 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0"
+                     pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Group293.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50"
+                     textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="83.0" prefWidth="206.0" stylesheets="@../css/Dashboard_Design.css">
+            <AnchorPane prefHeight="83.0" prefWidth="206.0"
+               stylesheets="@../css/Dashboard_Design.css">
                <styleClass>
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <Label layoutX="70.0" layoutY="14.0" text="Custom News">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/Group296.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="68.0" layoutY="35.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Add zingNews">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
+                  <Pane onMouseClicked="#addNews" prefHeight="83.0" fx:id="paneAddNews"
+                     prefWidth="206.0">
+                     <children>
+                        <Label layoutX="70.0" layoutY="14.0" text="Custom News">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
+                           preserveRatio="true" x="14.0" y="17.0">
+                           <image>
+                              <Image url="@../images/Group296.png" />
+                           </image>
+                        </ImageView>
+                        <Button layoutX="68.0" layoutY="35.0" mnemonicParsing="false"
+                           style="-fx-background-color: white;" text="Add zingNews">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
          </children>
