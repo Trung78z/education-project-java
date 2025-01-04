@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="708.0" prefWidth="1120.0" style="-fx-background-color: #DDDDDD;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.__admin.controllers.AccountController">
@@ -19,6 +20,7 @@
             <TableColumn fx:id="fullNameColumn" prefWidth="150" text="Full Name" />
             <TableColumn fx:id="emailColumn" prefWidth="200" text="Email" />
             <TableColumn fx:id="phoneColumn" prefWidth="150" text="Phone" />
+            <TableColumn fx:id="addressColumn" prefWidth="150" text="Address" />
             <TableColumn fx:id="createdAtColumn" prefWidth="200" text="Created At" />
             <TableColumn fx:id="userRoleColumn" prefWidth="150" text="Role" />
             <TableColumn fx:id="actionColumn" prefWidth="100" text="Actions" />
@@ -46,7 +48,7 @@
                         <Image url="@../images/Ellipse23.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="100" textFill="RED">
+                  <Label fx:id="totalAccount" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="100.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -59,7 +61,7 @@
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <Label layoutX="70.0" layoutY="14.0" text="Account Private">
+                  <Label layoutX="70.0" layoutY="14.0" text="Account Client">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -69,7 +71,7 @@
                         <Image url="@../images/Group290.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label fx:id="totalAccountClient" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="100.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -82,7 +84,7 @@
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <Label layoutX="70.0" layoutY="14.0" text="Account public">
+                  <Label layoutX="70.0" layoutY="14.0" text="Account Admin">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -92,7 +94,7 @@
                         <Image url="@../images/Group293.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label fx:id="totalAccountAdmin" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="100.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -104,7 +106,10 @@
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
                </styleClass>
-               <children>
+
+               <Pane fx:id="paneAddAccount" onMouseClicked="#addAccount" prefHeight="83.0" prefWidth="206.0">
+
+                  <children>
                   <Label layoutX="70.0" layoutY="14.0" text="Custom Account">
                      <font>
                         <Font size="18.0" />
@@ -120,7 +125,8 @@
                         <Font name="System Bold" size="13.0" />
                      </font>
                   </Button>
-               </children>
+                  </children>
+               </Pane>
             </AnchorPane>
          </children>
       </HBox>

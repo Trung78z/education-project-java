@@ -1,6 +1,7 @@
 package com.hcmuss.__admin.controllers;
 
-import com.hcmuss.__admin.utils.Helpers;
+import com.hcmuss.__admin.utils.TokenStorage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,9 +20,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class DashboardController {
-    private final Helpers helpers = new Helpers();
+
     @FXML
     private AnchorPane ap;
     @FXML
@@ -31,8 +31,6 @@ public class DashboardController {
     @FXML
     private Pane paneDashboard, paneTransaction, paneAccount, paneProduct, paneNews, paneSetting;
     private List<Pane> panes;
-    @FXML
-    private Separator separator;
 
     @FXML
     public void initialize() {
@@ -81,7 +79,6 @@ public class DashboardController {
         loadPage(page);
     }
 
-
     @FXML
     private void setActivePane(Pane activePane) {
 
@@ -101,7 +98,6 @@ public class DashboardController {
             }
         });
 
-        // Kích hoạt Pane được chọn
         activePane.setStyle("-fx-background-color: #ccc");
         for (Node node : activePane.getChildren()) {
             if (node instanceof ImageView) {
@@ -117,11 +113,32 @@ public class DashboardController {
         }
     }
 
+    @FXML
+    void handleLogout(ActionEvent event) {
+        System.out.println("Logout");
+        switchToLogin();
+        TokenStorage.removeToken();
+    }
+
+    private void switchToLogin() {
+        try {
+            FXMLLoader fxmlLoaderLogin = new FXMLLoader(getClass().getResource("/com/hcmuss/__admin/fxml/login.fxml"));
+            Scene loginScene = new Scene(fxmlLoaderLogin.load(), 800, 600);
+            Stage stage = (Stage) logout.getScene().getWindow();
+
+            stage.setScene(loginScene);
+            stage.setTitle("Login");
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void loadPage(String page) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/com/hcmuss/__admin/fxml/" + page + ".fxml"));
-            root.getStylesheets().add(getClass().getResource("/com/hcmuss/__admin/css/" + page + ".css").toExternalForm());
+            root.getStylesheets()
+                    .add(getClass().getResource("/com/hcmuss/__admin/css/" + page + ".css").toExternalForm());
             bp.setCenter(root);
         } catch (IOException e) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
@@ -134,7 +151,7 @@ public class DashboardController {
             Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
             stage.setScene(new Scene(root, width, height));
             stage.setTitle(title);
-            helpers.SwitchScene(stage);
+            stage.centerOnScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }

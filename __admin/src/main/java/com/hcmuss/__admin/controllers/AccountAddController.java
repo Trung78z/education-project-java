@@ -1,214 +1,221 @@
 package com.hcmuss.__admin.controllers;
 
-import com.hcmuss.__admin.models.User;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.hcmuss.__admin.models.Role;
+import com.hcmuss.__admin.models.UserPayload;
+import com.hcmuss.__admin.utils.ApiResponse;
 import com.hcmuss.__admin.utils.JsonListResponse;
+import com.hcmuss.__admin.utils.TokenStorage;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import javafx.scene.layout.HBox;
-
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
-
-public class AccountController {
+public class AccountAddController {
     @FXML
-    private TableView<User> userTableView;
+    private TextField addressField;
 
     @FXML
-    private TableColumn<User, String> usernameColumn;
+    private TextField emailField;
 
     @FXML
-    private TableColumn<User, String> fullNameColumn;
+    private TextField fullNameField;
 
     @FXML
-    private TableColumn<User, String> emailColumn;
+    private PasswordField passwordField;
 
     @FXML
-    private TableColumn<User, String> phoneColumn;
+    private TextField phoneField;
 
     @FXML
-    private TableColumn<User, LocalDateTime> createdAtColumn;
+    private ComboBox<Role> roleComboBox;
 
     @FXML
-    private TableColumn<User, String> userRoleColumn;
+    private Button saveButton;
 
     @FXML
-    private TableColumn<User, Void> actionColumn;
+    private TextField usernameField;
 
-    HttpClient client = HttpClient.newHttpClient();
-
-    @FXML
     public void initialize() {
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
-        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-        userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("userRole"));
-
-        addActionButtons();
-        getUsers();
+        fetchCategoriesFromApi();
     }
 
-    private void addActionButtons() {
-        actionColumn.setCellFactory(column -> new TableCell<>() {
-            private final Button editButton = new Button();
-            private final Button deleteButton = new Button();
-            private final HBox actionBox = new HBox(6, editButton, deleteButton);
+    @FXML
+    void saveUser(ActionEvent event) {
+        String address = addressField.getText();
+        String email = emailField.getText();
+        String fullName = fullNameField.getText();
+        String password = passwordField.getText();
+        String phone = phoneField.getText();
+        Role selectedRole = roleComboBox.getValue();
+        String username = usernameField.getText();
 
-            {
-                FontAwesomeIcon editIcon = new FontAwesomeIcon();
-                editIcon.setIcon(FontAwesomeIcons.EDIT);
-                editIcon.setSize("14px");
-                editButton.setGraphic(editIcon);
+        // Check for null or empty values
+        if (address == null || address.isEmpty() ||
+                email == null || email.isEmpty() ||
+                fullName == null || fullName.isEmpty() ||
+                password == null || password.isEmpty() ||
+                phone == null || phone.isEmpty() ||
+                selectedRole == null ||
+                username == null || username.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Missing Information");
+            alert.setContentText("Please fill in all required fields.");
+            alert.showAndWait();
+            return;
+        }
 
-                FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
-                deleteIcon.setIcon(FontAwesomeIcons.TRASH);
-                deleteIcon.setSize("14px");
-                deleteButton.setGraphic(deleteIcon);
+        UserPayload user = new UserPayload();
+        user.setUsername(username);
+        user.setPhone(phone);
+        user.setEmail(email);
+        user.setFullName(fullName);
+        user.setUserRole(selectedRole);
+        user.setPassword(password);
+        user.setAddress(address);
+        System.out.println("User: " + user);
 
-                editButton.setPrefSize(25, 25);
-                deleteButton.setPrefSize(25, 25);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(user);
 
-                actionBox.setSpacing(5);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI("http://localhost:8080/api/v1/users"))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + TokenStorage.getToken())
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
 
-                editButton.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleEditUser(user);
-                });
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Response: " + response.body());
+            ApiResponse apiResponse = objectMapper.readValue(response.body(), ApiResponse.class);
+            boolean success = apiResponse.isSuccess();
+            Object message = apiResponse.getMessage();
 
-                deleteButton.setOnAction(event -> {
-                    User user = getTableView().getItems().get(getIndex());
-                    handleDeleteUser(user);
-                });
+            if (success) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("News added successfully!");
+                alert.showAndWait();
+
+                // Switch to dashboard
+                switchToDashboard();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to add news: " + message);
+                alert.showAndWait();
             }
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(actionBox);
-                }
-            }
-        });
-    }
-
-    private void handleEditUser(User user) {
-        System.out.println("Editing user: " + user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
-    private void handleDeleteUser(User user) {
-
-        String url = "http://localhost:8080/api/v1/users/" + user.getId();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .DELETE()
-                .build();
-
-        new Thread(() -> {
-            try {
-                HttpResponse<String> response = HttpClient.newHttpClient()
-                        .send(request, HttpResponse.BodyHandlers.ofString());
-
-                Platform.runLater(() -> {
-                    if (response.statusCode() == 200) {
-                        System.out.println("User deleted successfully.");
-
-                        userTableView.getItems().remove(user);
-                        FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
-                        deleteIcon.setIcon(FontAwesomeIcons.TRASH);
-                        Notifications.create()
-                                .title("Xóa thành công")
-                                .text("Người dùng " + user.getFullName() + " đã được xóa!")
-                                .graphic(deleteIcon)
-                                .position(Pos.TOP_RIGHT)
-                                .hideAfter(Duration.seconds(4))
-                                .darkStyle()
-                                .show();
-                    } else {
-
-                        Notifications.create()
-                                .title("Lỗi")
-                                .text("Không thể xóa người dùng. Mã lỗi: " + response.statusCode())
-                                .showError();
-                    }
-                });
-            } catch (Exception e) {
-                Platform.runLater(() -> {
-                    System.err.println("Error deleting user: " + e.getMessage());
-                    e.printStackTrace();
-                });
-            }
-        }).start();
+    private void switchToDashboard() {
+        try {
+            FXMLLoader fxmlLoaderDashboard = new FXMLLoader(
+                    getClass().getResource("/com/hcmuss/__admin/fxml/dashboard.fxml"));
+            Scene dashboardScene = new Scene(fxmlLoaderDashboard.load(), 1280, 768);
+            Stage stage = (Stage) phoneField.getScene().getWindow();
+            stage.setScene(dashboardScene);
+            stage.setTitle("Dashboard");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void getUsers() {
-        ObservableList<User> userList = FXCollections.observableArrayList();
-        String url = "http://localhost:8080/api/v1/users";
+    @FXML
+    void closeUser(ActionEvent event) {
+        switchToDashboard();
 
+    }
+
+    private void fetchCategoriesFromApi() {
+        String url = "http://localhost:8080/api/v1/role-user";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();
 
         new Thread(() -> {
             try {
+                HttpClient client = HttpClient.newHttpClient();
                 HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 Platform.runLater(() -> {
                     if (httpResponse.statusCode() == 200) {
                         try {
+
                             ObjectMapper objectMapper = new ObjectMapper();
                             objectMapper.registerModule(new JavaTimeModule());
 
-                            JsonListResponse<User> parsedResponse = objectMapper.readValue(
+                            JsonListResponse<Role> parsedResponse = objectMapper.readValue(
                                     httpResponse.body(),
-                                    new TypeReference<JsonListResponse<User>>() {
+                                    new TypeReference<JsonListResponse<Role>>() {
                                     });
 
-                            List<User> users = parsedResponse.getMessage();
+                            List<Role> categories = parsedResponse.getMessage();
 
-                            userList.addAll(users);
+                            ObservableList<Role> categoryList = FXCollections.observableArrayList(categories);
 
-                            if (userTableView == null) {
-                                System.err.println("Error: userTableView is null. Check FXML and controller bindings.");
-                                return;
+                            roleComboBox.setItems(categoryList);
+
+                            roleComboBox.setCellFactory(comboBox -> new ListCell<>() {
+                                @Override
+                                protected void updateItem(Role item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty || item == null) {
+                                        setText(null);
+                                    } else {
+                                        setText(item.getRoleName());
+                                    }
+                                }
+                            });
+                            roleComboBox.setButtonCell(new ListCell<>() {
+                                @Override
+                                protected void updateItem(Role item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty || item == null) {
+                                        setText(null);
+                                    } else {
+                                        setText(item.getRoleName());
+                                    }
+                                }
+                            });
+                            if (!categoryList.isEmpty()) {
+                                roleComboBox.getSelectionModel().select(0);
                             }
 
-                            userTableView.setItems(userList);
                         } catch (Exception e) {
                             e.printStackTrace();
-
                         }
                     } else {
-
+                        System.out.println("API request failed with status code: " + httpResponse.statusCode());
                     }
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     e.printStackTrace();
-
                 });
             }
         }).start();

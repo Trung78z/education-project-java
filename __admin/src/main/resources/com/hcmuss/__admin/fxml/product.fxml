@@ -9,6 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="708.0" prefWidth="1120.0" style="-fx-background-color: #DDDDDD;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.__admin.controllers.ProductController">
@@ -46,7 +47,7 @@
                         <Image url="@../images/Ellipse23.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="100" textFill="RED">
+                  <Label fx:id="totalProduct" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -59,7 +60,7 @@
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <Label layoutX="70.0" layoutY="14.0" text="Product Private">
+                  <Label layoutX="70.0" layoutY="14.0" text="Price min">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -69,7 +70,7 @@
                         <Image url="@../images/Group290.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label fx:id="priceMin" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="110.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -82,7 +83,7 @@
                   <String fx:value="shadow" />
                </styleClass>
                <children>
-                  <Label layoutX="70.0" layoutY="14.0" text="Product public">
+                  <Label layoutX="70.0" layoutY="14.0" text="Price max">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -92,7 +93,7 @@
                         <Image url="@../images/Group293.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="50.0" text="50" textFill="RED">
+                  <Label fx:id="priceMax" layoutX="68.0" layoutY="35.0" prefHeight="34.0" prefWidth="110.0" text="0" textFill="RED">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -104,6 +105,9 @@
                   <String fx:value="white-bg" />
                   <String fx:value="shadow" />
                </styleClass>
+               <Pane fx:id="paneAddProduct" onMouseClicked="#addProduct" prefHeight="83.0" prefWidth="206.0">
+
+
                <children>
                   <Label layoutX="70.0" layoutY="14.0" text="Custom Product">
                      <font>
@@ -121,6 +125,8 @@
                      </font>
                   </Button>
                </children>
+
+               </Pane>
             </AnchorPane>
          </children>
       </HBox>

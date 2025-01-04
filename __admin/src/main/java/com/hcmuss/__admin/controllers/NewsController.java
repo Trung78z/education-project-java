@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hcmuss.__admin.models.News;
-import com.hcmuss.__admin.utils.Helpers;
+
 import com.hcmuss.__admin.utils.JsonListResponse;
+import com.hcmuss.__admin.utils.TokenStorage;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import javafx.application.Platform;
@@ -16,10 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -29,14 +28,10 @@ import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.http.*;
 import java.util.List;
 
 public class NewsController {
-
-    private Helpers helpers = new Helpers();
 
     @FXML
     private TableView<News> newsTable;
@@ -54,6 +49,15 @@ public class NewsController {
     private TableColumn<News, String> colCreatedAt;
     @FXML
     private TableColumn<News, Void> actionColumn;
+
+    @FXML
+    private Label totalNews;
+
+    @FXML
+    private Label totalNewsPrivate;
+
+    @FXML
+    private Label totalNewsPublic;
 
     @FXML
     private Pane paneAddNews;
@@ -136,7 +140,7 @@ public class NewsController {
             Stage stage = (Stage) paneAddNews.getScene().getWindow();
             stage.setScene(newsScene);
             stage.setTitle("New add");
-            helpers.SwitchScene(stage);
+            stage.centerOnScreen();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +150,7 @@ public class NewsController {
 
         String url = "http://localhost:8080/api/v1/new/" + news.getId();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(url)).header("Authorization", "Bearer " + TokenStorage.getToken())
                 .DELETE()
                 .build();
 
@@ -160,6 +164,7 @@ public class NewsController {
                         System.out.println("New deleted successfully.");
 
                         newsTable.getItems().remove(news);
+                        totalNews.setText(String.valueOf(newsTable.getItems().size()));
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
                         Notifications.create()
@@ -220,6 +225,14 @@ public class NewsController {
                             }
 
                             newsTable.setItems(newsList);
+                            totalNews.setText(String.valueOf(news.size()));
+
+                            long privateNewsCount = news.stream().filter(n -> !n.getPublicNew()).count();
+                            long publicNewsCount = news.stream().filter(n -> n.getPublicNew()).count();
+
+                            totalNewsPrivate.setText(String.valueOf(privateNewsCount));
+                            totalNewsPublic.setText(String.valueOf(publicNewsCount));
+
                         } catch (Exception e) {
                             e.printStackTrace();
 

@@ -2,21 +2,22 @@ package com.hcmuss.__admin.controllers;
 
 import com.hcmuss.__admin.models.User;
 import com.hcmuss.__admin.utils.JsonListResponse;
+import com.hcmuss.__admin.utils.TokenStorage;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,15 +25,17 @@ import java.util.List;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 public class AccountController {
-
 
     @FXML
     private TableView<User> userTableView;
@@ -50,6 +53,8 @@ public class AccountController {
     private TableColumn<User, String> phoneColumn;
 
     @FXML
+    private TableColumn<User, String> addressColumn;
+    @FXML
     private TableColumn<User, LocalDateTime> createdAtColumn;
 
     @FXML
@@ -58,22 +63,31 @@ public class AccountController {
     @FXML
     private TableColumn<User, Void> actionColumn;
 
-    HttpClient client = HttpClient.newHttpClient();
+    @FXML
+    private Label totalAccount;
+
+    @FXML
+    private Label totalAccountAdmin;
+
+    @FXML
+    private Label totalAccountClient;
+
+    @FXML
+    private Pane paneAddAccount;
 
     @FXML
     public void initialize() {
-
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
         userRoleColumn.setCellValueFactory(new PropertyValueFactory<>("userRole"));
 
         addActionButtons();
         getUsers();
     }
-
 
     private void addActionButtons() {
         actionColumn.setCellFactory(column -> new TableCell<>() {
@@ -95,15 +109,12 @@ public class AccountController {
                 editButton.setPrefSize(25, 25);
                 deleteButton.setPrefSize(25, 25);
 
-
                 actionBox.setSpacing(5);
-
 
                 editButton.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
                     handleEditUser(user);
                 });
-
 
                 deleteButton.setOnAction(event -> {
                     User user = getTableView().getItems().get(getIndex());
@@ -124,6 +135,25 @@ public class AccountController {
         });
     }
 
+    @FXML
+    void addAccount(MouseEvent event) {
+        switchToDashboard();
+    }
+
+    private void switchToDashboard() {
+        try {
+            FXMLLoader fxmlAddNews = new FXMLLoader(
+                    getClass().getResource("/com/hcmuss/__admin/fxml/account_add.fxml"));
+
+            Scene newsScene = new Scene(fxmlAddNews.load(), 1280, 768);
+            Stage stage = (Stage) paneAddAccount.getScene().getWindow();
+            stage.setScene(newsScene);
+            stage.setTitle("New add");
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void handleEditUser(User user) {
         System.out.println("Editing user: " + user);
@@ -132,10 +162,10 @@ public class AccountController {
 
     private void handleDeleteUser(User user) {
 
-
         String url = "http://localhost:8080/api/v1/users/" + user.getId();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
+                .header("Authorization", "Bearer " + TokenStorage.getToken())
                 .DELETE()
                 .build();
 
@@ -147,7 +177,7 @@ public class AccountController {
                 Platform.runLater(() -> {
                     if (response.statusCode() == 200) {
                         System.out.println("User deleted successfully.");
-                        
+
                         userTableView.getItems().remove(user);
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
@@ -176,7 +206,6 @@ public class AccountController {
         }).start();
     }
 
-
     public void getUsers() {
         ObservableList<User> userList = FXCollections.observableArrayList();
         String url = "http://localhost:8080/api/v1/users";
@@ -187,6 +216,7 @@ public class AccountController {
 
         new Thread(() -> {
             try {
+                HttpClient client = HttpClient.newHttpClient();
                 HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 Platform.runLater(() -> {
@@ -198,13 +228,11 @@ public class AccountController {
                             JsonListResponse<User> parsedResponse = objectMapper.readValue(
                                     httpResponse.body(),
                                     new TypeReference<JsonListResponse<User>>() {
-                                    }
-                            );
+                                    });
 
                             List<User> users = parsedResponse.getMessage();
 
                             userList.addAll(users);
-
 
                             if (userTableView == null) {
                                 System.err.println("Error: userTableView is null. Check FXML and controller bindings.");
@@ -212,6 +240,14 @@ public class AccountController {
                             }
 
                             userTableView.setItems(userList);
+
+                            totalAccount.setText(String.valueOf(users.size()));
+                            long accountAdminCount = users.stream().filter(a -> a.getUserRole().equals("admin"))
+                                    .count();
+                            long accountClientCount = users.stream().filter(a -> a.getUserRole().equals("client"))
+                                    .count();
+                            totalAccountClient.setText(String.valueOf(accountClientCount));
+                            totalAccountAdmin.setText(String.valueOf(accountAdminCount));
                         } catch (Exception e) {
                             e.printStackTrace();
 
@@ -228,9 +264,5 @@ public class AccountController {
             }
         }).start();
     }
-
-
-
-
 
 }

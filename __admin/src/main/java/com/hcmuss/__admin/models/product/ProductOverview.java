@@ -1,19 +1,9 @@
-package com.api.backend.models.product;
+package com.hcmuss.__admin.models.product;
 
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "productOverview")
-
-@Component
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductOverview {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     private String body;
     private String productCondition;
     private Integer mileage;
@@ -27,17 +17,13 @@ public class ProductOverview {
     private String driveType;
     private String vin;
 
-    @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
     public ProductOverview() {
     }
 
     public ProductOverview(String body, String productCondition, Integer mileage, double engineSize, String fuelType,
             Integer doors, Integer year, Integer cylinders, String transmission, String color, String driveType,
             String vin) {
+
         this.body = body;
         this.productCondition = productCondition;
         this.mileage = mileage;
@@ -52,31 +38,22 @@ public class ProductOverview {
         this.vin = vin;
     }
 
-    public ProductOverview(int id, String body, String productCondition, Integer mileage, double engineSize,
-            String fuelType, Integer doors, Integer year, Integer cylinders, String transmission, String color,
-            String driveType,
-            String vin) {
-        this.id = id;
-        this.body = body;
-        this.productCondition = productCondition;
-        this.mileage = mileage;
-        this.engineSize = engineSize;
-        this.fuelType = fuelType;
-        this.doors = doors;
-        this.year = year;
-        this.cylinders = cylinders;
-        this.transmission = transmission;
-        this.color = color;
-        this.driveType = driveType;
-        this.vin = vin;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String toString() {
+        return "ProductOverview{" +
+                "body='" + body + '\'' +
+                ", productCondition='" + productCondition + '\'' +
+                ", mileage=" + mileage +
+                ", engineSize=" + engineSize +
+                ", fuelType='" + fuelType + '\'' +
+                ", doors=" + doors +
+                ", year=" + year +
+                ", cylinders=" + cylinders +
+                ", transmission='" + transmission + '\'' +
+                ", color='" + color + '\'' +
+                ", driveType='" + driveType + '\'' +
+                ", vin='" + vin + '\'' +
+                '}';
     }
 
     public String getBody() {
@@ -87,19 +64,19 @@ public class ProductOverview {
         this.body = body;
     }
 
-    public String getCondition() {
+    public String getProductCondition() {
         return productCondition;
     }
 
-    public void setCondition(String condition) {
-        this.productCondition = condition;
+    public void setProductCondition(String productCondition) {
+        this.productCondition = productCondition;
     }
 
     public Integer getMileage() {
         return mileage;
     }
 
-    public void setMileage(int mileage) {
+    public void setMileage(Integer mileage) {
         this.mileage = mileage;
     }
 
@@ -123,7 +100,7 @@ public class ProductOverview {
         return doors;
     }
 
-    public void setDoors(int doors) {
+    public void setDoors(Integer doors) {
         this.doors = doors;
     }
 
@@ -131,7 +108,7 @@ public class ProductOverview {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -139,7 +116,7 @@ public class ProductOverview {
         return cylinders;
     }
 
-    public void setCylinders(int cylinders) {
+    public void setCylinders(Integer cylinders) {
         this.cylinders = cylinders;
     }
 
@@ -174,29 +151,4 @@ public class ProductOverview {
     public void setVin(String vin) {
         this.vin = vin;
     }
-
-    public String getProductCondition() {
-        return productCondition;
-    }
-
-    public void setProductCondition(String productCondition) {
-        this.productCondition = productCondition;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductOverview [id=" + id + ", body=" + body + ", productCondition=" + productCondition + ", mileage="
-                + mileage + ", engineSize=" + engineSize + ", fuelType=" + fuelType + ", doors=" + doors + ", year="
-                + year + ", cylinders=" + cylinders + ", transmission=" + transmission + ", color=" + color
-                + ", driveType=" + driveType + ", vin=" + vin + ", product=" + product + "]";
-    }
-
 }

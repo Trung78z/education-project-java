@@ -11,7 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.__admin.controllers.LoginController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.__admin.controllers.LoginController">
     <children>
         <!-- Background -->
         <ImageView fitHeight="600.0" fitWidth="800.0" opacity="0.72" preserveRatio="true">
@@ -36,7 +38,8 @@
                 <HBox alignment="CENTER" spacing="10.0" />
 
                 <!-- Login Button -->
-                <Button fx:id="loginButton" onAction="#handleLogin" style="-fx-background-color: #007BFF; -fx-text-fill: white;" text="Log In" />
+                <Button fx:id="loginButton" onAction="#handleLogin" onKeyPressed="#handleKeyPressed"
+                        style="-fx-background-color: #007BFF; -fx-text-fill: white;" text="Log In"/>
             </children>
         </VBox>
       <Label layoutX="14.0" layoutY="14.0" text="BOXCARS">

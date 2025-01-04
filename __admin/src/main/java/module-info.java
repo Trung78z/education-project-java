@@ -21,5 +21,7 @@ module com.hcmuss.__admin {
     exports com.hcmuss.__admin.models;
     exports com.hcmuss.__admin.dtos;
     opens com.hcmuss.__admin.dtos to javafx.fxml;
+    exports com.hcmuss.__admin.models.product;
+    opens com.hcmuss.__admin.models.product to javafx.base;
     uses  com.hcmuss.__admin.Main;
 }

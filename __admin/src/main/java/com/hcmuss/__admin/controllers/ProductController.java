@@ -3,19 +3,26 @@ package com.hcmuss.__admin.controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.hcmuss.__admin.models.Product;
+import com.hcmuss.__admin.models.product.ProductResponse;
 
 import com.hcmuss.__admin.utils.JsonListResponse;
+import com.hcmuss.__admin.utils.TokenStorage;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -25,28 +32,38 @@ import java.util.List;
 
 public class ProductController {
 
+    @FXML
+    private TableView<ProductResponse> productTable;
+    @FXML
+    private TableColumn<ProductResponse, Integer> colId;
+    @FXML
+    private TableColumn<ProductResponse, String> colName;
+    @FXML
+    private TableColumn<ProductResponse, Double> colPrice;
+    @FXML
+    private TableColumn<ProductResponse, Integer> colQuantity;
+    @FXML
+    private TableColumn<ProductResponse, String> colType;
+    @FXML
+    private TableColumn<ProductResponse, Double> colDiscount;
+    @FXML
+    private TableColumn<ProductResponse, String> categoryColumn;
 
     @FXML
-    private TableView<Product> productTable;
-    @FXML
-    private TableColumn<Product, Integer> colId;
-    @FXML
-    private TableColumn<Product, String> colName;
-    @FXML
-    private TableColumn<Product, Double> colPrice;
-    @FXML
-    private TableColumn<Product, Integer> colQuantity;
-    @FXML
-    private TableColumn<Product, String> colType;
-    @FXML
-    private TableColumn<Product, Double> colDiscount;
-    @FXML
-    private TableColumn<Product, String> categoryColumn;
-
-    @FXML
-    private TableColumn<Product, Void> actionColumn;
+    private TableColumn<ProductResponse, Void> actionColumn;
     HttpClient client = HttpClient.newHttpClient();
 
+    @FXML
+    private Label priceMax;
+
+    @FXML
+    private Label priceMin;
+
+    @FXML
+    private Label totalProduct;
+
+    @FXML
+    private Pane paneAddProduct;
 
     @FXML
     public void initialize() {
@@ -82,18 +99,15 @@ public class ProductController {
                 editButton.setPrefSize(25, 25);
                 deleteButton.setPrefSize(25, 25);
 
-
                 actionBox.setSpacing(5);
 
-
                 editButton.setOnAction(event -> {
-                    Product product = getTableView().getItems().get(getIndex());
+                    ProductResponse product = getTableView().getItems().get(getIndex());
                     handleEditUser(product);
                 });
 
-
                 deleteButton.setOnAction(event -> {
-                    Product product = getTableView().getItems().get(getIndex());
+                    ProductResponse product = getTableView().getItems().get(getIndex());
                     handleDeleteUser(product);
                 });
             }
@@ -111,18 +125,16 @@ public class ProductController {
         });
     }
 
-
-    private void handleEditUser(Product product) {
+    private void handleEditUser(ProductResponse product) {
         System.out.println("Editing product: " + product);
 
     }
 
-    private void handleDeleteUser(Product product) {
-
+    private void handleDeleteUser(ProductResponse product) {
 
         String url = "http://localhost:8080/api/v1/product/" + product.getId();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
+                .uri(URI.create(url)).header("Authorization", "Bearer " + TokenStorage.getToken())
                 .DELETE()
                 .build();
 
@@ -136,6 +148,8 @@ public class ProductController {
                         System.out.println("User deleted successfully.");
 
                         productTable.getItems().remove(product);
+                        int totalProducts = productTable.getItems().size();
+                        totalProduct.setText(String.valueOf(totalProducts));
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
                         Notifications.create()
@@ -163,8 +177,28 @@ public class ProductController {
         }).start();
     }
 
+    @FXML
+    void addProduct(MouseEvent event) {
+        switchToDashboard();
+    }
+
+    private void switchToDashboard() {
+        try {
+
+            FXMLLoader fxmlAddNews = new FXMLLoader(
+                    getClass().getResource("/com/hcmuss/__admin/fxml/product_add.fxml"));
+            Scene newsScene = new Scene(fxmlAddNews.load(), 1280, 768);
+            Stage stage = (Stage) paneAddProduct.getScene().getWindow();
+            stage.setScene(newsScene);
+            stage.setTitle("New Product");
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void getProducts() {
-        ObservableList<Product> productList = FXCollections.observableArrayList();
+        ObservableList<ProductResponse> productList = FXCollections.observableArrayList();
         String url = "http://localhost:8080/api/v1/product";
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -180,14 +214,12 @@ public class ProductController {
                     if (httpResponse.statusCode() == 200) {
                         try {
 
-                            JsonListResponse<Product> parsedResponse = objectMapper.readValue(
+                            JsonListResponse<ProductResponse> parsedResponse = objectMapper.readValue(
                                     httpResponse.body(),
-                                    new TypeReference<JsonListResponse<Product>>() {
-                                    }
-                            );
-                            List<Product> products = parsedResponse.getMessage();
+                                    new TypeReference<JsonListResponse<ProductResponse>>() {
+                                    });
+                            List<ProductResponse> products = parsedResponse.getMessage();
                             productList.addAll(products);
-
 
                             if (productTable == null) {
                                 System.err.println("Error: productTable is null. Check FXML and controller bindings.");
@@ -195,6 +227,17 @@ public class ProductController {
                             }
 
                             productTable.setItems(productList);
+
+                            double maxPrice = productList.stream().mapToDouble(ProductResponse::getPrice).max()
+                                    .orElse(0);
+                            double minPrice = productList.stream().mapToDouble(ProductResponse::getPrice).min()
+                                    .orElse(0);
+                            int totalProducts = productList.size();
+
+                            priceMax.setText(String.format("%.2f", maxPrice));
+                            priceMin.setText(String.format("%.2f", minPrice));
+                            totalProduct.setText(String.valueOf(totalProducts));
+
                         } catch (Exception e) {
                             e.printStackTrace();
 

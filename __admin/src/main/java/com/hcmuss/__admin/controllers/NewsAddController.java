@@ -8,6 +8,7 @@ import com.hcmuss.__admin.models.NewCategory;
 import com.hcmuss.__admin.models.News;
 import com.hcmuss.__admin.utils.ApiResponse;
 import com.hcmuss.__admin.utils.JsonListResponse;
+import com.hcmuss.__admin.utils.TokenStorage;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -78,7 +79,6 @@ public class NewsAddController {
         String imageUrl = image;
         boolean isPublic = publicComboBox.getValue() != null && publicComboBox.getValue().equals("False");
         NewCategory selectedCategory = categoryComboBox.getValue();
-        System.out.println(imageUrl);
         if (title == null || title.isEmpty() ||
                 description == null || description.isEmpty() ||
                 content == null || content.isEmpty() ||
@@ -107,6 +107,7 @@ public class NewsAddController {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("http://localhost:8080/api/v1/new"))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + TokenStorage.getToken())
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
 
@@ -124,17 +125,7 @@ public class NewsAddController {
                 alert.showAndWait();
 
                 // Switch to dashboard
-                try {
-                    FXMLLoader fxmlLoaderDashboard = new FXMLLoader(
-                            getClass().getResource("/com/hcmuss/__admin/fxml/dashboard.fxml"));
-                    Scene dashboardScene = new Scene(fxmlLoaderDashboard.load(), 1280, 768);
-                    Stage stage = (Stage) titleField.getScene().getWindow();
-                    stage.setScene(dashboardScene);
-                    stage.setTitle("Dashboard");
-                    stage.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                switchToDashboard();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -146,6 +137,26 @@ public class NewsAddController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void switchToDashboard() {
+        try {
+            FXMLLoader fxmlLoaderDashboard = new FXMLLoader(
+                    getClass().getResource("/com/hcmuss/__admin/fxml/dashboard.fxml"));
+            Scene dashboardScene = new Scene(fxmlLoaderDashboard.load(), 1280, 768);
+            Stage stage = (Stage) titleField.getScene().getWindow();
+            stage.setScene(dashboardScene);
+            stage.setTitle("Dashboard");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void closeNews(ActionEvent event) {
+        switchToDashboard();
 
     }
 
@@ -247,4 +258,5 @@ public class NewsAddController {
             }
         }).start();
     }
+
 }

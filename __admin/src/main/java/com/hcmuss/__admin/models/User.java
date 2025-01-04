@@ -2,35 +2,39 @@ package com.hcmuss.__admin.models;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String id;
     private String username;
     private String phone;
     private String email;
     private String fullName;
+    private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Role role;
     private String token;
-
 
     // Constructors
 
     public User() {
     }
 
-    public User(String id, String username, String phone, String email, String fullName, LocalDateTime createdAt, LocalDateTime updatedAt, Role role, String token) {
+    public User(String id, String username, String phone, String email, String fullName, String address,
+            LocalDateTime createdAt, LocalDateTime updatedAt, Role role, String token) {
         this.id = id;
         this.username = username;
         this.phone = phone;
         this.email = email;
         this.fullName = fullName;
+        this.address = address;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.role = role;
         this.token = token;
     }
-
 
     public String getId() {
         return id;
@@ -108,7 +112,6 @@ public class User {
         this.token = token;
     }
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -122,5 +125,13 @@ public class User {
                 ", role=" + role +
                 ", token='" + token + '\'' +
                 '}';
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

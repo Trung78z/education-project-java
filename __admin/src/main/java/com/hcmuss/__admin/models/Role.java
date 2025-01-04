@@ -1,10 +1,15 @@
 package com.hcmuss.__admin.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Role {
     private int id;
     private String roleName;
 
     // Constructors
-    public Role() {}
+    public Role() {
+    }
 
     public Role(int id, String roleName) {
         this.id = id;

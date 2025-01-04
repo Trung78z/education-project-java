@@ -1,39 +1,27 @@
-package com.api.backend.models.product;
+package com.hcmuss.__admin.models.product;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "productEngineAndTransmission")
-@Component
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductEngineAndTransmission {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private Integer fuelTankCapacity;
     private Integer maxTowingWeightBraked;
     private Integer maxTowingWeightUnbraked;
     private Integer minimumKerbweight;
     private Integer turningCircleKerbToKerb;
 
-    @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 
     public ProductEngineAndTransmission() {
     }
 
-    public ProductEngineAndTransmission(Integer fuelTankCapacity, Integer maxTowingWeightBraked,
-                                        Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Integer turningCircleKerbToKerb,
-                                        Product product) {
+    public ProductEngineAndTransmission(Integer fuelTankCapacity, Integer maxTowingWeightBraked, Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Integer turningCircleKerbToKerb) {
+
         this.fuelTankCapacity = fuelTankCapacity;
         this.maxTowingWeightBraked = maxTowingWeightBraked;
         this.maxTowingWeightUnbraked = maxTowingWeightUnbraked;
         this.minimumKerbweight = minimumKerbweight;
         this.turningCircleKerbToKerb = turningCircleKerbToKerb;
-        this.product = product;
     }
 
     public Integer getFuelTankCapacity() {
@@ -75,21 +63,4 @@ public class ProductEngineAndTransmission {
     public void setTurningCircleKerbToKerb(Integer turningCircleKerbToKerb) {
         this.turningCircleKerbToKerb = turningCircleKerbToKerb;
     }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    @Override
-    public String toString() {
-        return "ProductEngineAndTransmission [fuelTankCapacity=" + fuelTankCapacity + ", maxTowingWeightBraked="
-                + maxTowingWeightBraked + ", maxTowingWeightUnbraked=" + maxTowingWeightUnbraked
-                + ", minimumKerbweight=" + minimumKerbweight + ", turningCircleKerbToKerb=" + turningCircleKerbToKerb
-                + ", product=" + product + "]";
-    }
-
 }

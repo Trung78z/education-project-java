@@ -1,6 +1,5 @@
 package com.hcmuss.__admin.controllers;
 
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hcmuss.__admin.dtos.MessageLogin;
@@ -12,6 +11,9 @@ import javafx.scene.control.*;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,12 +24,8 @@ import java.net.http.HttpResponse;
 
 public class LoginController {
 
-    private Helpers helpers = new Helpers();
-
-
     @FXML
-    private Label text_label;
-
+    private AnchorPane rootPane;
     @FXML
     private Button loginButton;
     @FXML
@@ -36,9 +34,29 @@ public class LoginController {
     @FXML
     private TextField username;
 
+    public void initialize() {
+        rootPane.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                handleLogin();
+            }
+        });
+    }
+
+    @FXML
+    protected void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            login();
+            System.out.println("press");
+        }
+
+    }
 
     @FXML
     protected void handleLogin() {
+        login();
+    }
+
+    private void login() {
         String usernameInput = username.getText();
         String passwordInput = password.getText();
 
@@ -83,13 +101,11 @@ public class LoginController {
                             JsonObjectResponse<MessageLogin> parsedResponse = objectMapper.readValue(
                                     response.body(),
                                     new TypeReference<JsonObjectResponse<MessageLogin>>() {
-                                    }
-                            );
+                                    });
 
                             // Lấy token từ response
                             MessageLogin message = parsedResponse.getMessage();
                             String token = message.getToken();
-
 
                             // Lưu token hoặc xử lý thêm nếu cần
                             TokenStorage.saveToken(token);
@@ -111,18 +127,19 @@ public class LoginController {
                 showAlert("Lỗi kết nối", "Không thể kết nối tới máy chủ. Vui lòng thử lại.");
             }
         }).start();
-    }
 
+    }
 
     private void switchToDashboard() {
         try {
-            FXMLLoader fxmlLoaderDashboard = new FXMLLoader(getClass().getResource("/com/hcmuss/__admin/fxml/dashboard.fxml"));
+            FXMLLoader fxmlLoaderDashboard = new FXMLLoader(
+                    getClass().getResource("/com/hcmuss/__admin/fxml/dashboard.fxml"));
 
             Scene dashboardScene = new Scene(fxmlLoaderDashboard.load(), 1280, 768);
             Stage stage = (Stage) loginButton.getScene().getWindow();
             stage.setScene(dashboardScene);
             stage.setTitle("Dashboard");
-            helpers.SwitchScene(stage);
+            stage.centerOnScreen();
         } catch (Exception e) {
             e.printStackTrace();
         }
