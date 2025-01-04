@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.api.backend.dto.users.UserRoleDTO;
 import com.api.backend.models.user.UserRole;
 import com.api.backend.services.UserRoleService;
 import com.api.backend.utils.ResponseWrapper;
@@ -30,9 +31,12 @@ public class UserRoleController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<ResponseWrapper<UserRole>> addRole(@RequestBody UserRole role) {
+    public ResponseEntity<ResponseWrapper<UserRole>> addRole(@RequestBody UserRoleDTO role) {
         try {
-            UserRole res = userRoleService.save(role);
+
+            UserRole res = new UserRole();
+            res.setRoleName(role.getRoleName());
+            userRoleService.save(res);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, res));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
