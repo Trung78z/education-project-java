@@ -1,7 +1,9 @@
 package com.hcmuss.__admin.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.List;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductBrand {
     private Integer id;
     private String name;

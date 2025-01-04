@@ -48,6 +48,8 @@ public class Users {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    private String address;
+
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
@@ -132,4 +134,11 @@ public class Users {
         this.userRole = userRole;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

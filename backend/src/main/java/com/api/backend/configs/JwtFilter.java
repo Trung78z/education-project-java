@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -18,6 +20,8 @@ import com.api.backend.services.JWTService;
 import com.api.backend.services.MyUserDetailsService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -33,8 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
             @SuppressWarnings("null") HttpServletResponse response,
             @SuppressWarnings("null") FilterChain filterChain)
             throws ServletException, IOException {
-        // Bearer
-        // eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJraWxsIiwiaWF0IjoxNzIzMTgzNzExLCJleHAiOjE3MjMxODM4MTl9.5nf7dRzKRiuGurN2B9dHh_M5xiu73ZzWPr6rbhOTTHs
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
@@ -46,11 +49,22 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(username);
+
+            String role = jwtService.extractRole(token);
+
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
                         null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request));
+                if ("admin".equals(role)) {
+
+                    List<GrantedAuthority> authorities = new ArrayList<>(userDetails.getAuthorities());
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+                    // Tạo lại authToken với quyền admin
+                    authToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                }
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }

@@ -46,10 +46,12 @@ public class UserService {
     }
 
     public String verify(Users user) {
+        Users existsUser = userRepository.findByUsername(user.getUsername());
+        System.out.println(existsUser.getUserRole().getRoleName());
         Authentication authentication = authManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername());
+            return jwtService.generateToken(user.getUsername(), existsUser.getUserRole().getRoleName());
         } else {
             return "fail";
         }

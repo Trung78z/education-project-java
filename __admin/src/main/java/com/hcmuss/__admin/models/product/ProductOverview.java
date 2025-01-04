@@ -4,14 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "productOverview")
@@ -35,7 +28,7 @@ public class ProductOverview {
     private String vin;
 
     @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -92,6 +85,14 @@ public class ProductOverview {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getCondition() {
+        return productCondition;
+    }
+
+    public void setCondition(String condition) {
+        this.productCondition = condition;
     }
 
     public Integer getMileage() {

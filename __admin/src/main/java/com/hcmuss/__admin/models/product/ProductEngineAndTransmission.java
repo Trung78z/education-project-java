@@ -1,10 +1,8 @@
 package com.api.backend.models.product;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "productEngineAndTransmission")
@@ -20,7 +18,7 @@ public class ProductEngineAndTransmission {
     private Integer turningCircleKerbToKerb;
 
     @JsonBackReference
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -28,8 +26,8 @@ public class ProductEngineAndTransmission {
     }
 
     public ProductEngineAndTransmission(Integer fuelTankCapacity, Integer maxTowingWeightBraked,
-            Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Integer turningCircleKerbToKerb,
-            Product product) {
+                                        Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Integer turningCircleKerbToKerb,
+                                        Product product) {
         this.fuelTankCapacity = fuelTankCapacity;
         this.maxTowingWeightBraked = maxTowingWeightBraked;
         this.maxTowingWeightUnbraked = maxTowingWeightUnbraked;

@@ -6,39 +6,31 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "productInterior")
 @Component
-public class ProductInterior {
+
+@Entity
+@Table(name = "productComfortConvenience")
+
+public class ProductComfortConvenience {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    public ProductInterior() {
+    public ProductComfortConvenience() {
     }
 
-    public ProductInterior(String name, Product product) {
-        this.name = name;
-        this.product = product;
-    }
-
-    public ProductInterior(Integer id, String name, Product product) {
-        this.id = id;
-        this.name = name;
-        this.product = product;
-    }
-
-    public ProductInterior(String name) {
+    public ProductComfortConvenience(String name) {
         this.name = name;
     }
 
-    public ProductInterior(Integer id, String name) {
+    public ProductComfortConvenience(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -69,7 +61,7 @@ public class ProductInterior {
 
     @Override
     public String toString() {
-        return "ProductInterior [id=" + id + ", name=" + name + ", product=" + product + "]";
+        return "ProductComfortConvenience [id=" + id + ", name=" + name + ", product=" + product + "]";
     }
 
 }

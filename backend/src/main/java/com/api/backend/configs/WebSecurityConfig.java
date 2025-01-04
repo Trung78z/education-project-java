@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 // .requestMatchers("/api/v1/auth/*", "/api/v1/role-user",
                 // "/api/v1/users").permitAll()
 
-                .requestMatchers("/api/v1/protected/*", "/api/v1/admin/*").authenticated()
+                .requestMatchers("/api/v1/protected/*", "/api/v1/admin/*", "/hello").authenticated()
                 .requestMatchers("/api/v1/auth/*", "/api/v1/role-user", "/api/v1/users").permitAll()
                 .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

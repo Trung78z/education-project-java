@@ -12,6 +12,7 @@ public class UserDTO {
     private String phone;
     private String email;
     private String fullName;
+    private String address;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -30,6 +31,7 @@ public class UserDTO {
         this.fullName = user.getFullName();
         this.createdAt = user.getCreatedAt();
         this.updatedAt = user.getUpdatedAt();
+        this.address = user.getAddress();
         this.role = new UserRoleDTO(user.getUserRole());
     }
 
@@ -103,6 +105,14 @@ public class UserDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
 }
