@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.api.backend.models.Transaction;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -15,6 +18,7 @@ import jakarta.persistence.*;
 @Table(name = "products")
 @Component
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +26,8 @@ public class Product {
     private String name;
     private double price;
     private Integer quantity;
+    @Lob
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String image;
     @Lob
     private String description;
@@ -70,6 +76,11 @@ public class Product {
     @JsonProperty("engineAndTransmission")
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductEngineAndTransmission engineAndTransmission;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Transaction> transactions;
 
     public Product() {
     }
@@ -243,27 +254,11 @@ public class Product {
         this.engineAndTransmission = engineAndTransmission;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", quantity=" + quantity +
-                ", image='" + image + '\'' +
-                ", description='" + description + '\'' +
-                ", odometer='" + odometer + '\'' +
-                ", gearshift='" + gearshift + '\'' +
-                ", type='" + type + '\'' +
-                ", discount=" + discount +
-                ", productBrand=" + productBrand +
-                ", interior=" + interior +
-                ", exterior=" + exterior +
-                ", safety=" + safety +
-                ", comfortConvenience=" + comfortConvenience +
-                ", overview=" + overview +
-                ", dimensionsCapacity=" + dimensionsCapacity +
-                ", engineAndTransmission=" + engineAndTransmission +
-                '}';
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

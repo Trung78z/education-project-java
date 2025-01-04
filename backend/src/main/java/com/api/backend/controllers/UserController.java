@@ -9,7 +9,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import com.api.backend.dto.UserDTO;
+import com.api.backend.dto.users.UserDTO;
 import com.api.backend.models.user.Users;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;

@@ -5,18 +5,21 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.api.backend.models.Transaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "users")
+
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Users {
 
@@ -43,9 +46,8 @@ public class Users {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @NotNull
     @Size(min = 2, max = 50)
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
     private String address;
@@ -61,6 +63,10 @@ public class Users {
     @JoinColumn(name = "user_role_id", nullable = false)
     @JsonBackReference
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Transaction> transactions;
 
     public UUID getId() {
         return id;
@@ -140,5 +146,13 @@ public class Users {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

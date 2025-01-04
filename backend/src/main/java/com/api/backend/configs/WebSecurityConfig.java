@@ -1,8 +1,11 @@
 package com.api.backend.configs;
 
+import java.net.http.HttpRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -38,7 +41,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http.csrf(customizer -> customizer.disable()).authorizeHttpRequests(request -> request
 
                 // .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()
@@ -51,6 +53,18 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+        // return http.csrf(customizer -> customizer.disable())
+        // .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET,
+        // "/**").permitAll()
+        // .requestMatchers("/api/v1/users", "/api/v1/users/*", "/api/v1/role-user",
+        // "/api/v1/role-user/*",
+        // "/api/v1/auth/**", "/api/v1/transactions/**")
+        // .permitAll()
+        // .anyRequest().authenticated())
+        // .sessionManagement(session ->
+        // session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+        // .build();
 
     }
 

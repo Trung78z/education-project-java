@@ -3,6 +3,8 @@ package com.api.backend.controllers;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.api.backend.dto.product.ProductDTO;
@@ -14,7 +16,11 @@ import com.api.backend.services.ProductService;
 import com.api.backend.utils.ResponseWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -80,7 +86,23 @@ public class ProductController extends HttpServlet {
                         throws ServletException, IOException {
                 try {
                         InputStreamReader reader = new InputStreamReader(request.getInputStream());
-                        Gson gson = new Gson();
+
+                        Gson gson = new GsonBuilder()
+                                        .registerTypeAdapter(LocalDateTime.class, new TypeAdapter<LocalDateTime>() {
+                                                @Override
+                                                public void write(JsonWriter out, LocalDateTime value)
+                                                                throws IOException {
+                                                        out.value(value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                                                }
+
+                                                @Override
+                                                public LocalDateTime read(JsonReader in) throws IOException {
+                                                        return LocalDateTime.parse(in.nextString(),
+                                                                        DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                                }
+                                        })
+                                        .create();
+
                         Product productData = gson.fromJson(reader, Product.class);
                         Product product = productService.PostProduct(productData);
 

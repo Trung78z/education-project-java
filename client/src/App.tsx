@@ -13,6 +13,7 @@ import LayoutNoNavbar from "./components/LayoutNoNavbar";
 import List from "./pages/List";
 import NewsDetail from "./pages/News-detail";
 import ProductDetail from "./pages/Product-detail";
+import ChangePassword from "./pages/Change-password";
 
 function App() {
   useEffect(() => {
@@ -21,7 +22,6 @@ function App() {
         await axios.get("/", {
           withCredentials: true,
         });
-        // console.log(res);
       } catch (error) {
         console.log(error);
       }
@@ -39,6 +39,7 @@ function App() {
           <Route path="/auth" element={<LayoutNoNavbar />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="change-password" element={<ChangePassword />} />
           </Route>
 
           <Route path="" element={<Layout />}>

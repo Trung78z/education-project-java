@@ -4,17 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.api.backend.dto.TokenRequest;
-import com.api.backend.dto.UserDTO;
-import com.api.backend.dto.UserToken;
+import com.api.backend.dto.users.ChangePasswordRequest;
+
+import com.api.backend.dto.users.UserDTO;
+import com.api.backend.dto.users.UserLoginDTO;
+import com.api.backend.dto.users.UserToken;
 import com.api.backend.models.user.Users;
 import com.api.backend.services.JWTService;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/api/v1/auth")
@@ -43,8 +48,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseWrapper<UserToken>> login(@RequestBody Users user) {
+    public ResponseEntity<ResponseWrapper<UserToken>> login(@RequestBody UserLoginDTO userLoginDTO) {
         try {
+            Users user = new Users();
+            user.setUsername(userLoginDTO.getUsername());
+            user.setPassword(userLoginDTO.getPassword());
             String token = userService.verify(user);
             if (token.equals("fail")) {
                 return ResponseEntity.badRequest()
@@ -63,12 +71,12 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/check-token")
-    public ResponseEntity<ResponseWrapper<String>> checkToken(@RequestBody TokenRequest tokenRequest) {
+    @GetMapping("/check-token")
+    public ResponseEntity<ResponseWrapper<String>> checkToken(HttpServletRequest httpServletRequest) {
         try {
-            String token = tokenRequest.getToken();
+            String token = httpServletRequest.getHeader("Authorization").substring(7);
             boolean isValid = tokenService.validateToken(token);
-
+            System.out.println(token);
             if (isValid) {
                 return ResponseEntity.ok(new ResponseWrapper<>(true, 200, "Token is valid"));
             } else {
@@ -81,4 +89,24 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/change-password")
+    public ResponseEntity<ResponseWrapper<String>> changePassword(@RequestBody ChangePasswordRequest request,
+            HttpServletRequest httpServletRequest) {
+        try {
+            String token = httpServletRequest.getHeader("Authorization").substring(7);
+            String username = tokenService.extractUserName(token);
+
+            boolean isChanged = userService.changePassword(username, request.getOldPassword(),
+                    request.getNewPassword());
+            if (isChanged) {
+                return ResponseEntity.ok(new ResponseWrapper<>(200, "Password changed successfully"));
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseWrapper<>(400, "Invalid old password"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseWrapper<>(500, "Internal Server Error"));
+        }
+    }
 }

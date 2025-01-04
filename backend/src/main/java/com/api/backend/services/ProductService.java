@@ -37,11 +37,19 @@ public class ProductService {
 
     }
 
+    public void updateProduct(Product product) {
+        productRepository.save(product);
+    }
+
+    public Product getProductById(Integer id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
     public List<ProductDTO> GetProduct() {
         List<Product> products = productRepository.findAll();
 
         return products.stream().map(product -> {
-            System.out.println(product.getProductBrand());
+
             ProductDTO productDTO = new ProductDTO();
 
             productDTO.setId(product.getId());
@@ -361,7 +369,7 @@ public class ProductService {
             productRepository.deleteById(id);
 
         } catch (Exception e) {
-            System.out.println("Error deleting product: " + e.getMessage());
+
             throw new RuntimeException("Error deleting product", e);
         }
     }

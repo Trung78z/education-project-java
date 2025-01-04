@@ -1,16 +1,22 @@
 import Navbar from "../components/Navbar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
-// import { ReactElement, ReactHTML } from "react";
+import { postAuth } from "../services/authService";
+import axios from "axios";
+
 const formSchema = z.object({
-  email: z.string().email({ message: "Vui lòng nhập email" }),
-  password: z.string().min(6, "Mật khẩu phải có ít nhất 8 ký tự"),
+  username: z.string().min(4, { message: "Please enter a username" }),
+  email: z.string().email({ message: "Please enter a valid email" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters long" }),
 });
+
 type FormValues = z.infer<typeof formSchema>;
 export default function Register() {
   useScrollToTop();
@@ -23,27 +29,43 @@ export default function Register() {
     resolver: zodResolver(formSchema),
   });
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    // try {
-    //   const res = await authChange(data);
-    //   if (res.success == false) {
-    //     return Swal.fire({
-    //       icon: "error",
-    //       html: `<b>Rất tiếc! </b> <br />Bạn đổi mật khẩu không thành công <br /> Vì ${res.msg}`,
-    //       showConfirmButton: false,
-    //       timer: 3000,
-    //     });
-    //   }
-    //   Swal.fire({
-    //     icon: "success",
-    //     html: "Chúc mừng bạn!  <br />Bạn đã đổi mật khẩu thành công!",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    navigate("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    const dataPayload = {
+      ...data,
+      userRole: {
+        id: 1,
+      },
+    };
+    try {
+      const res = await postAuth(dataPayload);
+      if (res.data.success == false) {
+        return Swal.fire({
+          icon: "error",
+          html: `<b>Sorry! </b> <br />Your registration was unsuccessful. <br />`,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+      Swal.fire({
+        icon: "success",
+        html: "Congratulations! <br />You have successfully registered!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/auth/login");
+    } catch (error: unknown) {
+      let errorMessage = "An unexpected error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage = error.response.data.error || errorMessage;
+      }
+
+      return Swal.fire({
+        icon: "error",
+        html: `<b>Sorry! </b> <br />Your registration was unsuccessful. <br /> <br>${errorMessage}</br>`,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,9 +83,18 @@ export default function Register() {
                 <h1 className="text-3xl font-semibold text-white">
                   Register with boxcars
                 </h1>
-                <p className="text-gray-300">
-                  Chào mừng bạn đến với của hàng của chúng tôi
-                </p>
+                <p className="text-gray-300">Welcome to our store!</p>
+              </div>
+              <div className="">
+                <Input
+                  id="username"
+                  placeholder="Username"
+                  onChange={handleChange}
+                  className="sm-w[440px] h-12 border-black bg-gray-400"
+                />
+                {errors.username && (
+                  <p className="text-red-500">{errors.username.message}</p>
+                )}
               </div>
               <div className="">
                 <Input
@@ -113,18 +144,18 @@ export default function Register() {
               </ul>
               <div className="text-center text-white">
                 <h4>
-                  Bạn đã có tài khoản?
+                  Already have an account?
                   <Link
                     to="/auth/login"
                     className="text-blue-500 hover:text-blue-600"
                   >
-                    Đăng nhập
+                    Login
                   </Link>
                 </h4>
               </div>
               <div className="flex items-center justify-center">
                 <Button className="px-28 py-6" type="primary" htmlType="submit">
-                  Đăng kí
+                  Register
                 </Button>
               </div>
             </form>

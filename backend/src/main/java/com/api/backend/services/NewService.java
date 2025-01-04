@@ -32,7 +32,6 @@ public class NewService {
     public New getNewById(Integer newId) {
         Optional<New> optionalNew = newRepository.findById(newId);
 
-        System.out.println(optionalNew.get());
         if (optionalNew.isPresent()) {
             return optionalNew.get();
         } else {

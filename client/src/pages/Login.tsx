@@ -1,16 +1,20 @@
 import Navbar from "../components/Navbar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
-// import { ReactElement, ReactHTML } from "react";
+import { useAppDispatch } from "../hooks/hook-redux";
+import { login } from "../features/auth/authSlice";
 const formSchema = z.object({
-  email: z.string().email({ message: "Vui lòng nhập email" }),
-  password: z.string().min(6, "Mật khẩu phải có ít nhất 8 ký tự"),
+  username: z.string().min(4, { message: "Please enter a username" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 8 characters long" }),
 });
+
 type FormValues = z.infer<typeof formSchema>;
 export default function Login() {
   useScrollToTop();
@@ -22,28 +26,38 @@ export default function Login() {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
+
+  const dispatch = useAppDispatch();
+
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    // try {
-    //   const res = await authChange(data);
-    //   if (res.success == false) {
-    //     return Swal.fire({
-    //       icon: "error",
-    //       html: `<b>Rất tiếc! </b> <br />Bạn đổi mật khẩu không thành công <br /> Vì ${res.msg}`,
-    //       showConfirmButton: false,
-    //       timer: 3000,
-    //     });
-    //   }
-    //   Swal.fire({
-    //     icon: "success",
-    //     html: "Chúc mừng bạn!  <br />Bạn đã đổi mật khẩu thành công!",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    navigate("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await dispatch(login(data));
+      if (res.meta.requestStatus === "fulfilled") {
+        localStorage.setItem("token", res.payload.token);
+        navigate("/");
+        return Swal.fire({
+          icon: "success",
+          html: `<b>Success! </b> <br />Login success <br />`,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      }
+
+      return Swal.fire({
+        icon: "error",
+        html: `<b>ERROR! </b> <br />Login fail <br />`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } catch (error) {
+      console.log(error);
+      return Swal.fire({
+        icon: "error",
+        html: `<b>ERROR! </b> <br />Login fail <br />`,
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,24 +75,23 @@ export default function Login() {
                 <h1 className="text-3xl font-semibold text-white">
                   Login with boxcars
                 </h1>
-                <p className="text-gray-300">
-                  Chào mừng bạn đến với của hàng của chúng tôi
-                </p>
+                <p className="text-gray-300">Welcome to our store!</p>
               </div>
               <div className="">
                 <Input
-                  id="email"
-                  placeholder="Email"
+                  id="username"
+                  placeholder="username"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black bg-gray-400"
                 />
-                {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                {errors.username && (
+                  <p className="text-red-500">{errors.username.message}</p>
                 )}
               </div>
               <div className="">
                 <Input
                   id="password"
+                  type="password"
                   placeholder="Password"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black bg-gray-400"
@@ -113,12 +126,12 @@ export default function Login() {
               </ul>
               <div className="text-center text-white">
                 <h4>
-                  Bạn chưa có tài khoản?
+                  Don't have an account?
                   <Link
                     to="/auth/register"
                     className="text-blue-500 hover:text-blue-600"
                   >
-                    Đăng kí
+                    Register
                   </Link>
                 </h4>
               </div>

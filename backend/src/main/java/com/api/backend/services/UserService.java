@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,23 +33,38 @@ public class UserService {
 
     @Autowired
     AuthenticationManager authManager;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
 
     public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
     }
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    public Users findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
+        Users currentUser = userRepository.findByUsername(username);
+
+        if (currentUser != null && passwordEncoder.matches(oldPassword, currentUser.getPassword())) {
+            currentUser.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(currentUser);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public Users register(Users user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return user;
     }
 
     public String verify(Users user) {
         Users existsUser = userRepository.findByUsername(user.getUsername());
-        System.out.println(existsUser.getUserRole().getRoleName());
+
         Authentication authentication = authManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated()) {
@@ -73,7 +90,7 @@ public class UserService {
         }
         if (exists.isPresent()) {
             user.setUserRole(exists.get());
-            user.setPassword(encoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
 
         } else {

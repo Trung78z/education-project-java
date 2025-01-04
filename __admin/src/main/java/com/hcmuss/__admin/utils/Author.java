@@ -1,9 +1,5 @@
 package com.hcmuss.__admin.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import javafx.application.Platform;
 
 import java.io.IOException;
@@ -17,25 +13,15 @@ import java.util.concurrent.CompletableFuture;
 public class Author {
 
     public static CompletableFuture<Boolean> HandleCheckLogin() {
-        String tokenPayload = TokenStorage.getToken();
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode jsonRequest = objectMapper.createObjectNode();
-        jsonRequest.put("token", tokenPayload);
 
-        String requestBody;
-        try {
-            requestBody = objectMapper.writeValueAsString(jsonRequest);
-        } catch (JsonProcessingException e) {
-            System.err.println("Error serializing request body: " + e.getMessage());
-            e.printStackTrace();
-            return CompletableFuture.completedFuture(false);
-        }
+
 
         String url = "http://localhost:8080/api/v1/auth/check-token";
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .header("Authorization", "Bearer " + TokenStorage.getToken())
+                .GET()
                 .build();
 
         CompletableFuture<Boolean> resultFuture = new CompletableFuture<>();

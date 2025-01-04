@@ -4,14 +4,19 @@ import { Dimensions, engine, information } from "../utils/data/product";
 import { Button } from "antd";
 import useScrollToTop from "../hooks/useScrollToTop";
 import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProductID } from "../features/product/productSlice";
 import { useLocation } from "react-router-dom";
 import { getNew } from "../features/news/newsSlice";
-
+import Swal from "sweetalert2";
+import { RiSubtractFill } from "react-icons/ri";
+import { IoMdAdd } from "react-icons/io";
+import { TransactionPayload } from "../types/transactionPayload";
+import { postTransactionService } from "../services/transactionService";
+import axios from "axios";
 export default function ProductDetail() {
   useScrollToTop();
-
+  const [quantity, setQuantity] = useState<number>(1);
   const { pathname } = useLocation();
   const id = pathname.split("/")[3];
 
@@ -28,6 +33,56 @@ export default function ProductDetail() {
   const infoData = information(dataID);
   const dimensionData = Dimensions(dataID);
   const engineData = engine(dataID);
+
+  const handleIncrease = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  const handleDecrease = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+  };
+  const totalPrice = (
+    dataID.price *
+    quantity *
+    (1 - dataID.discount / 100)
+  ).toLocaleString("vi-VN");
+  const handleBuyCar = async () => {
+    const data: TransactionPayload = {
+      productId: Number(id),
+      quantity: quantity,
+      totalPrice: dataID.price * (1 - dataID.discount / 100) * quantity,
+    };
+    try {
+      const res = await postTransactionService(data);
+      if (res.data.success === true) {
+        return Swal.fire({
+          icon: "success",
+          html: `
+        <b>Success!</b> <br />
+      Buy success <br />
+        Quantity: <span id="quantityDisplay">${quantity}</span>
+        <br />
+        Total Price: <span id="totalPrice">${totalPrice}</span>
+      `,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+    } catch (error) {
+      let errorMessage = "An unexpected error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage = error.response.data.error || errorMessage;
+      }
+
+      return Swal.fire({
+        icon: "error",
+        html: `<b>Sorry! </b> <br />Your buy was unsuccessful. <br /> <br>${errorMessage}</br>`,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
   return (
     <>
       <div className="container mx-auto space-y-10 p-2 sm:py-10">
@@ -39,7 +94,12 @@ export default function ProductDetail() {
             <div className="space-y-6">
               <div className="space-y-6">
                 <img
-                  src="/assets/images/product/cardetail.png"
+                  src={
+                    (dataID?.image.startsWith("http")
+                      ? dataID.image
+                      : `data:image/png;base64,${dataID.image}`) ||
+                    "/assets/images/product/cardetail.png"
+                  }
                   alt="poster"
                   className="rounded-md"
                 />
@@ -104,7 +164,7 @@ export default function ProductDetail() {
                         </li>
                       </ul>
                     ))}
-                  </div>{" "}
+                  </div>
                   <div className="col-span-1 space-y-3">
                     {dataID.safety.map((item) => (
                       <ul
@@ -117,7 +177,7 @@ export default function ProductDetail() {
                         </li>
                       </ul>
                     ))}
-                  </div>{" "}
+                  </div>
                   <div className="col-span-1 space-y-3">
                     {dataID.comfortConvenience.map((item) => (
                       <ul
@@ -213,16 +273,49 @@ export default function ProductDetail() {
                     ${dataID.price.toLocaleString("vi-VN")}
                   </li>
                 </ul>
-                <li className="list-none">
-                  Instant Saving: $
-                  {((dataID.price * dataID.discount) / 100).toLocaleString(
-                    "vi-VN",
-                  )}
-                </li>
+
+                <ul className="list-none">
+                  <li>
+                    <b>Instant Saving: </b>$
+                    {((dataID.price * dataID.discount) / 100).toLocaleString(
+                      "vi-VN",
+                    )}
+                  </li>
+                </ul>
+                <label>Quantity:</label>
+                <div className="flex items-center space-x-2">
+                  <button
+                    className="rounded-full border"
+                    onClick={handleDecrease}
+                  >
+                    <RiSubtractFill className="h-4 w-4 hover:text-gray-600" />
+                  </button>
+                  <p className="px-2">{quantity}</p>
+                  <button
+                    className="rounded-full border"
+                    onClick={handleIncrease}
+                  >
+                    <IoMdAdd className="h-4 w-4 hover:text-gray-600" />
+                  </button>
+                </div>
+                <div className="flex list-none items-center justify-between">
+                  <li> Total: {totalPrice}</li>
+                  <li>
+                    Total saving:
+                    {(
+                      ((dataID.price * dataID.discount) / 100) *
+                      quantity
+                    ).toLocaleString("vi-VN")}
+                  </li>
+                </div>
                 <ul className="list-none space-y-6">
                   <li>
-                    <Button type="primary" className="h-10 w-full bg-[#405FF2]">
-                      Mua ngay
+                    <Button
+                      type="primary"
+                      className="h-10 w-full bg-[#405FF2]"
+                      onClick={handleBuyCar}
+                    >
+                      Buy now
                     </Button>
                   </li>
                   <li>

@@ -1,10 +1,13 @@
 import { Button } from "antd";
 import Logo from "./Logo";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import { Drawer, Space } from "antd";
+import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
+import { checkAuth, logout } from "../features/auth/authSlice";
+import { FaUser } from "react-icons/fa6";
 const excludedPath: string[] = [
   "/",
   "/auth/login",
@@ -12,22 +15,37 @@ const excludedPath: string[] = [
   "/contact",
 ];
 const nav = [
-  { title: "Trang chủ", url: "/" },
-  { title: "Danh mục", url: "/list" },
-  { title: "Tin tức", url: "/news" },
-  { title: "Liên hệ", url: "/contact" },
-  { title: "Về chúng tôi", url: "/about" },
+  { title: "Home", url: "/" },
+  { title: "Categories", url: "/list" },
+  { title: "News", url: "/news" },
+  { title: "Contact", url: "/contact" },
+  { title: "About Us", url: "/about" },
 ];
+
 export default function Navbar() {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   const showDrawer = () => {
     setOpen(true);
   };
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  const { auth } = useAppSelector((state) => state.auth);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem("token");
+    navigate("/");
   };
 
   return (
@@ -67,11 +85,22 @@ export default function Navbar() {
               </li>
             ))}
 
-            <li>
-              <Link to="/auth/login">
-                <Button>Login</Button>
-              </Link>
-            </li>
+            <div className="flex flex-col items-center">
+              {auth ? (
+                <li>
+                  <div className="user-menu">
+                    <FaUser />
+                    <Button onClick={handleLogout}>Logout</Button>
+                  </div>
+                </li>
+              ) : (
+                <li>
+                  <Link to="/auth/login">
+                    <Button>Login</Button>
+                  </Link>
+                </li>
+              )}
+            </div>
           </Drawer>
 
           <ul className="hidden list-none items-center gap-x-4 sm:flex">
@@ -81,11 +110,30 @@ export default function Navbar() {
               </li>
             ))}
 
-            <li>
-              <Link to="/auth/login">
-                <Button>Login</Button>
-              </Link>
-            </li>
+            <div className="flex flex-col items-center">
+              {auth ? (
+                <li>
+                  <div className="user-menu group relative flex items-center gap-x-2">
+                    <FaUser />
+                    <div className="absolute right-0 top-4 hidden w-32 space-y-4 rounded-md bg-white p-2 shadow-md group-hover:block">
+                      <Link
+                        to="/auth/change-password"
+                        className="w-full flex-shrink-0 text-sm text-black"
+                      >
+                        Change password
+                      </Link>
+                      <Button onClick={handleLogout}>Logout</Button>
+                    </div>
+                  </div>
+                </li>
+              ) : (
+                <li>
+                  <Link to="/auth/login">
+                    <Button>Login</Button>
+                  </Link>
+                </li>
+              )}
+            </div>
           </ul>
         </div>
       </div>

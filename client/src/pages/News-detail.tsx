@@ -11,7 +11,6 @@ export default function NewsDetail() {
   const { data, dataID } = useAppSelector((state) => state.news);
   const { pathname } = useLocation();
   const id = pathname.split("/")[3];
-  console.log(id);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getNew());

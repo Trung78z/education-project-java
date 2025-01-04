@@ -315,21 +315,30 @@ public class ProductAddController {
                     color,
                     driveType,
                     vin);
-            List<ProductSafety> safetyFeaturesList = Arrays.stream(safetyFeatures.split("\n"))
+
+            List<ProductSafety> safetyFeaturesList = Arrays
+                    .stream(safetyFeatures.isEmpty() ? new String[] { safetyFeatures } : safetyFeatures.split("\n"))
                     .map(ProductSafety::new)
                     .collect(Collectors.toList());
 
-            List<ProductComfortConvenience> comfortConvenienceList = Arrays.stream(comfortConvenience.split("\n"))
+            List<ProductComfortConvenience> comfortConvenienceList = Arrays
+                    .stream(comfortConvenience.isEmpty() ? new String[] { comfortConvenience }
+                            : comfortConvenience.split("\n"))
                     .map(ProductComfortConvenience::new)
                     .collect(Collectors.toList());
 
-            List<ProductInterior> interiorFeaturesList = Arrays.stream(interiorFeatures.split("\n"))
+            List<ProductInterior> interiorFeaturesList = Arrays
+                    .stream(interiorFeatures.isEmpty() ? new String[] { interiorFeatures }
+                            : interiorFeatures.split("\n"))
                     .map(ProductInterior::new)
                     .collect(Collectors.toList());
 
-            List<ProductExterior> exteriorFeaturesList = Arrays.stream(exteriorFeatures.split("\n"))
+            List<ProductExterior> exteriorFeaturesList = Arrays
+                    .stream(exteriorFeatures.isEmpty() ? new String[] { exteriorFeatures }
+                            : exteriorFeatures.split("\n"))
                     .map(ProductExterior::new)
                     .collect(Collectors.toList());
+
             product.setOverview(productOverview);
             product.setDimensionsCapacity(dimensionsCapacity);
             product.setEngineAndTransmission(engineAndTransmission);
@@ -366,7 +375,6 @@ public class ProductAddController {
                     alert.setContentText("News added successfully!");
                     alert.showAndWait();
 
-                    // Switch to dashboard
                     switchToDashboard();
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);

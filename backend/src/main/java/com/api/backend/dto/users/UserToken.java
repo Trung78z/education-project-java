@@ -1,4 +1,4 @@
-package com.api.backend.dto;
+package com.api.backend.dto.users;
 
 public class UserToken {
     private String token;
