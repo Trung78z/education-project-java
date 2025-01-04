@@ -14,13 +14,17 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.api.backend.models.Transaction;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "users")
 
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Users {
 
     @Id
@@ -55,6 +59,7 @@ public class Users {
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
+
     @UpdateTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
@@ -66,6 +71,7 @@ public class Users {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
+    @JsonIgnore
     private List<Transaction> transactions;
 
     public UUID getId() {

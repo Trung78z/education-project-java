@@ -5,19 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.api.backend.models.Transaction;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "products")
 @Component
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Product {
     @Id
@@ -77,10 +73,10 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductEngineAndTransmission engineAndTransmission;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JsonIgnore
-    private List<Transaction> transactions;
+    // @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade =
+    // CascadeType.ALL)
+    // @JsonManagedReference
+    // private List<Transaction> transactions;
 
     public Product() {
     }

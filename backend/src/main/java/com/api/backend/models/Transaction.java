@@ -4,7 +4,9 @@ import com.api.backend.models.product.Product;
 import com.api.backend.models.user.Users;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 @Entity
 @Table(name = "transactions")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+
 public class Transaction {
 
     @Id
@@ -27,6 +31,7 @@ public class Transaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private Product product;
 
     private int quantity;

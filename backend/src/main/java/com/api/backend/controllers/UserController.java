@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.api.backend.dto.users.UserDTO;
+import com.api.backend.dto.users.UserRegisterDTO;
 import com.api.backend.models.user.Users;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
@@ -34,21 +35,28 @@ public class UserController {
         return ResponseEntity.ok(new ResponseWrapper<>(true, 200, userDTOs));
     }
 
-    @PostMapping
-    public ResponseEntity<ResponseWrapper<UserDTO>> saveUser(@RequestBody Users user) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ResponseWrapper<UserDTO>> saveUser(@RequestBody UserRegisterDTO user) {
         try {
-            Users savedUser = userService.saveUser(user);
+            Users savedUser = new Users();
+            savedUser.setUsername(user.getUsername());
+            savedUser.setPassword(user.getPassword());
+            savedUser.setEmail(user.getEmail());
+            savedUser.setFullName(user.getFullName());
+            savedUser.setPhone(user.getPhone());
+            savedUser.setAddress(user.getAddress());
+            savedUser.setUserRole(user.getUserRole());
+
+            userService.saveUser(savedUser);
             UserDTO userDTO = new UserDTO(savedUser);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, userDTO));
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest()
                     .body(new ResponseWrapper<>(400, e.getMessage()));
         } catch (Exception e) {
-            // TODO: handle exception
-            return ResponseEntity.status(500)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseWrapper<>(500, "Internal Server Error"));
         }
-
     }
 
     @GetMapping("/{id}")

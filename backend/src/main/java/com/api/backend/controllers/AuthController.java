@@ -13,6 +13,7 @@ import com.api.backend.dto.users.ChangePasswordRequest;
 
 import com.api.backend.dto.users.UserDTO;
 import com.api.backend.dto.users.UserLoginDTO;
+import com.api.backend.dto.users.UserRegisterDTO;
 import com.api.backend.dto.users.UserToken;
 import com.api.backend.models.user.Users;
 import com.api.backend.services.JWTService;
@@ -31,9 +32,18 @@ public class AuthController {
     private JWTService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseWrapper<UserDTO>> register(@RequestBody Users user) {
+    public ResponseEntity<ResponseWrapper<UserDTO>> register(@RequestBody UserRegisterDTO user) {
         try {
-            Users savedUser = userService.saveUser(user);
+            Users savedUser = new Users();
+            savedUser.setUsername(user.getUsername());
+            savedUser.setPassword(user.getPassword());
+            savedUser.setEmail(user.getEmail());
+            savedUser.setFullName(user.getFullName());
+            savedUser.setPhone(user.getPhone());
+            savedUser.setAddress(user.getAddress());
+            savedUser.setUserRole(user.getUserRole());
+
+            userService.saveUser(savedUser);
             UserDTO userDTO = new UserDTO(savedUser);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, userDTO));
         } catch (RuntimeException e) {
