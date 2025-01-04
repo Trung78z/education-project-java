@@ -21,7 +21,7 @@ export const postAuth = async (data: AuthRegister) => {
 };
 
 export const postChangeAuth = async (data: AuthChange) => {
-  return apiClient.post("/users", data, {
+  return apiClient.post("/auth/change-password", data, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     }

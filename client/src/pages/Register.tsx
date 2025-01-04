@@ -74,10 +74,10 @@ export default function Register() {
   };
   return (
     <div>
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="bg-[url(/assets/images/session/session.jpg)] object-cover">
           <Navbar />
-          <div className="flex flex-col items-center justify-center sm:min-h-screen">
+          <div className="flex flex-col items-center justify-center sm:min-h-[calc(100vh-64px)]">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <h1 className="text-3xl font-semibold text-white">
@@ -111,6 +111,7 @@ export default function Register() {
                 <Input
                   id="password"
                   placeholder="Password"
+                  type="password"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black bg-gray-400"
                 />
@@ -154,7 +155,7 @@ export default function Register() {
                 </h4>
               </div>
               <div className="flex items-center justify-center">
-                <Button className="px-28 py-6" type="primary" htmlType="submit">
+                <Button className="px-28 py-4" type="primary" htmlType="submit">
                   Register
                 </Button>
               </div>

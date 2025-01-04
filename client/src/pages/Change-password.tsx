@@ -7,6 +7,7 @@ import { Button, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import { postChangeAuth } from "../services/authService";
+import axios from "axios";
 const formSchema = z.object({
   oldPassword: z
     .string()
@@ -31,7 +32,7 @@ export default function ChangePassword() {
   const onSubmit = async (data: FormValues) => {
     try {
       const res = await postChangeAuth(data);
-      if (res.data.success === true) {
+      if (res.data.status === 200) {
         Swal.fire({
           icon: "success",
           html: `<b>Success! </b> <br />Change success <br />`,
@@ -48,10 +49,14 @@ export default function ChangePassword() {
         timer: 1000,
       });
     } catch (error) {
-      console.log(error);
+      let errorMessage = "An unexpected error occurred";
+
+      if (axios.isAxiosError(error) && error.response) {
+        errorMessage = error.response.data.error || errorMessage;
+      }
       return Swal.fire({
         icon: "error",
-        html: `<b>ERROR! </b> <br />Change password  fail <br />`,
+        html: `<b>ERROR! </b> <br />${errorMessage} <br />`,
         showConfirmButton: false,
         timer: 1000,
       });
@@ -79,6 +84,7 @@ export default function ChangePassword() {
                 <Input
                   id="oldPassword"
                   placeholder="oldPassword"
+                  type="password"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black bg-gray-400"
                 />
@@ -90,6 +96,7 @@ export default function ChangePassword() {
                 <Input
                   id="newPassword"
                   placeholder="Password new"
+                  type="password"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black bg-gray-400"
                 />

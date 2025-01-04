@@ -55,7 +55,7 @@ export default function Login() {
         icon: "error",
         html: `<b>ERROR! </b> <br />Login fail <br />`,
         showConfirmButton: false,
-        timer: 1000,
+        timer: 4000,
       });
     }
   };
