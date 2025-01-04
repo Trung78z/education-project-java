@@ -150,6 +150,15 @@ public class ProductController {
                         productTable.getItems().remove(product);
                         int totalProducts = productTable.getItems().size();
                         totalProduct.setText(String.valueOf(totalProducts));
+
+                        double maxPrice = productTable.getItems().stream().mapToDouble(ProductResponse::getPrice).max()
+                                .orElse(0);
+                        double minPrice = productTable.getItems().stream().mapToDouble(ProductResponse::getPrice).min()
+                                .orElse(0);
+
+                        priceMax.setText(String.format("%.2f", maxPrice));
+                        priceMin.setText(String.format("%.2f", minPrice));
+
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
                         Notifications.create()

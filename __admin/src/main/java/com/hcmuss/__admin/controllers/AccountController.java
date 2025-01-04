@@ -181,6 +181,16 @@ public class AccountController {
                         userTableView.getItems().remove(user);
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
+
+                        totalAccount.setText(String.valueOf(userTableView.getItems().size()));
+                        long accountAdminCount = userTableView.getItems().stream()
+                                .filter(a -> a.getUserRole().equals("admin"))
+                                .count();
+                        long accountClientCount = userTableView.getItems().stream()
+                                .filter(a -> a.getUserRole().equals("client"))
+                                .count();
+                        totalAccountClient.setText(String.valueOf(accountClientCount));
+                        totalAccountAdmin.setText(String.valueOf(accountAdminCount));
                         Notifications.create()
                                 .title("Xóa thành công")
                                 .text("Người dùng " + user.getFullName() + " đã được xóa!")

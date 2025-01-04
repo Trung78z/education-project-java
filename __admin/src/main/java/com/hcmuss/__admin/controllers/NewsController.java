@@ -165,6 +165,13 @@ public class NewsController {
 
                         newsTable.getItems().remove(news);
                         totalNews.setText(String.valueOf(newsTable.getItems().size()));
+
+                        long privateNewsCount = newsTable.getItems().stream().filter(n -> !n.getPublicNew()).count();
+                        long publicNewsCount = newsTable.getItems().stream().filter(n -> n.getPublicNew()).count();
+
+                        totalNewsPrivate.setText(String.valueOf(privateNewsCount));
+                        totalNewsPublic.setText(String.valueOf(publicNewsCount));
+
                         FontAwesomeIcon deleteIcon = new FontAwesomeIcon();
                         deleteIcon.setIcon(FontAwesomeIcons.TRASH);
                         Notifications.create()
