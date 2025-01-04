@@ -73,10 +73,9 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private ProductEngineAndTransmission engineAndTransmission;
 
-    // @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade =
-    // CascadeType.ALL)
-    // @JsonManagedReference
-    // private List<Transaction> transactions;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Transaction> transactions;
 
     public Product() {
     }
