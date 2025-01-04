@@ -80,8 +80,34 @@ public class ProductService {
     }
 
     // Get product by id
-    public Product GetProductById(Integer id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    public ProductDTO GetProductById(Integer id) {
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+        ProductDTO productDTO = new ProductDTO();
+
+        productDTO.setId(product.getId());
+        productDTO.setName(product.getName());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setQuantity(product.getQuantity());
+        productDTO.setImage(product.getImage());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setDiscount(product.getDiscount());
+        productDTO.setProductBrand(product.getProductBrand() != null
+                ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
+                : null);
+        productDTO.setInterior(product.getInterior());
+        productDTO.setExterior(product.getExterior());
+        productDTO.setSafety(product.getSafety());
+        productDTO.setComfortConvenience(product.getComfortConvenience());
+        productDTO.setOverview(product.getOverview());
+        productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
+        productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
+
+        productDTO.setType(product.getType());
+        productDTO.setOdometer(product.getOdometer());
+        productDTO.setGearshift(product.getGearshift());
+
+        return productDTO;
     }
 
     public Product PostProduct(Product product) {

@@ -4,10 +4,10 @@ import { NewPayload } from "../../types/newsPayload";
 export default function CardNews({ item }: { item: NewPayload }) {
   return (
     <div className="card-hover relative w-full max-w-[415.98px] space-y-4 rounded-sm pb-4 shadow-md hover:shadow-xl sm:w-max">
-      <Link to={`/news/car/1`}>
+      <Link to={`/news/${item.newCategory.name}/${item.id}`}>
         {" "}
         <img
-          src="/assets/images/news/news1.png"
+          src={item?.image || "/assets/images/news/news1.png"}
           alt=""
           className="h-[267.41px] w-full flex-shrink rounded-md sm:w-auto"
           width={415.98}

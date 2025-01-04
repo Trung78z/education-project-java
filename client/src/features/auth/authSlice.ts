@@ -63,6 +63,7 @@ export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWi
       error.response &&
       error.response.status === 401
     ) {
+      localStorage.removeItem("token");
       return rejectWithValue(error.response.data.error);
     }
     return rejectWithValue("An unexpected error occurred");

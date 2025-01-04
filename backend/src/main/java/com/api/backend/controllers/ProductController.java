@@ -55,9 +55,8 @@ public class ProductController extends HttpServlet {
                         else {
                                 String[] pathParts = pathInfo.split("/");
 
-                                Product product = productService.GetProductById(Integer.parseInt(pathParts[1]));
-
-                                ResponseWrapper<Product> responseBody = new ResponseWrapper<>(true, 200, product);
+                                ProductDTO product = productService.GetProductById(Integer.parseInt(pathParts[1]));
+                                ResponseWrapper<ProductDTO> responseBody = new ResponseWrapper<>(true, 200, product);
 
                                 response.setStatus(HttpServletResponse.SC_OK);
                                 response.setContentType("application/json");

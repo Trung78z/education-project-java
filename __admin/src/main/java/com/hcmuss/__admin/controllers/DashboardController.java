@@ -29,12 +29,12 @@ public class DashboardController {
     @FXML
     private Button logout;
     @FXML
-    private Pane paneDashboard, paneTransaction, paneAccount, paneProduct, paneNews, paneSetting;
+    private Pane paneDashboard, paneTransaction, paneAccount, paneProduct, paneNews;
     private List<Pane> panes;
 
     @FXML
     public void initialize() {
-        panes = List.of(paneDashboard, paneTransaction, paneAccount, paneProduct, paneNews, paneSetting);
+        panes = List.of(paneDashboard, paneTransaction, paneAccount, paneProduct, paneNews);
         setActivePane(paneDashboard);
     }
 
@@ -69,10 +69,10 @@ public class DashboardController {
         navigate(paneNews, "news");
     }
 
-    @FXML
-    private void setting() {
-        navigate(paneSetting, "setting");
-    }
+//    @FXML
+//    private void setting() {
+//        navigate(paneSetting, "setting");
+//    }
 
     private void navigate(Pane activePane, String page) {
         setActivePane(activePane);

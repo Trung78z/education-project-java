@@ -39,24 +39,13 @@ export default function NewsDetail() {
           </div>
         </div>
         <div className="space-y-6">
-          <img src="/assets/images/news/poster.png" alt="poster" />
-          <p>
-            Aliquam hendrerit sollicitudin purus, quis rutrum mi accumsan nec.
-            Quisque bibendum orci ac nibh facilisis, at malesuada orci congue.
-            Nullam tempus sollicitudin cursus. Ut et adipiscing erat. Curabitur
-            this is a text link libero tempus congue.
-          </p>
-          <p>
-            Duis mattis laoreet neque, et ornare neque sollicitudin at. Proin
-            sagittis dolor sed mi elementum pretium. Donec et justo ante.
-            Vivamus egestas sodales est, eu rhoncus urna semper eu. Cum sociis
-            natoque penatibus et magnis dis parturient montes, nascetur
-            ridiculus mus. Integer tristique elit lobortis purus bibendum, quis
-            dictum metus mattis. Phasellus posuere felis sed eros porttitor
-            mattis. Curabitur massa magna, tempor in blandit id, porta in
-            ligula. Aliquam laoreet nisl massa, at interdum mauris sollicitudin
-            et.
-          </p>
+          <img
+            src={dataID?.image || "/assets/images/news/news1.png"}
+            alt="poster"
+            width={1920}
+            height={1080}
+          />
+          <div dangerouslySetInnerHTML={{ __html: dataID.description }}></div>
         </div>
         <div className="space-y-6 px-0 sm:px-40">
           <div className="rounded-md border border-l-8 border-l-blue-600 p-10">
@@ -116,21 +105,7 @@ export default function NewsDetail() {
                 </li>
               </ul>
             </div>
-            <img
-              src="/assets/images/news/poster2.png"
-              alt="user icon"
-              className="object-cover"
-            />
-            <h3 className="text-2xl font-semibold">Requirements</h3>
-            <ul className="list-inside list-disc">
-              <li>
-                We do not require any previous experience or pre-defined skills
-                to take this course. A great orientation would be enough to
-                master UI/UX design.
-              </li>
-              <li>A computer with a good internet connection.</li>
-              <li>Adobe Photoshop (OPTIONAL)</li>
-            </ul>
+            <div dangerouslySetInnerHTML={{ __html: dataID.content }}></div>
           </div>
         </div>
         <div className="space-y-4">

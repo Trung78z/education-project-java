@@ -38,10 +38,12 @@ public class JWTService {
 
         // Create JWT token with claims
         return Jwts.builder()
-                .setClaims(claims) // Use setClaims() instead of add()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000 * 2)) // Valid for 2 days
+                .claims()
+                .add(claims)
+                .subject(username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
+                .and()
                 .signWith(getKey())
                 .compact();
     }
