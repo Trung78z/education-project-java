@@ -29,9 +29,12 @@ public class New {
     @Lob
     @Column(columnDefinition = "TEXT", nullable = false)
     private String image;
+
+    @Lob
     @NotNull
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
+
     private Boolean publicNew = false;
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")

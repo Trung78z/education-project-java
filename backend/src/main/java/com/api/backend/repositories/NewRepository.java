@@ -18,6 +18,8 @@ public interface NewRepository extends JpaRepository<New, Integer> {
 
     Optional<New> findByTitleAndNewCategoryId(String title, Integer categoryId);
 
+    Optional<New> findByTitleAndNewCategory_Name(String title, String name);
+
     @SuppressWarnings("null")
     @Modifying
     @Transactional

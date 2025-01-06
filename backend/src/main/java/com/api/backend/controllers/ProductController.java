@@ -54,8 +54,12 @@ public class ProductController extends HttpServlet {
 
                         else {
                                 String[] pathParts = pathInfo.split("/");
+                                System.out.println(pathParts[0]);
+                                System.out.println(pathParts[1]);
+                                System.out.println(pathParts[2]);
 
-                                ProductDTO product = productService.GetProductById(Integer.parseInt(pathParts[1]));
+                                pathParts[2] = pathParts[2].replace("-", " ");
+                                ProductDTO product = productService.GetProductByName(pathParts[2], pathParts[1]);
                                 ResponseWrapper<ProductDTO> responseBody = new ResponseWrapper<>(true, 200, product);
 
                                 response.setStatus(HttpServletResponse.SC_OK);

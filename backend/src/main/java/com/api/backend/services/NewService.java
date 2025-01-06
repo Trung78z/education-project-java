@@ -29,6 +29,16 @@ public class NewService {
         return newRepository.findAll();
     }
 
+    public New getNemByCategoryAndName(String category, String name) {
+        Optional<New> optionalNew = newRepository.findByTitleAndNewCategory_Name(name, category);
+
+        if (optionalNew.isPresent()) {
+            return optionalNew.get();
+        } else {
+            throw new RuntimeException("New with category " + category + " and name " + name + " not found");
+        }
+    }
+
     public New getNewById(Integer newId) {
         Optional<New> optionalNew = newRepository.findById(newId);
 

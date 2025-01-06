@@ -1,20 +1,15 @@
 package com.api.backend.dto;
 
 import com.api.backend.models.news.New;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public class NewsDTO {
     private Integer id;
-    @NotNull(message = "Title cannot be null")
-    @NotBlank(message = "Title cannot be empty")
+
     private String title;
-    @NotNull(message = "Description cannot be null")
-    @NotBlank(message = "Description cannot be empty")
+
     private String description;
     private String image;
-    @NotNull(message = "Content cannot be null")
-    @NotBlank(message = "Content cannot be empty")
+
     private String content;
 
     private Boolean publicNew;

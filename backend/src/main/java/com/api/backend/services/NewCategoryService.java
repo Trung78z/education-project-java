@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.api.backend.dto.NewCategoryDTO;
 import com.api.backend.models.news.NewCategory;
 import com.api.backend.repositories.NewCategoryRepository;
 import com.api.backend.utils.ResourceNotFoundException;
@@ -17,8 +18,11 @@ public class NewCategoryService {
         this.newCategoryRepository = newCategoryRepository;
     }
 
-    public List<NewCategory> getCategories() {
-        return newCategoryRepository.findAll();
+    public List<NewCategoryDTO> getCategories() {
+        List<NewCategory> newCategory = newCategoryRepository.findAll();
+        List<NewCategoryDTO> newCategoryDTO = newCategory.stream().map(NewCategoryDTO::new).toList();
+        return newCategoryDTO;
+
     }
 
     public NewCategory getSlugCategory(String slug) {

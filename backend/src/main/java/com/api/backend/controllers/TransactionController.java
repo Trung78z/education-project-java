@@ -14,12 +14,14 @@ import com.api.backend.dto.transaction.TransactionRequest;
 import com.api.backend.models.Transaction;
 import com.api.backend.models.product.Product;
 import com.api.backend.models.user.Users;
+import com.api.backend.services.EmailService;
 import com.api.backend.services.JWTService;
 import com.api.backend.services.ProductService;
 import com.api.backend.services.TransactionService;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -34,6 +36,8 @@ public class TransactionController {
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping
     public ResponseEntity<ResponseWrapper<Transaction>> createTransaction(
@@ -62,7 +66,6 @@ public class TransactionController {
                         HttpStatus.BAD_REQUEST);
             }
 
-            // Subtract the quantity from the product
             product.setQuantity(product.getQuantity() - requestedQuantity);
             productService.updateProduct(product);
 
@@ -72,12 +75,18 @@ public class TransactionController {
             newTransaction.setQuantity(requestedQuantity);
             newTransaction.setTotalPrice(transaction.getTotalPrice());
             Transaction createdTransaction = transactionService.createTransaction(newTransaction);
-
+            emailService.sendOrderConfirmationEmail(user.getEmail(), createdTransaction.getId().toString(),
+                    product.getName(),
+                    requestedQuantity, transaction.getTotalPrice());
             return new ResponseEntity<>(new ResponseWrapper<>(true, HttpStatus.CREATED.value(), createdTransaction),
                     HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(new ResponseWrapper<>(HttpStatus.BAD_REQUEST.value(), e.getMessage()),
                     HttpStatus.BAD_REQUEST);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest()
+                    .body(new ResponseWrapper<>(400, "We are unable to send email at the moment"));
         } catch (Exception e) {
             return new ResponseEntity<>(
                     new ResponseWrapper<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error"),

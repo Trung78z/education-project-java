@@ -22,82 +22,46 @@ public class ProductBrandService {
 
     }
 
-    public List<ProductBrandDTO> getAllProductBrandsWithProducts() {
+    public List<ProductBrand> getAllProductBrandsWithProducts() {
         List<ProductBrand> productBrands = productBrandRepository.findAll();
 
-        return productBrands.stream().map(productBrand -> {
-            List<ProductDTO> productDTOs = productBrand.getProducts().stream()
-                    .map(product -> {
-
-
-                                ProductDTO productDTO = new ProductDTO();
-
-                                productDTO.setId(product.getId());
-                                productDTO.setName(product.getName());
-                                productDTO.setPrice(product.getPrice());
-                                productDTO.setQuantity(product.getQuantity());
-                                productDTO.setImage(product.getImage());
-                                productDTO.setDescription(product.getDescription());
-                                productDTO.setDiscount(product.getDiscount());
-                                productDTO.setProductBrand(product.getProductBrand() != null
-                                        ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
-                                        : null);
-                                productDTO.setInterior(product.getInterior());
-                                productDTO.setExterior(product.getExterior());
-                                productDTO.setSafety(product.getSafety());
-                                productDTO.setComfortConvenience(product.getComfortConvenience());
-                                productDTO.setOverview(product.getOverview());
-                                productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
-                                productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
-
-                                productDTO.setType(product.getType());
-                                productDTO.setOdometer(product.getOdometer());
-                                productDTO.setGearshift(product.getGearshift());
-
-                                return productDTO;
-
-                            }
-
-                    )
-
-                    .collect(Collectors.toList());
-            return new ProductBrandDTO(productBrand.getId(), productBrand.getName(), productDTOs);
-        }).collect(Collectors.toList());
+        return productBrands;
     }
 
-    public ProductBrandDTO getProductBrandByIdWithProduct(Integer id) {
-        Optional<ProductBrand> optionalProductBrand = productBrandRepository.findById(id);
-        if (optionalProductBrand.isPresent()) {
-            ProductBrand productBrand = optionalProductBrand.get();
+    public ProductBrandDTO getProductBrandByIdWithProduct(String name) {
+        ProductBrand optionalProductBrand = productBrandRepository.findByName(name);
+        if (optionalProductBrand != null) {
+            ProductBrand productBrand = optionalProductBrand;
 
             List<ProductDTO> productDTOs = productBrand.getProducts().stream()
                     .map(product -> {
-                                ProductDTO productDTO = new ProductDTO();
-                                productDTO.setId(product.getId());
-                                productDTO.setName(product.getName());
-                                productDTO.setPrice(product.getPrice());
-                                productDTO.setQuantity(product.getQuantity());
-                                productDTO.setImage(product.getImage());
-                                productDTO.setDescription(product.getDescription());
-                                productDTO.setDiscount(product.getDiscount());
-                                productDTO.setProductBrand(product.getProductBrand() != null
-                                        ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
-                                        : null);
-                                productDTO.setInterior(product.getInterior());
-                                productDTO.setExterior(product.getExterior());
-                                productDTO.setSafety(product.getSafety());
-                                productDTO.setComfortConvenience(product.getComfortConvenience());
-                                productDTO.setOverview(product.getOverview());
-                                productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
-                                productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
+                        ProductDTO productDTO = new ProductDTO();
+                        productDTO.setId(product.getId());
+                        productDTO.setName(product.getName());
+                        productDTO.setPrice(product.getPrice());
+                        productDTO.setQuantity(product.getQuantity());
+                        productDTO.setImage(product.getImage());
+                        productDTO.setDescription(product.getDescription());
+                        productDTO.setDiscount(product.getDiscount());
+                        productDTO.setProductBrand(product.getProductBrand() != null
+                                ? new ProductBrandDTO(product.getProductBrand().getId(),
+                                        product.getProductBrand().getName())
+                                : null);
+                        productDTO.setInterior(product.getInterior());
+                        productDTO.setExterior(product.getExterior());
+                        productDTO.setSafety(product.getSafety());
+                        productDTO.setComfortConvenience(product.getComfortConvenience());
+                        productDTO.setOverview(product.getOverview());
+                        productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
+                        productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
 
-                                productDTO.setType(product.getType());
-                                productDTO.setOdometer(product.getOdometer());
-                                productDTO.setGearshift(product.getGearshift());
+                        productDTO.setType(product.getType());
+                        productDTO.setOdometer(product.getOdometer());
+                        productDTO.setGearshift(product.getGearshift());
 
-                                return productDTO;
+                        return productDTO;
 
-                            }
+                    }
 
                     )
 

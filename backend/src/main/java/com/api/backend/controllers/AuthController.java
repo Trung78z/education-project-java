@@ -20,6 +20,7 @@ import com.api.backend.services.JWTService;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller

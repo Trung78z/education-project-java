@@ -35,8 +35,8 @@ public class ProductBrandController extends HttpServlet {
         String pathInfo = request.getPathInfo();
 
         if (pathInfo == null || pathInfo.equals("/")) {
-            List<ProductBrandDTO> products = productBrandService.getAllProductBrandsWithProducts();
-            ResponseWrapper<List<ProductBrandDTO>> responseBody = new ResponseWrapper<>(true, 200,
+            List<ProductBrand> products = productBrandService.getAllProductBrandsWithProducts();
+            ResponseWrapper<List<ProductBrand>> responseBody = new ResponseWrapper<>(true, 200,
                     products);
             response.setStatus(HttpServletResponse.SC_OK);
             response.setContentType("application/json");
@@ -44,8 +44,8 @@ public class ProductBrandController extends HttpServlet {
         } else {
             try {
                 String[] pathParts = pathInfo.split("/");
-                int id = Integer.parseInt(pathParts[pathParts.length - 1]);
-                ProductBrandDTO productBrand = productBrandService.getProductBrandByIdWithProduct(id);
+                ProductBrandDTO productBrand = productBrandService
+                        .getProductBrandByIdWithProduct(pathParts[pathParts.length - 1]);
                 ResponseWrapper<ProductBrandDTO> responseBody = new ResponseWrapper<>(true, 200, productBrand);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.setContentType("application/json");

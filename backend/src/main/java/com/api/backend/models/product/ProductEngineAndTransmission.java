@@ -17,7 +17,7 @@ public class ProductEngineAndTransmission {
     private Integer maxTowingWeightBraked;
     private Integer maxTowingWeightUnbraked;
     private Integer minimumKerbweight;
-    private Integer turningCircleKerbToKerb;
+    private Float turningCircleKerbToKerb;
 
     @JsonBackReference
     @OneToOne(fetch = FetchType.LAZY)
@@ -28,7 +28,7 @@ public class ProductEngineAndTransmission {
     }
 
     public ProductEngineAndTransmission(Integer fuelTankCapacity, Integer maxTowingWeightBraked,
-            Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Integer turningCircleKerbToKerb,
+            Integer maxTowingWeightUnbraked, Integer minimumKerbweight, Float turningCircleKerbToKerb,
             Product product) {
         this.fuelTankCapacity = fuelTankCapacity;
         this.maxTowingWeightBraked = maxTowingWeightBraked;
@@ -70,11 +70,11 @@ public class ProductEngineAndTransmission {
         this.minimumKerbweight = minimumKerbweight;
     }
 
-    public Integer getTurningCircleKerbToKerb() {
+    public Float getTurningCircleKerbToKerb() {
         return turningCircleKerbToKerb;
     }
 
-    public void setTurningCircleKerbToKerb(Integer turningCircleKerbToKerb) {
+    public void setTurningCircleKerbToKerb(Float turningCircleKerbToKerb) {
         this.turningCircleKerbToKerb = turningCircleKerbToKerb;
     }
 

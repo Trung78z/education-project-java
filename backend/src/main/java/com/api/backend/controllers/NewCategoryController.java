@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import com.api.backend.dto.NewCategoryDTO;
 import com.api.backend.models.news.NewCategory;
 import com.api.backend.services.NewCategoryService;
 import com.api.backend.utils.ResourceNotFoundException;
@@ -24,9 +25,9 @@ public class NewCategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWrapper<List<NewCategory>>> getCategories() {
+    public ResponseEntity<ResponseWrapper<List<NewCategoryDTO>>> getCategories() {
 
-        List<NewCategory> category = newCategoryService.getCategories();
+        List<NewCategoryDTO> category = newCategoryService.getCategories();
         return ResponseEntity.ok(new ResponseWrapper<>(true, 200, category));
     }
 

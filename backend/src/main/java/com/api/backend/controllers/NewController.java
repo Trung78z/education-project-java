@@ -42,10 +42,12 @@ public class NewController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<NewsDTO>> getNewById(@PathVariable Integer id) {
+    @GetMapping("/{category}/{name}")
+    public ResponseEntity<ResponseWrapper<NewsDTO>> getNewById(@PathVariable String category,
+            @PathVariable String name) {
         try {
-            New news = newService.getNewById(id);
+            name = name.replace("-", " ");
+            New news = newService.getNemByCategoryAndName(category, name);
             NewsDTO newsDTO = new NewsDTO(news);
             return ResponseEntity.ok(new ResponseWrapper<>(true, 200, newsDTO));
         } catch (RuntimeException e) {

@@ -64,13 +64,16 @@ public class UserService {
 
     public String verify(Users user) {
         Users existsUser = userRepository.findByUsername(user.getUsername());
+        if (existsUser == null) {
+            throw new RuntimeException("User not found");
+        }
 
         Authentication authentication = authManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(user.getUsername(), existsUser.getUserRole().getRoleName());
         } else {
-            return "fail";
+            throw new RuntimeException("Invalid password");
         }
     }
 
