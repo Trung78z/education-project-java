@@ -5,11 +5,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +31,8 @@ public class UserService {
     @Autowired
     private JWTService jwtService;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
     @Autowired
     AuthenticationManager authManager;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
@@ -111,6 +113,12 @@ public class UserService {
         userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        userRepository.deleteById(userId);
+        try {
+            jdbcTemplate.update("DELETE FROM transactions WHERE product_id = ?", userId);
+
+            userRepository.deleteById(userId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error deleting user", e);
+        }
     }
 }

@@ -83,68 +83,19 @@ public class ProductService {
     public ProductDTO GetProductById(Integer id) {
 
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-        ProductDTO productDTO = new ProductDTO();
-
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        productDTO.setPrice(product.getPrice());
-        productDTO.setQuantity(product.getQuantity());
-        productDTO.setImage(product.getImage());
-        productDTO.setDescription(product.getDescription());
-        productDTO.setDiscount(product.getDiscount());
-        productDTO.setProductBrand(product.getProductBrand() != null
-                ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
-                : null);
-        productDTO.setInterior(product.getInterior());
-        productDTO.setExterior(product.getExterior());
-        productDTO.setSafety(product.getSafety());
-        productDTO.setComfortConvenience(product.getComfortConvenience());
-        productDTO.setOverview(product.getOverview());
-        productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
-        productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
-
-        productDTO.setType(product.getType());
-        productDTO.setOdometer(product.getOdometer());
-        productDTO.setGearshift(product.getGearshift());
-
-        return productDTO;
+        return convertToDTO(product);
     }
 
     public ProductDTO GetProductByName(String name, String productBrandName) {
-
         Product product = productRepository.findByNameAndProductBrand_Name(name, productBrandName);
         if (product == null) {
             throw new RuntimeException("Product not found");
 
         }
-        ProductDTO productDTO = new ProductDTO();
-
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        productDTO.setPrice(product.getPrice());
-        productDTO.setQuantity(product.getQuantity());
-        productDTO.setImage(product.getImage());
-        productDTO.setDescription(product.getDescription());
-        productDTO.setDiscount(product.getDiscount());
-        productDTO.setProductBrand(product.getProductBrand() != null
-                ? new ProductBrandDTO(product.getProductBrand().getId(), product.getProductBrand().getName())
-                : null);
-        productDTO.setInterior(product.getInterior());
-        productDTO.setExterior(product.getExterior());
-        productDTO.setSafety(product.getSafety());
-        productDTO.setComfortConvenience(product.getComfortConvenience());
-        productDTO.setOverview(product.getOverview());
-        productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
-        productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
-
-        productDTO.setType(product.getType());
-        productDTO.setOdometer(product.getOdometer());
-        productDTO.setGearshift(product.getGearshift());
-
-        return productDTO;
+        return convertToDTO(product);
     }
 
-    public Product PostProduct(Product product) {
+    public ProductDTO PostProduct(Product product) {
         try {
             Optional<ProductBrand> esxOptional = productBrandRepository.findById(product.getProductBrand().getId());
             if (esxOptional.isEmpty()) {
@@ -180,7 +131,9 @@ public class ProductService {
                 product.getEngineAndTransmission().setProduct(product);
             }
             product.setProductBrand(esxOptional.get());
-            return productRepository.save(product);
+            Product productsave = productRepository.save(product);
+
+            return convertToDTO(productsave);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Foreign key constraint violated: " + e.getMessage());
         } catch (Exception e) {
@@ -418,6 +371,7 @@ public class ProductService {
             throw new RuntimeException("Product not found");
         }
         try {
+            jdbcTemplate.update("DELETE FROM transactions WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_comfort_convenience WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_interior WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_exterior WHERE product_id = ?", id);
@@ -429,9 +383,35 @@ public class ProductService {
             productRepository.deleteById(id);
 
         } catch (Exception e) {
-
             throw new RuntimeException("Error deleting product", e);
         }
     }
 
+    private ProductDTO convertToDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setName(product.getName());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setQuantity(product.getQuantity());
+        productDTO.setImage(product.getImage());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setDiscount(product.getDiscount());
+        productDTO.setProductBrand(product.getProductBrand() != null
+                ? new ProductBrandDTO(product.getProductBrand().getId(),
+                        product.getProductBrand().getName())
+                : null);
+        productDTO.setInterior(product.getInterior());
+        productDTO.setExterior(product.getExterior());
+        productDTO.setSafety(product.getSafety());
+        productDTO.setComfortConvenience(product.getComfortConvenience());
+        productDTO.setOverview(product.getOverview());
+        productDTO.setDimensionsCapacity(product.getDimensionsCapacity());
+        productDTO.setEngineAndTransmission(product.getEngineAndTransmission());
+
+        productDTO.setType(product.getType());
+        productDTO.setOdometer(product.getOdometer());
+        productDTO.setGearshift(product.getGearshift());
+
+        return productDTO;
+    }
 }

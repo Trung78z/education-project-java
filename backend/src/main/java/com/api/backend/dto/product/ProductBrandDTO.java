@@ -7,6 +7,9 @@ public class ProductBrandDTO {
     private String name;
     private List<ProductDTO> products;
 
+    public ProductBrandDTO() {
+    }
+
     public ProductBrandDTO(Integer id, String name, List<ProductDTO> products) {
         this.id = id;
         this.name = name;

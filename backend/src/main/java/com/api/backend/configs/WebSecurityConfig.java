@@ -1,7 +1,5 @@
 package com.api.backend.configs;
 
-import java.net.http.HttpRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,42 +27,39 @@ public class WebSecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
-    // Exception {
-    // HttpBasicConfigurer<HttpSecurity> httpSecurityHttpBasicConfigurer =
-    // http.csrf(csrf -> csrf.disable())
-    // .authorizeRequests().requestMatchers("/**").permitAll().anyRequest().authenticated().and()
-    // .httpBasic();
-    // return http.build();
-    // }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(customizer -> customizer.disable()).authorizeHttpRequests(request -> request
+        // return http.csrf(customizer ->
+        // customizer.disable()).authorizeHttpRequests(request -> request
 
-                // .anyRequest().authenticated()).httpBasic(Customizer.withDefaults()
-                // .requestMatchers("/api/v1/auth/*", "/api/v1/role-user",
-                // "/api/v1/users").permitAll()
-
-                .requestMatchers("/api/v1/protected/*", "/api/v1/admin/*", "/hello").authenticated()
-                .requestMatchers("/api/v1/auth/*", "/api/v1/role-user", "/api/v1/users").permitAll()
-                .anyRequest().permitAll())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
-        // return http.csrf(customizer -> customizer.disable())
-        // .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET,
-        // "/**").permitAll()
-        // .requestMatchers("/api/v1/users", "/api/v1/users/*", "/api/v1/role-user",
-        // "/api/v1/role-user/*",
-        // "/api/v1/auth/**", "/api/v1/transactions/**")
-        // .permitAll()
-        // .anyRequest().authenticated())
+        // .requestMatchers("/api/v1/protected/*", "/api/v1/admin/*",
+        // "/hello").authenticated()
+        // .requestMatchers("/api/v1/auth/*", "/api/v1/role-user",
+        // "/api/v1/users").permitAll()
+        // .anyRequest().permitAll())
         // .sessionManagement(session ->
         // session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
         // .build();
+        return http.csrf(customizer -> customizer.disable())
+                .authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.GET,
+                        "/**").permitAll()
+                        // .requestMatchers("/api/v1/users", "/api/v1/users/*", "/api/v1/role-user",
+                        // "/api/v1/role-user/*",
+                        // "/api/v1/auth/**", "/api/v1/transactions/**", "/api/v1/contacts/**")
+                        // .permitAll()
+                        // .anyRequest().hasRole("ADMIN")
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/protected/**").authenticated()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/role-user",
+                                "/api/v1/users")
+                        .permitAll()
+                        .anyRequest().permitAll()
+
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
 
     }
 

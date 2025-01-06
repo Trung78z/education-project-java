@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="708.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hcmuss.admin.controllers.TransactionController">
+   <children>
+      <TabPane layoutX="38.0" layoutY="68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" prefHeight="618.0" prefWidth="1042.0">
+         <tabs>
+            <Tab closable="false" text="All Transactions">
+               <content>
+                  <TableView prefHeight="303.0" prefWidth="1042.0" fx:id="transactionTable">
+                     <columns>
+                        <TableColumn fx:id="idColumn" prefWidth="50" text="ID"/>
+                        <TableColumn fx:id="userIdColumn" prefWidth="200" text="User ID"/>
+                        <TableColumn fx:id="userEmailColumn" prefWidth="200" text="User Email"/>
+                        <TableColumn fx:id="productIdColumn" prefWidth="100" text="Product ID"/>
+                        <TableColumn fx:id="productNameColumn" prefWidth="150" text="Product Name"/>
+                        <TableColumn fx:id="quantityColumn" prefWidth="100" text="Quantity"/>
+                        <TableColumn fx:id="totalPriceColumn" prefWidth="150" text="Total Price"/>
+                        <TableColumn fx:id="createdAtColumn" prefWidth="200" text="Created At"/>
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <Text layoutX="38.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recent Transactions">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

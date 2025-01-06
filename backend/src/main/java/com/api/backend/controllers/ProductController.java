@@ -3,6 +3,7 @@ package com.api.backend.controllers;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -17,10 +18,14 @@ import com.api.backend.utils.ResponseWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -53,10 +58,8 @@ public class ProductController extends HttpServlet {
                         }
 
                         else {
+
                                 String[] pathParts = pathInfo.split("/");
-                                System.out.println(pathParts[0]);
-                                System.out.println(pathParts[1]);
-                                System.out.println(pathParts[2]);
 
                                 pathParts[2] = pathParts[2].replace("-", " ");
                                 ProductDTO product = productService.GetProductByName(pathParts[2], pathParts[1]);
@@ -87,32 +90,40 @@ public class ProductController extends HttpServlet {
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response)
                         throws ServletException, IOException {
+
                 try {
-                        InputStreamReader reader = new InputStreamReader(request.getInputStream());
+                        InputStreamReader reader = new InputStreamReader(request.getInputStream(),
+                                        StandardCharsets.UTF_8);
 
                         Gson gson = new GsonBuilder()
-                                        .registerTypeAdapter(LocalDateTime.class, new TypeAdapter<LocalDateTime>() {
+                                        .registerTypeAdapter(LocalDateTime.class,
+                                                        new JsonDeserializer<LocalDateTime>() {
+                                                                @Override
+                                                                public LocalDateTime deserialize(JsonElement json,
+                                                                                Type typeOfT,
+                                                                                JsonDeserializationContext context)
+                                                                                throws JsonParseException {
+                                                                        return LocalDateTime.parse(json.getAsString(),
+                                                                                        DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                                                }
+                                                        })
+                                        .registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
                                                 @Override
-                                                public void write(JsonWriter out, LocalDateTime value)
-                                                                throws IOException {
-                                                        out.value(value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-                                                }
-
-                                                @Override
-                                                public LocalDateTime read(JsonReader in) throws IOException {
-                                                        return LocalDateTime.parse(in.nextString(),
-                                                                        DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                                                public JsonElement serialize(LocalDateTime src, Type typeOfSrc,
+                                                                JsonSerializationContext context) {
+                                                        return new JsonPrimitive(src
+                                                                        .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
                                                 }
                                         })
                                         .create();
 
                         Product productData = gson.fromJson(reader, Product.class);
-                        Product product = productService.PostProduct(productData);
+                        ProductDTO productDTO = productService.PostProduct(productData);
 
                         response.setStatus(HttpServletResponse.SC_CREATED);
                         response.getWriter()
-                                        .write(objectMapper
-                                                        .writeValueAsString(new ResponseWrapper<>(true, 201, product)));
+                                        .write(objectMapper.writeValueAsString(
+                                                        new ResponseWrapper<>(true, 201, productDTO)));
 
                 } catch (RuntimeException e) {
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

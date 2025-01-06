@@ -40,7 +40,7 @@ public class TransactionController {
     private EmailService emailService;
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<Transaction>> createTransaction(
+    public ResponseEntity<ResponseWrapper<TransactionRequest>> createTransaction(
             @RequestBody TransactionDTO transaction, HttpServletRequest httpServletRequest) {
         try {
             String token = httpServletRequest.getHeader("Authorization").substring(7);
@@ -78,7 +78,9 @@ public class TransactionController {
             emailService.sendOrderConfirmationEmail(user.getEmail(), createdTransaction.getId().toString(),
                     product.getName(),
                     requestedQuantity, transaction.getTotalPrice());
-            return new ResponseEntity<>(new ResponseWrapper<>(true, HttpStatus.CREATED.value(), createdTransaction),
+            TransactionRequest transactionRequest = convertToTransactionRequest(createdTransaction);
+
+            return new ResponseEntity<>(new ResponseWrapper<>(true, HttpStatus.CREATED.value(), transactionRequest),
                     HttpStatus.CREATED);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(new ResponseWrapper<>(HttpStatus.BAD_REQUEST.value(), e.getMessage()),

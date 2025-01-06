@@ -20,7 +20,6 @@ import com.api.backend.services.JWTService;
 import com.api.backend.services.UserService;
 import com.api.backend.utils.ResponseWrapper;
 
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -87,7 +86,7 @@ public class AuthController {
         try {
             String token = httpServletRequest.getHeader("Authorization").substring(7);
             boolean isValid = tokenService.validateToken(token);
-            System.out.println(token);
+
             if (isValid) {
                 return ResponseEntity.ok(new ResponseWrapper<>(true, 200, "Token is valid"));
             } else {

@@ -2,6 +2,10 @@ package com.api.backend.controllers;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -11,7 +15,7 @@ import com.api.backend.models.product.ProductBrand;
 import com.api.backend.services.ProductBrandService;
 import com.api.backend.utils.ResponseWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
+import com.google.gson.*;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -71,24 +75,45 @@ public class ProductBrandController extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            InputStreamReader reader = new InputStreamReader(request.getInputStream());
-            Gson gson = new Gson();
+            InputStreamReader reader = new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8);
+
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+                        @Override
+                        public LocalDateTime deserialize(JsonElement json, Type typeOfT,
+                                JsonDeserializationContext context)
+                                throws JsonParseException {
+                            return LocalDateTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                        }
+                    })
+                    .registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+                        @Override
+                        public JsonElement serialize(LocalDateTime src, Type typeOfSrc,
+                                JsonSerializationContext context) {
+                            return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                        }
+                    })
+                    .create();
+
             ProductBrand productBrandData = gson.fromJson(reader, ProductBrand.class);
             ProductBrand productBrand = productBrandService.saveProductBrand(productBrandData);
+
             response.setStatus(HttpServletResponse.SC_CREATED);
             response.setContentType("application/json");
             response.getWriter().write(objectMapper.writeValueAsString(new ResponseWrapper<>(true, 201, productBrand)));
         } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter()
-                    .write(objectMapper.writeValueAsString(
-                            new ResponseWrapper<>(400, e.getMessage())));
+                    .write(objectMapper.writeValueAsString(new ResponseWrapper<>(400, e.getMessage())));
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
+
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.setContentType("application/json");
-            response.getWriter().write(
-                    objectMapper.writeValueAsString(new ResponseWrapper<>(404, "Product brand not found")));
+            response.getWriter()
+                    .write(objectMapper.writeValueAsString(new ResponseWrapper<>(404, "Product brand not found")));
         }
 
     }
