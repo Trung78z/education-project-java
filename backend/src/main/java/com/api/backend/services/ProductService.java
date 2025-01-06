@@ -418,6 +418,7 @@ public class ProductService {
             throw new RuntimeException("Product not found");
         }
         try {
+            jdbcTemplate.update("DELETE FROM transactions WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_comfort_convenience WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_interior WHERE product_id = ?", id);
             jdbcTemplate.update("DELETE FROM product_exterior WHERE product_id = ?", id);
