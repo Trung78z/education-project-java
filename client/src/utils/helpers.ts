@@ -4,3 +4,8 @@ export function formatContent(data: string, length: number) {
     }
     return data;
 }
+
+
+export function coverSlug(data: string) {
+    return data.replace(/ /g, "-");
+}

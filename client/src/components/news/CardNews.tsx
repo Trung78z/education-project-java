@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { NewPayload } from "../../types/newsPayload";
+import { coverSlug } from "../../utils/helpers";
 
 export default function CardNews({ item }: { item: NewPayload }) {
   return (
     <div className="card-hover relative w-full max-w-[415.98px] space-y-4 rounded-sm pb-4 shadow-md hover:shadow-xl sm:w-max">
-      <Link to={`/news/${item.newCategory.name}/${item.id}`}>
+      <Link to={`/news/${item.newCategory.name}/${coverSlug(item.title)}`}>
         {" "}
         <img
           src={item?.image || "/assets/images/news/news1.png"}
@@ -20,7 +21,7 @@ export default function CardNews({ item }: { item: NewPayload }) {
           <h6>Admin</h6>
           <span>{new Date(item.createdAt).toLocaleDateString("vi-VN")}</span>
         </div>
-        <Link to={`/news/${item.newCategory.name}/${item.id}`}>
+        <Link to={`/news/${item.newCategory.name}/${coverSlug(item.title)}`}>
           <h2 className="max-w-[80%] font-semibold">{item.title}</h2>
         </Link>
       </div>

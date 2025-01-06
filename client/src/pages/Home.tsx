@@ -9,9 +9,10 @@ import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
 import { getProduct } from "../features/product/productSlice";
 import { useEffect } from "react";
 import { getNew } from "../features/news/newsSlice";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
   useScrollToTop();
-
+  const navigate = useNavigate();
   const { data } = useAppSelector((state) => state.product);
 
   const { data: dataNew } = useAppSelector((state) => state.news);
@@ -20,7 +21,9 @@ export default function Home() {
     dispatch(getProduct());
     dispatch(getNew());
   }, [dispatch]);
-
+  const handleNavigate = () => {
+    navigate("/categories");
+  };
   return (
     <>
       <div className="space-y-6">
@@ -251,11 +254,11 @@ export default function Home() {
         <div className="container mx-auto p-2 sm:py-20">
           <div className="flex items-center justify-between text-background">
             <h3 className="text-2xl font-semibold">Popular Makes</h3>
-            <Button
-              type="text"
-              className="text-background hover:text-slate-100"
-            >
-              View all
+            <Button type="text" onClick={handleNavigate}>
+              <p className="bg-transparent text-background hover:text-background/70">
+                {" "}
+                View all
+              </p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="14"
@@ -279,12 +282,12 @@ export default function Home() {
             }}
           >
             <Tabs
-              defaultActiveKey="BWM"
+              defaultActiveKey="BMW"
               items={[
                 {
-                  title: "BWM",
+                  title: "BMW",
                   icon: <AppleOutlined />,
-                  children: <TabChildren model="BWM" data={data} />,
+                  children: <TabChildren model="BMW" data={data} />,
                 },
                 {
                   title: "Audi",
@@ -299,7 +302,7 @@ export default function Home() {
                 {
                   title: "Mercedes Benz",
                   icon: <AndroidOutlined />,
-                  children: <TabChildren model="mec" data={data} />,
+                  children: <TabChildren model="Mercedes Benz" data={data} />,
                 },
               ].map((item) => {
                 return {
@@ -446,7 +449,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {dataNew.map((_, index) => (
+            {dataNew.slice(0, 3).map((_, index) => (
               <CardNews key={index} item={_} />
             ))}
           </div>

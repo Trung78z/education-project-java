@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': 'https://api.hcmuss.site',
+      '/api': 'http://localhost:8080',
       '/video': "https://youtube.com"
     },
   }

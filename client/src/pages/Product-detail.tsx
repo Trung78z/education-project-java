@@ -1,7 +1,7 @@
 import { FaCheckCircle } from "react-icons/fa";
 import CardNews from "../components/news/CardNews";
 import { Dimensions, engine, information } from "../utils/data/product";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import useScrollToTop from "../hooks/useScrollToTop";
 import { useAppDispatch, useAppSelector } from "../hooks/hook-redux";
 import { useEffect, useState } from "react";
@@ -14,20 +14,31 @@ import { IoMdAdd } from "react-icons/io";
 import { TransactionPayload } from "../types/transactionPayload";
 import { postTransactionService } from "../services/transactionService";
 import axios from "axios";
+import { LoadingOutlined } from "@ant-design/icons";
+import Loading from "../components/Loading";
 export default function ProductDetail() {
   useScrollToTop();
   const [quantity, setQuantity] = useState<number>(1);
   const { pathname } = useLocation();
-  const id = pathname.split("/")[3];
-
-  const { dataID } = useAppSelector((state) => state.product);
+  const brand = pathname.split("/")[2];
+  const name = pathname.split("/")[3];
+  const [loadingBuy, setLoading] = useState<boolean>(false);
+  const { dataID, loading } = useAppSelector((state) => state.product);
+  const { auth } = useAppSelector((state) => state.auth);
   const { data } = useAppSelector((state) => state.news);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getProductID(Number(id)));
+    dispatch(getProductID({ brand, name }));
     dispatch(getNew());
-  }, [dispatch, id]);
+  }, [dispatch, brand, name]);
+
+  if (loading)
+    return (
+      <>
+        <Loading />
+      </>
+    );
 
   if (!dataID) return <>Not found</>;
   const infoData = information(dataID);
@@ -47,14 +58,24 @@ export default function ProductDetail() {
     (1 - dataID.discount / 100)
   ).toLocaleString("vi-VN");
   const handleBuyCar = async () => {
+    setLoading(true);
+    if (auth === false) {
+      return Swal.fire({
+        icon: "error",
+        html: `<b>Sorry! </b> <br />You need to login to buy this car. <br /> <br>`,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
     const data: TransactionPayload = {
-      productId: Number(id),
+      productId: dataID.id,
       quantity: quantity,
       totalPrice: dataID.price * (1 - dataID.discount / 100) * quantity,
     };
     try {
       const res = await postTransactionService(data);
       if (res.data.success === true) {
+        setLoading(false);
         return Swal.fire({
           icon: "success",
           html: `
@@ -68,13 +89,14 @@ export default function ProductDetail() {
           timer: 3000,
         });
       }
+      setLoading(false);
     } catch (error) {
       let errorMessage = "An unexpected error occurred";
 
       if (axios.isAxiosError(error) && error.response) {
         errorMessage = error.response.data.error || errorMessage;
       }
-
+      setLoading(false);
       return Swal.fire({
         icon: "error",
         html: `<b>Sorry! </b> <br />Your buy was unsuccessful. <br /> <br>${errorMessage}</br>`,
@@ -83,6 +105,7 @@ export default function ProductDetail() {
       });
     }
   };
+
   return (
     <>
       <div className="container mx-auto space-y-10 p-2 sm:py-10">
@@ -314,8 +337,13 @@ export default function ProductDetail() {
                       type="primary"
                       className="h-10 w-full bg-[#405FF2]"
                       onClick={handleBuyCar}
+                      disabled={loadingBuy}
                     >
-                      Buy now
+                      {!loadingBuy ? (
+                        " Buy now"
+                      ) : (
+                        <Spin indicator={<LoadingOutlined spin />} />
+                      )}
                     </Button>
                   </li>
                   <li>
@@ -333,7 +361,7 @@ export default function ProductDetail() {
             <h3 className="text-2xl font-semibold">Related Posts</h3>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {data.map((_, index) => (
+            {data.slice(0, 3).map((_, index) => (
               <CardNews key={index} item={_} />
             ))}
           </div>

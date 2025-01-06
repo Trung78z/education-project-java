@@ -6,6 +6,6 @@ export const getNewsService = async () => {
 }
 
 
-export const getNewIDService = async (id: number) => {
-    return await apiClient.get(`/new/${id}`)
+export const getNewIDService = async (category: string, name: string) => {
+    return await apiClient.get(`/new/${category}/${name}`)
 } 

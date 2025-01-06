@@ -3,6 +3,7 @@ import { getNewsService, getNewIDService } from "../../services/newService.ts";
 import { AxiosError } from "axios";
 import { NewPayload } from "../../types/newsPayload";
 
+
 export interface typeInit {
   data: NewPayload[];
   dataID: NewPayload | null;
@@ -34,9 +35,9 @@ export const getNew = createAsyncThunk("new/FetchData", async (_, { rejectWithVa
     return rejectWithValue("An unexpected error occurred");
   }
 });
-export const getNewID = createAsyncThunk("newID/FetchData", async (id: number, { rejectWithValue }) => {
+export const getNewID = createAsyncThunk("newID/FetchData", async ({ category, name }: { category: string, name: string }, { rejectWithValue }) => {
   try {
-    const res = await getNewIDService(id);
+    const res = await getNewIDService(category, name);
     return res.data.message;
   } catch (error) {
     if (

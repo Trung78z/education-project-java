@@ -1,58 +1,75 @@
 import Navbar from "../components/Navbar";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { Button, Input } from "antd";
-import { useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
-// import { ReactElement, ReactHTML } from "react";
+import TextArea from "antd/es/input/TextArea";
+import { postContactService } from "../services/contactService";
+import Swal from "sweetalert2";
+import axios, { AxiosError } from "axios";
 const formSchema = z.object({
-  email: z.string().email({ message: "Vui lòng nhập email" }),
-  topic: z.string().min(6, "Chủ đề phải có ít nhất 8 ký tự"),
+  email: z.string().email({ message: "Please enter a valid email" }),
+  message: z.string().min(6, "The message must be at least 6 characters long"), // Fixed message
   phone: z
     .string()
-    .min(9, "Số điện thoại không hợp lệ")
+    .min(9, "Invalid phone number")
     .refine((value) => {
       const phoneRegex = /^\d{9,15}$/;
       return phoneRegex.test(value);
-    }, "Số điện thoại không hợp lệ"),
+    }, "Invalid phone number"),
 });
+
 type FormValues = z.infer<typeof formSchema>;
 export default function Contact() {
   useScrollToTop();
-  const navigate = useNavigate();
   const {
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
   });
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-    // try {
-    //   const res = await authChange(data);
-    //   if (res.success == false) {
-    //     return Swal.fire({
-    //       icon: "error",
-    //       html: `<b>Rất tiếc! </b> <br />Bạn đổi mật khẩu không thành công <br /> Vì ${res.msg}`,
-    //       showConfirmButton: false,
-    //       timer: 3000,
-    //     });
-    //   }
-    //   Swal.fire({
-    //     icon: "success",
-    //     html: "Chúc mừng bạn!  <br />Bạn đã đổi mật khẩu thành công!",
-    //     showConfirmButton: false,
-    //     timer: 1500,
-    //   });
-    navigate("/");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await postContactService(data);
+      if (res.data.success === false) {
+        return Swal.fire({
+          icon: "error",
+          html: `<b>Sorry! </b> <br />An error occurred <br /> Because ${res.data.message}`,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+      Swal.fire({
+        icon: "success",
+        html: "Thank you for contacting us!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      reset();
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        let errorMessage = "An unexpected error occurred";
+
+        if (axios.isAxiosError(error) && error.response) {
+          errorMessage = error.response.data.error || errorMessage;
+        }
+        return Swal.fire({
+          icon: "error",
+          html: `<b>ERROR! </b> <br />${errorMessage} <br />`,
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      }
+    }
   };
 
+  const handleChangeArea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { id, value } = event.target;
+    setValue(id as keyof FormValues, value);
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setValue(id as keyof FormValues, value);
@@ -69,9 +86,7 @@ export default function Contact() {
             >
               <div className="space-y-2">
                 <h1 className="text-3xl font-semibold">Contact with BoxCar</h1>
-                <p className="text-gray-300">
-                  Cám ơn bạn đã liên hệ cho chúng tôi
-                </p>
+                <p className="text-gray-300">Thank you for contacting us.</p>
               </div>
               <div className="">
                 <Input
@@ -86,8 +101,8 @@ export default function Contact() {
               </div>
               <div className="">
                 <Input
-                  id="tel"
-                  placeholder="Số điện thoại"
+                  id="phone"
+                  placeholder="Phone"
                   type="tel"
                   onChange={handleChange}
                   className="sm-w[440px] h-12 border-black"
@@ -97,15 +112,14 @@ export default function Contact() {
                 )}
               </div>{" "}
               <div className="">
-                <Input
-                  id="topic"
-                  placeholder="Chủ đề bạn quan tâm"
-                  type="text"
-                  onChange={handleChange}
-                  className="sm-w[440px] h-12 border-black"
+                <TextArea
+                  id="message"
+                  placeholder="The message you're interested in."
+                  onChange={handleChangeArea}
+                  className="sm-w[440px] min-h-80 border-black"
                 />
-                {errors.topic && (
-                  <p className="text-red-500">{errors.topic.message}</p>
+                {errors.message && (
+                  <p className="text-red-500">{errors.message.message}</p>
                 )}
               </div>
               <hr />

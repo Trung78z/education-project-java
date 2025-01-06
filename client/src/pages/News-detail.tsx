@@ -10,12 +10,13 @@ export default function NewsDetail() {
 
   const { data, dataID } = useAppSelector((state) => state.news);
   const { pathname } = useLocation();
-  const id = pathname.split("/")[3];
+  const category = pathname.split("/")[2];
+  const name = pathname.split("/")[3];
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getNew());
-    dispatch(getNewID(Number(id)));
-  }, [dispatch, id]);
+    dispatch(getNewID({ category, name }));
+  }, [dispatch, category, name]);
 
   if (!dataID) return <>New not found</>;
 
@@ -113,7 +114,7 @@ export default function NewsDetail() {
             <h3 className="text-2xl font-semibold">Related Posts</h3>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {data.map((_, index) => (
+            {data.slice(0, 3).map((_, index) => (
               <CardNews key={index} item={_} />
             ))}
           </div>

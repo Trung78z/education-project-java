@@ -240,7 +240,7 @@ export function Dimensions(item: ProductPayload): GroupData[] {
         },
         {
           name: "Height (including roof rails)",
-          title: item.dimensionsCapacity.heightWithRoofRails,
+          title: item?.dimensionsCapacity?.heightWithRoofRails || "",
         },
         {
           name: "Luggage Capacity (Seats Up - Litres)",
@@ -248,7 +248,7 @@ export function Dimensions(item: ProductPayload): GroupData[] {
         },
         {
           name: "Luggage Capacity (Seats Down - Litres)",
-          title: item.dimensionsCapacity.luggageCapacitySeatsDown,
+          title: item.dimensionsCapacity.luggageCapacitySeatsDown || "",
         },
       ],
     },

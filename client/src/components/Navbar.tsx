@@ -16,7 +16,7 @@ const excludedPath: string[] = [
 ];
 const nav = [
   { title: "Home", url: "/" },
-  { title: "Categories", url: "/list" },
+  { title: "Categories", url: "/categories" },
   { title: "News", url: "/news" },
   { title: "Contact", url: "/contact" },
   { title: "About Us", url: "/about" },

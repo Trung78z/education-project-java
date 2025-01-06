@@ -50,9 +50,9 @@ export interface ProductPayload {
         length: string;
         height: string;
         wheelbase: string;
-        heightWithRoofRails: string;
+        heightWithRoofRails?: string;
         luggageCapacitySeatsUp: number;
-        luggageCapacitySeatsDown: number;
+        luggageCapacitySeatsDown?: number;
         width: string;
         widthWithMirrors: string;
         grossVehicleWeight: number;

@@ -34,9 +34,9 @@ export const getProduct = createAsyncThunk("product/FetchData", async (_, { reje
     return rejectWithValue("An unexpected error occurred");
   }
 });
-export const getProductID = createAsyncThunk("productID/FetchData", async (id: number, { rejectWithValue }) => {
+export const getProductID = createAsyncThunk("productID/FetchData", async ({ brand, name }: { brand: string, name: string }, { rejectWithValue }) => {
   try {
-    const res = await getProductIDService(id);
+    const res = await getProductIDService(brand, name);
     return res.data.message;
   } catch (error) {
     if (

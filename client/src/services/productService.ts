@@ -6,6 +6,6 @@ export const getProductsService = async () => {
 }
 
 
-export const getProductIDService = async (id: number) => {
-    return await apiClient.get(`/product/${id}`)
+export const getProductIDService = async (brand: string, name: string) => {
+    return await apiClient.get(`/product/${brand}/${name}`)
 } 

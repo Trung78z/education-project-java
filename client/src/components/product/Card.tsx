@@ -2,7 +2,7 @@ import { Button } from "antd";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import { ProductPayload } from "../../types/ProductPayload";
-import { formatContent } from "../../utils/helpers";
+import { coverSlug, formatContent } from "../../utils/helpers";
 
 export default function Card({
   color = "white",
@@ -13,7 +13,7 @@ export default function Card({
 }) {
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate(`/list/car/${item.id}`);
+    navigate(`/categories/${item.productBrand.name}/${coverSlug(item.name)}`);
   };
 
   return (

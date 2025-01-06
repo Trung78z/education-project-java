@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useScrollToTop from "../hooks/useScrollToTop";
 import { useAppDispatch } from "../hooks/hook-redux";
 import { login } from "../features/auth/authSlice";
+import axios, { AxiosError } from "axios";
 const formSchema = z.object({
   username: z.string().min(4, { message: "Please enter a username" }),
   password: z
@@ -50,13 +51,19 @@ export default function Login() {
         timer: 1000,
       });
     } catch (error) {
-      console.log(error);
-      return Swal.fire({
-        icon: "error",
-        html: `<b>ERROR! </b> <br />Login fail <br />`,
-        showConfirmButton: false,
-        timer: 4000,
-      });
+      if (error instanceof AxiosError && error.response) {
+        let errorMessage = "An unexpected error occurred";
+
+        if (axios.isAxiosError(error) && error.response) {
+          errorMessage = error.response.data.error || errorMessage;
+        }
+        return Swal.fire({
+          icon: "error",
+          html: `<b>ERROR! </b> <br />${errorMessage} <br />`,
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      }
     }
   };
 

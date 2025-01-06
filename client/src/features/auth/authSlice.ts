@@ -55,6 +55,9 @@ export const register = createAsyncThunk("auth/register", async (data: AuthRegis
 
 export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWithValue }) => {
   try {
+    if (!localStorage.getItem("token")) {
+      return rejectWithValue("Token expired");
+    }
     const res = await getAuth()
     return res.data.message
   } catch (error) {
@@ -65,6 +68,12 @@ export const checkAuth = createAsyncThunk("auth/checkAuth", async (_, { rejectWi
     ) {
       localStorage.removeItem("token");
       return rejectWithValue(error.response.data.error);
+    }
+    else if (error instanceof AxiosError &&
+      error.response &&
+      error.response.status === 500) {
+      localStorage.removeItem("token");
+      return rejectWithValue("Token expired");
     }
     return rejectWithValue("An unexpected error occurred");
   }

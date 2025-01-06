@@ -10,10 +10,10 @@ import About from "./pages/About";
 import Footer from "./components/Footer";
 import News from "./pages/News";
 import LayoutNoNavbar from "./components/LayoutNoNavbar";
-import List from "./pages/List";
 import NewsDetail from "./pages/News-detail";
 import ProductDetail from "./pages/Product-detail";
 import ChangePassword from "./pages/Change-password";
+import Products from "./pages/Product";
 
 function App() {
   useEffect(() => {
@@ -43,8 +43,11 @@ function App() {
           </Route>
 
           <Route path="" element={<Layout />}>
-            <Route path="/list" element={<List />} />
-            <Route path="/list/:category/:slug" element={<ProductDetail />} />
+            <Route path="/categories" element={<Products />} />
+            <Route
+              path="/categories/:category/:slug"
+              element={<ProductDetail />}
+            />
             <Route path="/news/:category/:slug" element={<NewsDetail />} />
 
             <Route path="/about" element={<About />} />
