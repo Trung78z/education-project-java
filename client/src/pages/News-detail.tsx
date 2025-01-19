@@ -41,7 +41,11 @@ export default function NewsDetail() {
         </div>
         <div className="space-y-6">
           <img
-            src={dataID?.image || "/assets/images/news/news1.png"}
+            src={
+              dataID?.image.startsWith("http")
+                ? dataID.image
+                : `data:image/png;base64,${dataID.image}`
+            }
             alt="poster"
             width={1920}
             height={1080}
@@ -106,14 +110,17 @@ export default function NewsDetail() {
                 </li>
               </ul>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: dataID.content }}></div>
+            <div
+              className="overflow-x-hidden whitespace-pre-wrap break-words"
+              dangerouslySetInnerHTML={{ __html: dataID.content }}
+            ></div>
           </div>
         </div>
         <div className="space-y-4">
           <div className="flex justify-between">
             <h3 className="text-2xl font-semibold">Related Posts</h3>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 overflow-x-hidden sm:grid-cols-2 md:grid-cols-3">
             {data.slice(0, 3).map((_, index) => (
               <CardNews key={index} item={_} />
             ))}

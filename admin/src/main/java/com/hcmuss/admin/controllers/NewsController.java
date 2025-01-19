@@ -161,6 +161,7 @@ public class NewsController {
                         .send(request, HttpResponse.BodyHandlers.ofString());
 
                 Platform.runLater(() -> {
+                    System.out.println(response);
                     if (response.statusCode() == 200) {
 
                         newsTable.getItems().remove(news);

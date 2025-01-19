@@ -18,7 +18,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false)
@@ -38,7 +38,8 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, Users user, Product product, int quantity, double totalPrice, LocalDateTime createdAt) {
+    public Transaction(Integer id, Users user, Product product, int quantity, double totalPrice,
+            LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.product = product;
@@ -47,11 +48,11 @@ public class Transaction {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

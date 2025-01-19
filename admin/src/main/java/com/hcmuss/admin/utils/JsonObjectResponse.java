@@ -1,5 +1,8 @@
 package com.hcmuss.admin.utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonObjectResponse<T> {
     private boolean success;
     private int status;
@@ -41,6 +44,7 @@ public class JsonObjectResponse<T> {
 
     @Override
     public String toString() {
-        return "ResponseGeneric{success=" + success + ", status=" + status + ", message=" + message + ", error=" + error + "}";
+        return "ResponseGeneric{success=" + success + ", status=" + status + ", message=" + message + ", error=" + error
+                + "}";
     }
 }

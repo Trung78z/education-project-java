@@ -128,7 +128,7 @@ public class TransactionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<Transaction>> getTransactionById(@PathVariable Long id) {
+    public ResponseEntity<ResponseWrapper<Transaction>> getTransactionById(@PathVariable Integer id) {
         try {
             Transaction transaction = transactionService.getTransactionById(id);
             if (transaction != null) {

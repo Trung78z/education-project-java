@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TransactionRequest {
-    private Long id;
+    private Integer id;
     private UUID userId;
     private String userEmail;
     private Integer productId;
@@ -19,7 +19,7 @@ public class TransactionRequest {
     public TransactionRequest() {
     }
 
-    public TransactionRequest(Long id, UUID userId, String userEmail, Integer productId, String productName,
+    public TransactionRequest(Integer id, UUID userId, String userEmail, Integer productId, String productName,
             int quantity,
             double totalPrice, LocalDateTime createdAt) {
         this.id = id;
@@ -32,11 +32,11 @@ public class TransactionRequest {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

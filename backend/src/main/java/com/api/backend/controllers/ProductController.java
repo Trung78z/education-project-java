@@ -61,7 +61,7 @@ public class ProductController extends HttpServlet {
 
                                 String[] pathParts = pathInfo.split("/");
 
-                                pathParts[2] = pathParts[2].replace("-", " ");
+                                pathParts[2] = pathParts[2].replace("+", " ");
                                 ProductDTO product = productService.GetProductByName(pathParts[2], pathParts[1]);
                                 ResponseWrapper<ProductDTO> responseBody = new ResponseWrapper<>(true, 200, product);
 

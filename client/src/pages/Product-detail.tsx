@@ -118,10 +118,9 @@ export default function ProductDetail() {
               <div className="space-y-6">
                 <img
                   src={
-                    (dataID?.image.startsWith("http")
+                    dataID?.image.startsWith("http")
                       ? dataID.image
-                      : `data:image/png;base64,${dataID.image}`) ||
-                    "/assets/images/product/cardetail.png"
+                      : `data:image/png;base64,${dataID.image}`
                   }
                   alt="poster"
                   className="rounded-md"

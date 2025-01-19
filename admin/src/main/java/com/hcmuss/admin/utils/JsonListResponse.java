@@ -1,6 +1,10 @@
 package com.hcmuss.admin.utils;
+
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonListResponse<T> {
     private boolean success;
     private int status;
@@ -42,6 +46,7 @@ public class JsonListResponse<T> {
 
     @Override
     public String toString() {
-        return "ResponseGeneric{success=" + success + ", status=" + status + ", message=" + message + ", error=" + error + "}";
+        return "ResponseGeneric{success=" + success + ", status=" + status + ", message=" + message + ", error=" + error
+                + "}";
     }
 }

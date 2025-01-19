@@ -7,5 +7,5 @@ export function formatContent(data: string, length: number) {
 
 
 export function coverSlug(data: string) {
-    return data.replace(/ /g, "-");
+    return data.replace(/ /g, "+");
 }

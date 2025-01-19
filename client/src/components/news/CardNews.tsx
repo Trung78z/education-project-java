@@ -8,7 +8,11 @@ export default function CardNews({ item }: { item: NewPayload }) {
       <Link to={`/news/${item.newCategory.name}/${coverSlug(item.title)}`}>
         {" "}
         <img
-          src={item?.image || "/assets/images/news/news1.png"}
+          src={
+            item?.image.startsWith("http")
+              ? item.image
+              : `data:image/png;base64,${item.image}`
+          }
           alt=""
           className="h-[267.41px] w-full flex-shrink rounded-md sm:w-auto"
           width={415.98}

@@ -52,10 +52,9 @@ export default function Card({
       <div className="space-y-4">
         <img
           src={
-            (item?.image.startsWith("http")
+            item?.image.startsWith("http")
               ? item.image
-              : `data:image/png;base64,${item.image}`) ||
-            "/assets/images/product/cardetail.png"
+              : `data:image/png;base64,${item.image}`
           }
           alt=""
           width={327.5}
